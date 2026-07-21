@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Wishes for Miki 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#D4AF37;--blush:#F5B7D1;--rose:#C4607A;
+  --text:#2D2D2D;--muted:#6B6B6B;--border:#F3E3EA;
+  --bg:#FFF9FB;--white:#FFFFFF;--card:rgba(255,255,255,.92);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;font-weight:300;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 70% 50% at 20% 20%,rgba(252,238,245,.6) 0%,transparent 60%),
+  radial-gradient(ellipse 60% 40% at 80% 80%,rgba(245,183,209,.3) 0%,transparent 55%),
+  radial-gradient(ellipse 50% 60% at 50% 50%,rgba(248,215,229,.2) 0%,transparent 70%);
+pointer-events:none;z-index:0}
+.petals{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.petal{position:absolute;top:-40px;font-size:16px;opacity:0;animation:petalFall linear infinite}
+@keyframes petalFall{0%{opacity:0;transform:translateY(0) rotate(0deg)}10%{opacity:.6}90%{opacity:.3}100%{opacity:0;transform:translateY(105vh) rotate(360deg)}}
+.back-btn{position:fixed;top:22px;left:22px;z-index:100;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:999px;color:var(--rose);font-family:'Poppins',sans-serif;font-size:12px;font-weight:500;text-decoration:none;backdrop-filter:blur(12px);box-shadow:0 4px 16px rgba(245,183,209,.2);transition:all .25s ease}
+.back-btn:hover{transform:translateX(-3px);box-shadow:0 6px 22px rgba(245,183,209,.3)}
+.page-hero{text-align:center;padding:60px 24px 32px;position:relative;z-index:1}
+.page-eyebrow{font-family:'Poppins',sans-serif;font-size:9px;font-weight:600;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:18px}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(34px,7vw,64px);font-weight:400;color:var(--text);line-height:1.1;margin-bottom:14px}
+.page-title em{color:var(--rose);font-style:italic}
+.page-script{font-family:'Great Vibes',cursive;font-size:clamp(22px,4vw,34px);color:var(--blush);display:block;margin-bottom:20px}
+.page-subtitle{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--muted);line-height:1.85;max-width:520px;margin:0 auto}
+.page-divider{display:flex;align-items:center;gap:14px;max-width:160px;margin:20px auto 36px}
+.page-div-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--blush),transparent);opacity:.8}
+.page-div-gem{width:6px;height:6px;background:var(--blush);transform:rotate(45deg);flex-shrink:0}
+.inner{max-width:860px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.wish-form-card{background:var(--card);border:1px solid var(--border);border-radius:28px;padding:40px 36px;backdrop-filter:blur(24px);max-width:620px;margin:0 auto 64px;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(245,183,209,.14)}
+.wish-form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#F5B7D1,#D4AF37,#F5B7D1)}
+@media(max-width:560px){.wish-form-card{padding:28px 20px}}
+.wf-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:500px){.wf-row{grid-template-columns:1fr}}
+.wf-field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.wf-label{font-family:'Poppins',sans-serif;font-weight:500;font-size:9px;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);opacity:.9;display:flex;align-items:center;gap:8px}
+.wf-optional{background:rgba(212,175,55,.15);border:1px solid rgba(212,175,55,.3);border-radius:999px;padding:2px 10px;font-size:8px;font-weight:500;letter-spacing:.15em;color:var(--gold)}
+.wf-input,.wf-select,.wf-textarea{background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:12px;padding:12px 16px;color:var(--text);font-family:'Poppins',sans-serif;font-weight:300;font-size:13px;outline:none;transition:border-color .25s ease,box-shadow .25s ease;width:100%}
+.wf-input::placeholder,.wf-textarea::placeholder{color:rgba(107,107,107,.5)}
+.wf-input:focus,.wf-select:focus,.wf-textarea:focus{border-color:rgba(245,183,209,.7);box-shadow:0 0 0 3px rgba(245,183,209,.12)}
+.wf-select{appearance:none;cursor:pointer}
+.wf-select option{background:#FFF9FB;color:var(--text)}
+.wf-textarea{resize:vertical;min-height:120px;line-height:1.7}
+.wf-photo-label{display:flex;align-items:center;gap:10px;background:rgba(252,238,245,.5);border:1px dashed rgba(245,183,209,.5);border-radius:12px;padding:14px 16px;cursor:pointer;transition:border-color .25s ease;font-family:'Poppins',sans-serif;font-weight:300;font-size:12px;color:var(--muted)}
+.wf-photo-label:hover{border-color:rgba(245,183,209,.8)}
+.wf-photo-label input{display:none}
+.wf-photo-preview{width:42px;height:42px;border-radius:8px;object-fit:cover;display:none}
+.wf-photo-preview.loaded{display:block}
+.wf-send-btn{width:100%;margin-top:6px;padding:16px;background:linear-gradient(135deg,#F5B7D1,#F8D7E5);border:none;color:#6B2040;font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;letter-spacing:.3em;text-transform:uppercase;border-radius:999px;cursor:pointer;transition:all .35s ease;box-shadow:0 4px 18px rgba(245,183,209,.35)}
+.wf-send-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,183,209,.5)}
+.wf-send-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.wall-title{font-family:'Playfair Display',serif;font-size:24px;text-align:center;margin-bottom:6px;color:var(--text)}
+.wall-title em{color:var(--gold);font-style:italic}
+.wall-count{font-family:'Poppins',sans-serif;font-weight:300;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:20px;display:block}
+.wishes-grid{columns:2;column-gap:16px;margin-bottom:56px}
+@media(max-width:500px){.wishes-grid{columns:1}}
+@media(min-width:900px){.wishes-grid{columns:3}}
+.wcard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 16px 14px;box-shadow:0 4px 20px rgba(245,183,209,.1);transition:transform .3s ease,box-shadow .3s ease;position:relative;overflow:hidden;break-inside:avoid;margin-bottom:16px;display:inline-block;width:100%}
+.wcard:hover{transform:rotate(0deg) translateY(-4px) !important;box-shadow:0 16px 40px rgba(245,183,209,.22)}
+.wcard-photo{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;margin-bottom:12px;display:none}
+.wcard-photo.loaded{display:block}
+.wcard-from{font-family:'Poppins',sans-serif;font-weight:500;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.wcard-rel{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--muted);margin-bottom:10px}
+.wcard-msg{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--text);line-height:1.75;font-style:italic}
+.wcard-reactions{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.wcard-react-btn{background:rgba(252,238,245,.5);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;cursor:pointer;transition:all .2s ease;color:var(--muted);font-family:'Poppins',sans-serif;display:flex;align-items:center;gap:4px}
+.wcard-react-btn:hover,.wcard-react-btn.reacted{background:rgba(245,183,209,.25);border-color:rgba(245,183,209,.6);color:var(--text)}
+.wcard-reply-btn{background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-size:10px;color:var(--muted);letter-spacing:.15em;padding:4px 0;margin-top:6px;transition:color .2s ease;text-transform:uppercase}
+.wcard-reply-btn:hover{color:var(--rose)}
+.wcard-replies{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.wcard-reply{background:rgba(252,238,245,.5);border-left:2px solid var(--blush);border-radius:0 8px 8px 0;padding:8px 12px}
+.wcard-reply-from{font-family:'Poppins',sans-serif;font-size:10px;font-weight:600;color:var(--rose);margin-bottom:3px}
+.wcard-reply-msg{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--text);line-height:1.6;font-style:italic}
+.wcard-reply-form{margin-top:10px;display:none;flex-direction:column;gap:6px}
+.wcard-reply-form.open{display:flex}
+.wcard-reply-input{background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Poppins',sans-serif;font-size:12px;color:var(--text);outline:none;transition:border-color .2s ease}
+.wcard-reply-input:focus{border-color:rgba(245,183,209,.7)}
+.wcard-reply-textarea{background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Poppins',sans-serif;font-size:12px;color:var(--text);outline:none;resize:none;min-height:64px;transition:border-color .2s ease;line-height:1.5}
+.wcard-reply-textarea:focus{border-color:rgba(245,183,209,.7)}
+.wcard-reply-submit{padding:8px 16px;background:linear-gradient(135deg,#F5B7D1,#F8D7E5);border:none;border-radius:999px;color:#6B2040;font-family:'Poppins',sans-serif;font-weight:600;font-size:10px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .25s ease;align-self:flex-end}
+.wcard-reply-submit:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(245,183,209,.4)}
+.wcard-empty{grid-column:1/-1;text-align:center;padding:56px 20px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--muted)}
+.loading-spinner{grid-column:1/-1;text-align:center;padding:40px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--muted)}
+.wishes-sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:48px}
+@media(max-width:600px){.wishes-sub-grid{grid-template-columns:1fr}}
+.wsub-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 24px;box-shadow:0 4px 20px rgba(245,183,209,.1)}
+.wsub-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;margin-bottom:6px;color:var(--text)}
+.wsub-title em{color:var(--gold);font-style:italic}
+.wsub-desc{font-family:'Poppins',sans-serif;font-weight:300;font-size:11px;color:var(--muted);margin-bottom:16px;line-height:1.7}
+.wsub-input,.wsub-textarea{background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-family:'Poppins',sans-serif;font-weight:300;font-size:12px;outline:none;width:100%;margin-bottom:10px;transition:border-color .25s ease}
+.wsub-input::placeholder,.wsub-textarea::placeholder{color:rgba(107,107,107,.45)}
+.wsub-input:focus,.wsub-textarea:focus{border-color:rgba(245,183,209,.6)}
+.wsub-textarea{min-height:80px;resize:vertical;line-height:1.6}
+.wsub-btn{width:100%;padding:12px;background:linear-gradient(135deg,rgba(245,183,209,.35),rgba(248,215,229,.5));border:1px solid rgba(245,183,209,.5);color:var(--rose);font-family:'Poppins',sans-serif;font-weight:600;font-size:10px;letter-spacing:.25em;text-transform:uppercase;border-radius:999px;cursor:pointer;transition:all .3s ease}
+.wsub-btn:hover{background:linear-gradient(135deg,rgba(245,183,209,.55),rgba(248,215,229,.7));box-shadow:0 4px 16px rgba(245,183,209,.3)}
+.word-cloud-wrap{min-height:100px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:12px;background:rgba(255,255,255,.7);border-radius:16px;border:1px solid var(--border);margin-top:8px}
+.wcloud-word{font-family:'Playfair Display',serif;font-style:italic;cursor:default;transition:transform .2s ease;line-height:1.3}
+.wcloud-word:hover{transform:scale(1.15)}
+.future-locked{display:flex;align-items:center;gap:8px;background:rgba(252,238,245,.6);border:1px dashed rgba(245,183,209,.4);border-radius:10px;padding:14px;margin-top:8px;font-family:'Poppins',sans-serif;font-size:11px;color:var(--rose)}
+.lb-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.lb-row:last-child{border-bottom:none}
+.lb-medal{font-size:18px;flex-shrink:0}
+.lb-name{font-family:'Poppins',sans-serif;font-weight:400;font-size:12px;color:var(--text);flex:1}
+.lb-label{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11px;color:var(--muted)}
+.lb-empty{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--muted);text-align:center;padding:12px 0}
+.page-footer-msg{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--muted);line-height:1.9;padding:40px 20px 0;border-top:1px solid var(--border);max-width:580px;margin:0 auto 56px}
+.page-footer-msg em{color:var(--gold)}
+.site-footer{padding:40px 24px;text-align:center;border-top:1px solid var(--border);background:#FCEEF5}
+.site-footer-name{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--gold);margin-bottom:10px}
+.site-footer-txt{font-size:10px;font-weight:300;letter-spacing:.2em;color:var(--muted);margin-bottom:16px}
+.site-footer-brand{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px}
+.site-footer-brand img{width:32px;height:32px;border-radius:50%;object-fit:cover;box-shadow:0 2px 10px rgba(245,183,209,.3)}
+.site-footer-brand-txt{font-family:'Poppins',sans-serif;font-size:10px;color:var(--muted)}
+.site-footer-brand-name{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--rose)}
+.wish-success{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(255,255,255,.97);border:1px solid rgba(245,183,209,.5);border-radius:20px;padding:18px 28px;text-align:center;z-index:9997;opacity:0;transition:all .5s cubic-bezier(.2,.8,.2,1);pointer-events:none;backdrop-filter:blur(20px);min-width:280px;max-width:340px;box-shadow:0 8px 32px rgba(245,183,209,.25)}
+.wish-success.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.wish-success-icon{font-size:28px;display:block;margin-bottom:6px}
+.wish-success-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--rose);margin-bottom:4px}
+.wish-success-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--muted);line-height:1.5}
+.wish-easter{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:rgba(255,255,255,.98);border:2px solid rgba(245,183,209,.6);border-radius:28px;padding:40px 44px;text-align:center;z-index:9998;box-shadow:0 24px 60px rgba(245,183,209,.3);transition:transform .4s cubic-bezier(.2,1.3,.4,1);pointer-events:none}
+.wish-easter.show{transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+.wish-easter-emoji{font-size:40px;display:block;margin-bottom:10px;animation:heartbeat 1s ease infinite}
+@keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.wish-easter-txt{font-family:'Playfair Display',serif;font-size:20px;color:var(--rose);margin-bottom:6px}
+.wish-easter-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--muted)}
+.wish-easter-close{margin-top:16px;background:linear-gradient(135deg,#F5B7D1,#F8D7E5);border:none;border-radius:999px;padding:10px 24px;color:#6B2040;font-family:'Poppins',sans-serif;font-weight:600;font-size:10px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.confetti-p{position:fixed;pointer-events:none;z-index:9993;border-radius:50%;animation:conf-fall linear forwards}
+@keyframes conf-fall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(80vh) rotate(720deg);opacity:0}}
+@keyframes heartFloat{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-120px) scale(.5) rotate(20deg);opacity:0}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="petals" id="petals"></div>
+
+<div class="page-hero">
+  <span class="page-eyebrow">✨ June 15, 2026 ✨</span>
+  <h1 class="page-title" id="heroTitle">It's <em>Miki's</em> Birthday!</h1>
+  <span class="page-script" id="heroScript">Leave her a wish 💌</span>
+  <p class="page-subtitle" id="heroSub">Hey! It's my birthday and I'd love a little note from you.<br>Write me a message — it means the world to me. 🤍</p>
+</div>
+
+<div class="inner">
+  <div class="page-divider"><div class="page-div-line"></div><div class="page-div-gem"></div><div class="page-div-line"></div></div>
+
+  <!-- MEMORY WALL -->
+  <div class="wall-title fade-in">✨ <em>Memory Wall</em></div>
+  <span class="wall-count fade-in" id="wishWallCount">Loading wishes...</span>
+  <div class="wishes-grid" id="wishesGrid">
+    <div class="loading-spinner">Loading wishes... 🌸</div>
+  </div>
+
+  <div class="page-divider" style="margin-bottom:48px"><div class="page-div-line"></div><div class="page-div-gem"></div><div class="page-div-line"></div></div>
+
+  <!-- WISH FORM -->
+  <div class="wish-form-card fade-in" id="wishFormCard">
+    <div class="wf-row">
+      <div class="wf-field">
+        <label class="wf-label">Your Name</label>
+        <input class="wf-input" id="wfName" placeholder="Who's sending this wish?" maxlength="40">
+      </div>
+      <div class="wf-field">
+        <label class="wf-label">You Are...</label>
+        <select class="wf-select wf-input" id="wfRel">
+          <option value="" disabled selected>Relationship</option>
+          <option value="Family">Family 👨‍👩‍👧</option>
+          <option value="Best Friend">Best Friend 💗</option>
+          <option value="Friend">Friend 🌸</option>
+          <option value="Co-worker">Co-worker 💼</option>
+          <option value="Classmate">Classmate 📚</option>
+          <option value="Secret Admirer">Secret Admirer 👀</option>
+        </select>
+      </div>
+    </div>
+    <div class="wf-field">
+      <label class="wf-label">Your Birthday Wish</label>
+      <textarea class="wf-textarea" id="wfMsg" placeholder="Write your message here..."></textarea>
+    </div>
+    <div class="wf-field">
+      <label class="wf-label">
+        Photo with Miki
+        <span class="wf-optional">Optional</span>
+      </label>
+      <label class="wf-photo-label" id="wfPhotoLabel">
+        <span id="wfPhotoText">📷 Skip this or upload a photo with Miki</span>
+        <img class="wf-photo-preview" id="wfPhotoPreview" alt="preview">
+        <input type="file" accept="image/*" id="wfPhoto" onchange="wishPhotoPreview(this)">
+      </label>
+    </div>
+    <button class="wf-send-btn" id="wfSendBtn" onclick="submitWish()">💌 Send My Wish</button>
+  </div>
+
+  <!-- SUB FEATURES -->
+  <div class="wishes-sub-grid fade-in">
+    <div class="wsub-card">
+      <div class="wsub-title">💬 Describe <em>Miki</em> in One Word</div>
+      <p class="wsub-desc">Your word joins the live cloud — watch it grow!</p>
+      <input class="wsub-input" id="wcWord" placeholder="e.g. Caring, Funny, Sweet..." maxlength="20">
+      <input class="wsub-input" id="wcName" placeholder="Your name (optional)" maxlength="30">
+      <button class="wsub-btn" onclick="submitWord()">✨ Add My Word</button>
+      <div class="word-cloud-wrap" id="wordCloudWrap"></div>
+    </div>
+    <div class="wsub-card">
+      <div class="wsub-title">🔮 Write <em>Future Miki</em> a Message</div>
+      <p class="wsub-desc">This message will be unlocked when Miki turns 30. She won't see it until then.</p>
+      <input class="wsub-input" id="futName" placeholder="Your name" maxlength="40">
+      <textarea class="wsub-textarea" id="futMsg" placeholder="Dear future Miki..."></textarea>
+      <button class="wsub-btn" onclick="submitFuture()">🔒 Lock This Message</button>
+      <div class="future-locked">🔒 <span id="futCount">0</span> messages locked for future Miki</div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="wsub-card fade-in" style="margin-bottom:48px">
+    <div class="wsub-title">🏆 <em>Best Friend</em> Awards</div>
+    <p class="wsub-desc">Tracking who left the most heartfelt messages...</p>
+    <div id="lbList"><div class="lb-empty">Waiting for wishes... 🌸</div></div>
+  </div>
+
+  <div class="page-footer-msg fade-in">
+    ✨ Every wish becomes part of <em>Miki's</em> birthday memory book.<br>
+    Thank you for being part of my story. ✨
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p class="site-footer-name">Miki's Sweet 26 ✨</p>
+  <p class="site-footer-txt">15 · June · 2026</p>
+  <div class="site-footer-brand">
+    <span class="site-footer-brand-txt">Made with love by</span>
+    <img src="SoChicLogo.png" alt="So Chic">
+    <span class="site-footer-brand-name">So Chic</span>
+  </div>
+</footer>
+
+<div class="wish-success" id="wishSuccess">
+  <span class="wish-success-icon">💕</span>
+  <div class="wish-success-title">Wish Sent!</div>
+  <div class="wish-success-sub">Your wish has been added to Miki's memory book. Thank you for making her day special.</div>
+</div>
+
+<div class="wish-easter" id="wishEaster">
+  <span class="wish-easter-emoji">🥹</span>
+  <div class="wish-easter-txt">Miki felt that. 💗</div>
+  <div class="wish-easter-sub">"I love you too."</div>
+  <button class="wish-easter-close" onclick="document.getElementById('wishEaster').classList.remove('show')">Close ✕</button>
+</div>
+
+<script>
+/* ── Supabase setup ──────────────────────────────────── */
+const { createClient } = supabase;
+const sb = createClient(
+  'https://tgestxpuvjtmytwdyhte.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRnZXN0eHB1dmp0bXl0d2R5aHRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5ODc4MzgsImV4cCI6MjA5NjU2MzgzOH0.7zYYadjbKVq7P1N823vKZEwVArI7BI4IWxo9_tEOXIw'
+);
+
+/* ── Constants ───────────────────────────────────────── */
+const REACT_ME_KEY = 'miki_reactions_me_v2'; // tracks which emoji THIS device reacted per wish
+const REACTIONS  = [['❤️','So Sweet'],['😂','Funny'],['🥹','Emotional'],['🌸','Miki Core']];
+const CARD_ROTATIONS = [-2.5,-1.5,-1,0,1,1.5,2.5,2,-.8,.8];
+
+let wishPhotoData = null;
+let reactionCounts = {}; // { wish_id: { '❤️': 3, '😂': 1, ... } }
+
+function getMyReacts(){ try{return JSON.parse(localStorage.getItem(REACT_ME_KEY)||'{}')}catch{return{}} }
+function saveMyReacts(o){ localStorage.setItem(REACT_ME_KEY,JSON.stringify(o)) }
+
+async function loadReactionCounts(){
+  const { data } = await sb.from('reactions').select('wish_id, emoji');
+  reactionCounts = {};
+  (data||[]).forEach(r => {
+    if(!reactionCounts[r.wish_id]) reactionCounts[r.wish_id]={};
+    reactionCounts[r.wish_id][r.emoji] = (reactionCounts[r.wish_id][r.emoji]||0)+1;
+  });
+}
+
+/* ── Photo preview ──────────────────────────────────── */
+function wishPhotoPreview(inp){
+  if(!inp.files[0])return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    wishPhotoData=e.target.result;
+    document.getElementById('wfPhotoPreview').src=wishPhotoData;
+    document.getElementById('wfPhotoPreview').classList.add('loaded');
+    document.getElementById('wfPhotoText').textContent='✅ Photo selected';
+  };
+  reader.readAsDataURL(inp.files[0]);
+}
+
+/* ── Submit wish → Supabase ─────────────────────────── */
+async function submitWish(){
+  const name = document.getElementById('wfName').value.trim();
+  const rel  = document.getElementById('wfRel').value;
+  const msg  = document.getElementById('wfMsg').value.trim();
+  if(!name||!rel||!msg){ shakeEl('wishFormCard'); return; }
+
+  const btn = document.getElementById('wfSendBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending... 💌';
+
+  const ts = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+  const { error } = await sb.from('wishes').insert({ name, rel, message: msg, photo: wishPhotoData, ts });
+
+  btn.disabled = false;
+  btn.textContent = '💌 Send My Wish';
+
+  if(error){
+    console.error('Supabase error:', error);
+    alert('Something went wrong 😢 Please try again.');
+    return;
+  }
+
+  // Reset form
+  document.getElementById('wfName').value = '';
+  document.getElementById('wfRel').value  = '';
+  document.getElementById('wfMsg').value  = '';
+  document.getElementById('wfPhotoText').textContent = '📷 Skip this or upload a photo with Miki';
+  document.getElementById('wfPhotoPreview').classList.remove('loaded');
+  wishPhotoData = null;
+
+  showWishSuccess();
+  if(/i\s+love\s+you\s+miki/i.test(msg)){
+    setTimeout(()=>document.getElementById('wishEaster').classList.add('show'),800);
+    setTimeout(()=>launchConfetti(),600);
+  }
+}
+
+/* ── Load & render wish wall from Supabase ──────────── */
+async function renderWishWall(){
+  await loadReactionCounts();
+  const { data: wishes, error } = await sb
+    .from('wishes')
+    .select('*')
+    .order('created_at',{ascending:false});
+
+  if(error){ console.error(error); return; }
+
+  const countEl = document.getElementById('wishWallCount');
+  countEl.textContent = wishes.length + ' wish' + (wishes.length!==1?'es':'') + ' so far 💕';
+
+  const grid = document.getElementById('wishesGrid');
+  if(!wishes.length){
+    grid.innerHTML='<div class="wcard-empty">Be the first to leave a wish 🌸</div>';
+    return;
+  }
+
+  // load replies for all wishes
+  const { data: allReplies } = await sb.from('replies').select('*').order('created_at',{ascending:true});
+  const repliesByWish = {};
+  (allReplies||[]).forEach(r=>{ if(!repliesByWish[r.wish_id]) repliesByWish[r.wish_id]=[]; repliesByWish[r.wish_id].push(r); });
+
+  const myReacts = getMyReacts();
+  grid.innerHTML = wishes.map((w,i)=>{
+    const rot = CARD_ROTATIONS[i%CARD_ROTATIONS.length];
+    const wishReacts = reactionCounts[w.id]||{};
+    const myEmoji = myReacts[w.id]||null;
+    const reactCounts = REACTIONS.map(([emoji,label])=>{
+      const count = wishReacts[emoji]||0;
+      return `<button class="wcard-react-btn${myEmoji===emoji?' reacted':''}" onclick="toggleReact('${w.id}','${emoji}',this)" title="${label}">${emoji} <span>${count>0?count:''}</span></button>`;
+    }).join('');
+    const photoHtml = w.photo?`<img class="wcard-photo loaded" src="${w.photo}" alt="photo"/>`:'';
+    const wishReplies = repliesByWish[w.id]||[];
+    const repliesHtml = wishReplies.length ? `<div class="wcard-replies">${wishReplies.map(r=>`
+      <div class="wcard-reply">
+        <div class="wcard-reply-from">💬 ${escHtml(r.name)}</div>
+        <div class="wcard-reply-msg">${escHtml(r.message)}</div>
+      </div>`).join('')}</div>` : '';
+    const replyCount = wishReplies.length;
+    return `<div class="wcard" style="transform:rotate(${rot}deg)">
+      ${photoHtml}
+      <div class="wcard-from">💌 From: ${escHtml(w.name)}</div>
+      <div class="wcard-rel">${escHtml(w.rel)}${w.ts?' · '+w.ts:''}</div>
+      <div class="wcard-msg">"${escHtml(w.message)}"</div>
+      <div class="wcard-reactions">${reactCounts}</div>
+      ${repliesHtml}
+      <button class="wcard-reply-btn" onclick="toggleReplyForm('${w.id}',this)">💬 ${replyCount>0?replyCount+' repl'+(replyCount>1?'ies':'y')+' · ':''}Reply</button>
+      <div class="wcard-reply-form" id="reply-form-${w.id}">
+        <input class="wcard-reply-input" id="reply-name-${w.id}" placeholder="Your name" maxlength="40">
+        <textarea class="wcard-reply-textarea" id="reply-msg-${w.id}" placeholder="Write a reply..." maxlength="300"></textarea>
+        <button class="wcard-reply-submit" onclick="submitReply('${w.id}')">Send 💌</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  renderLeaderboard(wishes);
+}
+
+/* ── Real-time: auto refresh when new wish is added ── */
+sb.channel('wishes-channel')
+  .on('postgres_changes',{event:'INSERT',schema:'public',table:'wishes'},()=>{
+    renderWishWall();
+  })
+  .subscribe();
+
+/* ── Reactions (Supabase) ───────────────────────────── */
+async function toggleReact(wishId, emoji, btn){
+  const myReacts = getMyReacts();
+  const prev = myReacts[wishId]||null;
+
+  if(!reactionCounts[wishId]) reactionCounts[wishId]={};
+
+  if(prev === emoji){
+    // un-react
+    await sb.from('reactions').delete().eq('wish_id', wishId).eq('emoji', emoji);
+    reactionCounts[wishId][emoji] = Math.max(0,(reactionCounts[wishId][emoji]||1)-1);
+    myReacts[wishId] = null;
+    btn.classList.remove('reacted');
+  } else {
+    // remove old reaction first
+    if(prev){
+      await sb.from('reactions').delete().eq('wish_id', wishId).eq('emoji', prev);
+      reactionCounts[wishId][prev] = Math.max(0,(reactionCounts[wishId][prev]||1)-1);
+    }
+    // add new reaction
+    await sb.from('reactions').insert({ wish_id: wishId, emoji });
+    reactionCounts[wishId][emoji] = (reactionCounts[wishId][emoji]||0)+1;
+    myReacts[wishId] = emoji;
+    btn.classList.add('reacted');
+    btn.style.transform='scale(1.2)';
+    setTimeout(()=>btn.style.transform='',200);
+  }
+  saveMyReacts(myReacts);
+  renderWishWall();
+}
+
+/* ── Replies ────────────────────────────────────────── */
+function toggleReplyForm(wishId, btn){
+  const form = document.getElementById('reply-form-'+wishId);
+  const isOpen = form.classList.contains('open');
+  form.classList.toggle('open', !isOpen);
+  if(!isOpen) document.getElementById('reply-name-'+wishId).focus();
+}
+
+async function submitReply(wishId){
+  const name = document.getElementById('reply-name-'+wishId).value.trim();
+  const msg  = document.getElementById('reply-msg-'+wishId).value.trim();
+  if(!name || !msg) return;
+  const btn = document.querySelector(`#reply-form-${wishId} .wcard-reply-submit`);
+  btn.disabled = true; btn.textContent = 'Sending...';
+  const { error } = await sb.from('replies').insert({ wish_id: wishId, name, message: msg });
+  btn.disabled = false; btn.textContent = 'Send 💌';
+  if(error){ console.error(error); return; }
+  document.getElementById('reply-name-'+wishId).value='';
+  document.getElementById('reply-msg-'+wishId).value='';
+  document.getElementById('reply-form-'+wishId).classList.remove('open');
+  renderWishWall();
+}
+
+/* ── Leaderboard ────────────────────────────────────── */
+function renderLeaderboard(wishes){
+  const el=document.getElementById('lbList');
+  if(!wishes||!wishes.length){el.innerHTML='<div class="lb-empty">Waiting for wishes... 🌸</div>';return;}
+  const sorted=[...wishes].sort((a,b)=>(b.message||'').length-(a.message||'').length);
+  const medals=[
+    {medal:'🏆',label:'Most Heartfelt',person:sorted[0]},
+    {medal:'👑',label:'Best Friend Candidate',person:sorted[1]||sorted[0]},
+    {medal:'😂',label:'Funniest Message',person:wishes.reduce((best,w)=>{
+      return ['lol','haha','😂','xd','😭'].some(t=>(w.message||'').toLowerCase().includes(t))?w:best;
+    },sorted[sorted.length-1])}
+  ];
+  el.innerHTML=medals.map(({medal,label,person})=>
+    `<div class="lb-row"><span class="lb-medal">${medal}</span><div><div class="lb-name">${escHtml(person.name)}</div><div class="lb-label">${label}</div></div></div>`
+  ).join('');
+}
+
+/* ── Word cloud (Supabase) ──────────────────────────── */
+async function submitWord(){
+  const raw = document.getElementById('wcWord').value.trim();
+  if(!raw) return;
+  const word = raw.charAt(0).toUpperCase()+raw.slice(1).toLowerCase();
+  const name = document.getElementById('wcName').value.trim();
+  document.getElementById('wcWord').value='';
+  document.getElementById('wcName').value='';
+  await sb.from('words').insert({ word, name: name||null });
+  renderWordCloud();
+}
+async function renderWordCloud(){
+  const wrap = document.getElementById('wordCloudWrap');
+  const { data } = await sb.from('words').select('word');
+  const words = data || [];
+  if(!words.length){ wrap.innerHTML='<span style="color:rgba(107,107,107,.5);font-family:Cormorant Garamond,serif;font-style:italic;font-size:14px">Words will appear here ✨</span>'; return; }
+  const freq={};
+  words.forEach(({word})=>{ freq[word]=(freq[word]||0)+1 });
+  const max=Math.max(...Object.values(freq));
+  const colors=['#C4607A','#D4AF37','#2D2D2D','#F5B7D1','#A04060','#6B2040'];
+  wrap.innerHTML=Object.entries(freq).map(([word,count])=>{
+    const size=13+(count/max)*22;
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    const rot=(Math.random()-.5)*20;
+    return `<span class="wcloud-word" style="font-size:${size}px;color:${color};transform:rotate(${rot}deg);opacity:${0.65+(count/max)*.35}">${escHtml(word)}</span>`;
+  }).join('');
+}
+
+/* ── Future messages (Supabase) ─────────────────────── */
+async function submitFuture(){
+  const name = document.getElementById('futName').value.trim();
+  const msg  = document.getElementById('futMsg').value.trim();
+  if(!name||!msg){ shakeEl('futName'); return; }
+  const { error } = await sb.from('future_messages').insert({ name, message: msg });
+  if(error){ console.error(error); return; }
+  document.getElementById('futName').value='';
+  document.getElementById('futMsg').value='';
+  updateFutCount();
+  const el=document.getElementById('wishSuccess');
+  el.querySelector('.wish-success-title').textContent='Message Locked! 🔒';
+  el.querySelector('.wish-success-sub').textContent='Future Miki will be so touched.';
+  el.classList.add('show');
+  setTimeout(()=>{
+    el.classList.remove('show');
+    el.querySelector('.wish-success-title').textContent='Wish Sent!';
+    el.querySelector('.wish-success-sub').textContent="Your wish has been added to Miki's memory book. Thank you for making her day special.";
+  },3200);
+}
+async function updateFutCount(){
+  const { count } = await sb.from('future_messages').select('*',{count:'exact',head:true});
+  document.getElementById('futCount').textContent = count || 0;
+}
+
+/* ── Toast ──────────────────────────────────────────── */
+function showWishSuccess(){
+  const el=document.getElementById('wishSuccess');
+  el.classList.add('show');
+  launchFloatingHearts();
+  setTimeout(()=>el.classList.remove('show'),3800);
+}
+
+function shakeEl(id){
+  const el=document.getElementById(id);
+  el.style.animation='wrongShake .4s ease';
+  setTimeout(()=>el.style.animation='',450);
+}
+
+/* ── Confetti & hearts ──────────────────────────────── */
+const CC=['#F5B7D1','#D4AF37','#FCEEF5','#F8D7E5','#FFD6E7','#fff'];
+function launchConfetti(){
+  for(let i=0;i<45;i++){
+    const el=document.createElement('div');
+    el.className='confetti-p';
+    const sz=5+Math.random()*8;
+    el.style.cssText=`width:${sz}px;height:${sz}px;background:${CC[i%CC.length]};left:${20+Math.random()*60}vw;top:${10+Math.random()*25}vh;animation-duration:${1.4+Math.random()*1.3}s;animation-delay:${Math.random()*.4}s`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3000);
+  }
+}
+function launchFloatingHearts(){
+  const emojis=['🌸','❤️','💕','✨','🩷'];
+  for(let i=0;i<12;i++){
+    setTimeout(()=>{
+      const h=document.createElement('div');
+      h.style.cssText=`position:fixed;left:${10+Math.random()*80}%;bottom:80px;font-size:${18+Math.random()*16}px;pointer-events:none;z-index:9999;animation:heartFloat 2s ease forwards`;
+      h.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),2100);
+    },i*80);
+  }
+}
+
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+/* ── Floating petals ────────────────────────────────── */
+(function(){
+  const wrap=document.getElementById('petals');
+  const p=['🌸','🌺','✨','🌷','💮'];
+  for(let i=0;i<14;i++){
+    const el=document.createElement('div');
+    el.className='petal';
+    el.textContent=p[i%p.length];
+    el.style.cssText=`left:${Math.random()*100}%;font-size:${10+Math.random()*14}px;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*10}s`;
+    wrap.appendChild(el);
+  }
+})();
+
+/* ── Fade-in observer ───────────────────────────────── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.1});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+/* ── Birthday date check ────────────────────────────── */
+(function(){
+  const now = new Date();
+  const bday = new Date(2026, 5, 15); // June 15, 2026
+  const isBirthday = now >= bday;
+  if(!isBirthday){
+    const diff = bday - now;
+    const days = Math.floor(diff / (1000*60*60*24));
+    document.getElementById('heroTitle').innerHTML = `<em>Miki's</em> Birthday is Coming Soon 🎀`;
+    document.getElementById('heroScript').textContent = `${days} day${days!==1?'s':''} to go ✨`;
+    document.getElementById('heroSub').innerHTML = `She's turning 26 on June 15th — leave her an early wish<br>so she wakes up to a wall full of love. 🤍`;
+  }
+})();
+
+/* ── Boot ───────────────────────────────────────────── */
+(async()=>{
+  await loadReactionCounts();
+  renderWishWall();
+  renderWordCloud();
+  updateFutCount();
+})();
+</script>
+</body>
+</html>
