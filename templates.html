@@ -118,22 +118,25 @@ section{padding:100px 52px;position:relative}
 .phone-mock{width:158px;height:300px;border-radius:26px;padding:7px;position:relative;z-index:2;box-shadow:0 20px 40px rgba(42,26,24,.22)}
 .phone-notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:44px;height:5px;border-radius:4px;background:rgba(255,255,255,.35);z-index:4}
 .phone-screen{width:100%;height:100%;border-radius:19px;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;padding:26px 12px 14px}
-.phone-name{font-family:'Great Vibes',cursive;font-size:19px;text-align:center;line-height:1.15;margin-bottom:8px}
-.phone-photo{width:100%;height:64px;border-radius:10px;margin-bottom:8px;position:relative;overflow:hidden}
+.phone-name{font-family:'Great Vibes',cursive;font-size:19px;text-align:center;line-height:1.15;margin-bottom:8px; display: none;}
+.phone-photo{width:100%;height:64px;border-radius:10px;margin-bottom:8px;position:relative;overflow:hidden; display: none;}
 .phone-lines{width:100%;display:flex;flex-direction:column;gap:5px;margin-bottom:auto}
 .phone-line{height:4px;border-radius:3px;opacity:.55}
 .phone-line.w1{width:88%}.phone-line.w2{width:64%}.phone-line.w3{width:74%}
-.phone-btn{margin-top:10px;padding:6px 16px;border-radius:999px;font-size:7.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase}
-.phone-emoji{position:absolute;font-size:13px;opacity:.85;animation:float 5s ease-in-out infinite}
+.phone-btn{margin-top:10px;padding:6px 16px;border-radius:999px;font-size:7.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase; display: none;}
+.phone-emoji{position:absolute;font-size:13px;opacity:.85;animation:float 5s ease-in-out infinite; display: none;}
 
 /* category color themes */
 .theme-bestfriend .phone-mock{background:linear-gradient(160deg,#4A3418,#2A1A18)}
-.theme-bestfriend .phone-screen{background:linear-gradient(165deg,#FBF0DC,#FCEEF5)}
+.bff-screen-1{
+    background: url("Birthday.png") center/cover no-repeat;
+}
+
+.bff-screen-2{
+    background: url("bff(2).png") center/cover no-repeat;
+}
 .theme-bestfriend .phone-name{color:var(--rose-gold-dark)}
-.theme-bestfriend .phone-photo{background:linear-gradient(135deg,#F3D9A0,#F5B7D1)}
-.theme-bestfriend .phone-line{background:var(--champagne)}
-.theme-bestfriend .phone-btn{background:var(--champagne);color:#3A2A0A}
-.theme-bestfriend .tpl-stage{background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(212,175,55,.14),transparent 70%)}
+
 
 .theme-girlfriend .phone-mock{background:linear-gradient(160deg,#3D2228,#2A1A18)}
 .theme-girlfriend .phone-screen{background:linear-gradient(165deg,#FCEEF5,#FBF5F0)}
@@ -287,10 +290,12 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <span class="tpl-cat-tag">Best Friends</span>
           <div class="phone-mock">
             <div class="phone-notch"></div>
-            <div class="phone-screen">
+            <div class="phone-screen bff-screen-1">
               <span class="phone-emoji" style="top:8px;right:10px">🎉</span>
               <div class="phone-name">Partners in Crime</div>
-              <div class="phone-photo"></div>
+              <div class="phone-photo">
+                <img src="Birthday.png" alt="Best Friend Photo">
+              </div>
               <div class="phone-lines">
                 <div class="phone-line w1"></div>
                 <div class="phone-line w2"></div>
@@ -304,7 +309,9 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <h3 class="tpl-name">Partners in <em>Crime</em></h3>
           <p class="tpl-tagline">A playful scrapbook wall of inside jokes, throwback photos, and every "remember when" you two have.</p>
           <div class="tpl-footer">
-            <button class="tpl-btn-preview" data-preview="Partners in Crime">Preview</button>
+            <a href="birthday.html">
+              <button class="tpl-btn-preview" data-preview="Partners in Crime">Preview</button>
+            </a>
             <button class="tpl-btn-choose" data-name="Partners in Crime">Choose This</button>
           </div>
         </div>
@@ -316,7 +323,7 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <span class="tpl-cat-tag">Best Friends</span>
           <div class="phone-mock">
             <div class="phone-notch"></div>
-            <div class="phone-screen">
+            <div class="phone-screen bff-screen-2">
               <span class="phone-emoji" style="top:8px;left:10px">📸</span>
               <div class="phone-name">Golden Hour Diaries</div>
               <div class="phone-photo"></div>
@@ -646,13 +653,6 @@ document.querySelectorAll('.tpl-btn-choose').forEach(btn => {
       this.textContent = orig;
       this.classList.remove('picked');
     }, 2000);
-  });
-});
-
-// Preview button — placeholder hook (wire up to a real preview link per template later)
-document.querySelectorAll('.tpl-btn-preview').forEach(btn => {
-  btn.addEventListener('click', function(){
-    alert('Preview coming soon for "' + this.dataset.preview + '" — DM us on Instagram to see a live demo of this template!');
   });
 });
 </script>
