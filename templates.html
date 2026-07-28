@@ -161,12 +161,9 @@ section{padding:100px 52px;position:relative}
 .tpl-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;color:var(--text);line-height:1.3}
 .tpl-name em{font-style:italic;color:var(--rose-gold)}
 .tpl-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);line-height:1.7;flex:1}
-.tpl-footer{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:16px;border-top:1px solid var(--border)}
-.tpl-btn-preview{flex:1;text-align:center;padding:10px 14px;background:transparent;border:1px solid var(--border);border-radius:999px;color:var(--text-mid);font-family:'Poppins',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .3s ease}
+.tpl-footer{margin-top:14px;padding-top:16px;border-top:1px solid var(--border)}
+.tpl-btn-preview{display:block;box-sizing:border-box;width:100%;text-align:center;padding:10px 14px;background:transparent;border:1px solid var(--border);border-radius:999px;color:var(--text-mid);font-family:'Poppins',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .3s ease}
 .tpl-btn-preview:hover{border-color:var(--rose-gold);color:var(--rose-gold)}
-.tpl-btn-choose{flex:1;text-align:center;padding:10px 14px;background:linear-gradient(135deg,var(--blush),#F8D7E5);border:none;border-radius:999px;color:var(--burgundy);font-family:'Poppins',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .3s ease;box-shadow:0 3px 12px rgba(245,183,209,.3)}
-.tpl-btn-choose:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(245,183,209,.45)}
-.tpl-btn-choose.picked{background:linear-gradient(135deg,#c9e8d0,#d4f0dc);color:#2a6040;box-shadow:none}
 
 /* ===== FLOW STRIP ===== */
 #flow{background:linear-gradient(160deg,#2A1A18 0%,#3D2220 60%,#2A1A18 100%)}
@@ -297,10 +294,7 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <h3 class="tpl-name">Partners in <em>Crime</em></h3>
           <p class="tpl-tagline">A playful scrapbook wall of inside jokes, throwback photos, and every "remember when" you two have.</p>
           <div class="tpl-footer">
-            <a href="birthday.html">
-              <button class="tpl-btn-preview" data-preview="Partners in Crime">Preview</button>
-            </a>
-            <button class="tpl-btn-choose" data-name="Partners in Crime">Choose This</button>
+            <a href="birthday.html" class="tpl-btn-preview" data-preview="Partners in Crime">Preview</a>
           </div>
         </div>
       </div>
@@ -313,20 +307,17 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
             <div class="phone-notch"></div>
             <div class="phone-screen bff-screen-2">
               <span class="phone-emoji" style="top:8px;left:10px">📸</span>
-              <div class="phone-name">Golden Hour Diaries</div>
+              <div class="phone-name">Better Together</div>
               <div class="phone-photo"></div>
               <div class="phone-btn">Open Memory</div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
-          <h3 class="tpl-name">Golden Hour <em>Diaries</em></h3>
+          <h3 class="tpl-name">Better <em>Together</em></h3>
           <p class="tpl-tagline">A warm, nostalgic photo-timeline that scrolls through your friendship, year by year, laugh by laugh.</p>
           <div class="tpl-footer">
-            <a href="bff-birthday.html">
-              <button class="tpl-btn-preview" data-preview="Golden Hour Diaries">Preview</button>
-            </a>
-            <button class="tpl-btn-choose" data-name="Golden Hour Diaries">Choose This</button>
+            <a href="bff-birthday.html" class="tpl-btn-preview" data-preview="Better Together">Preview</a>
           </div>
         </div>
       </div>
@@ -349,10 +340,7 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <h3 class="tpl-name">Written <em>For Her</em></h3>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
           <div class="tpl-footer">
-            <a href="gf-birthday.html">
-              <button class="tpl-btn-preview" data-preview="Written For Her">Preview</button>
-            </a>
-            <button class="tpl-btn-choose" data-name="Written For Her">Choose This</button>
+            <a href="gf-birthday.html" class="tpl-btn-preview" data-preview="Written For Her">Preview</a>
           </div>
         </div>
       </div>
@@ -375,10 +363,7 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <h3 class="tpl-name"><em>Stargazer</em></h3>
           <p class="tpl-tagline">A dreamy night-sky theme where each little star opens up a memory only she'll recognize.</p>
           <div class="tpl-footer">
-            <a href="birthday.html">
-              <button class="tpl-btn-preview" data-preview="Stargazer">Preview</button>
-            </a>
-            <button class="tpl-btn-choose" data-name="Stargazer">Choose This</button>
+            <a href="birthday.html" class="tpl-btn-preview" data-preview="Stargazer">Preview</a>
           </div>
         </div>
       </div>
@@ -401,10 +386,7 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <h3 class="tpl-name">My <em>Person</em></h3>
           <p class="tpl-tagline">Clean, minimal, and straight to the point — a quiet timeline for the two of you, no fuss, no frills.</p>
           <div class="tpl-footer">
-            <a href="birthday.html">
-              <button class="tpl-btn-preview" data-preview="My Person">Preview</button>
-            </a>
-            <button class="tpl-btn-choose" data-name="My Person">Choose This</button>
+            <a href="birthday.html" class="tpl-btn-preview" data-preview="My Person">Preview</a>
           </div>
         </div>
       </div>
@@ -427,10 +409,7 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <h3 class="tpl-name">Road Trip <em>Us</em></h3>
           <p class="tpl-tagline">Every place you've been together, mapped out — with a memory pinned to each stop along the way.</p>
           <div class="tpl-footer">
-            <a href="birthday.html">
-              <button class="tpl-btn-preview" data-preview="Road Trip Us">Preview</button>
-            </a>
-            <button class="tpl-btn-choose" data-name="Road Trip Us">Choose This</button>
+            <a href="birthday.html" class="tpl-btn-preview" data-preview="Road Trip Us">Preview</a>
           </div>
         </div>
       </div>
@@ -453,10 +432,7 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <h3 class="tpl-name">With Love, <em>Always</em></h3>
           <p class="tpl-tagline">A warm floral scrapbook thanking her for every sacrifice, big and small, she never asked credit for.</p>
           <div class="tpl-footer">
-            <a href="birthday.html">
-              <button class="tpl-btn-preview" data-preview="With Love, Always">Preview</button>
-            </a>
-            <button class="tpl-btn-choose" data-name="With Love, Always">Choose This</button>
+            <a href="birthday.html" class="tpl-btn-preview" data-preview="With Love, Always">Preview</a>
           </div>
         </div>
       </div>
@@ -479,10 +455,7 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <h3 class="tpl-name">The Man Who <em>Raised Me</em></h3>
           <p class="tpl-tagline">A vintage photo-frame style site for the words you never quite got to say out loud.</p>
           <div class="tpl-footer">
-            <a href="birthday.html">
-              <button class="tpl-btn-preview" data-preview="The Man Who Raised Me">Preview</button>
-            </a>
-            <button class="tpl-btn-choose" data-name="The Man Who Raised Me">Choose This</button>
+            <a href="birthday.html" class="tpl-btn-preview" data-preview="The Man Who Raised Me">Preview</a>
           </div>
         </div>
       </div>
@@ -610,18 +583,6 @@ document.querySelectorAll('[data-filter-link]').forEach(a => {
   });
 });
 
-// Choose Template interaction
-document.querySelectorAll('.tpl-btn-choose').forEach(btn => {
-  btn.addEventListener('click', function(){
-    const orig = this.textContent;
-    this.textContent = '✓ Selected';
-    this.classList.add('picked');
-    setTimeout(() => {
-      this.textContent = orig;
-      this.classList.remove('picked');
-    }, 2000);
-  });
-});
 </script>
 </body>
 </html>
