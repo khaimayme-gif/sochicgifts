@@ -336,21 +336,12 @@
     .ll-s2.ll-show .ll-foot{opacity:1;transform:none}
     .ll-foot-h{font-size:.9rem;letter-spacing:.5em;color:rgba(38,127,178,.28)}
     .ll-foot-b{font-size:.54rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(44,93,122,.28);margin-top:8px}
-    .ll-s2 .share-row{margin-top:0px}
-
-    /* share row */
+    /* save image button */
     .share-wrap{position:fixed;right:16px;bottom:44px;z-index:20}
-    .share-pill{display:flex;align-items:center;background:linear-gradient(135deg,#76C8F8,#1E9FE9);border-radius:50px;box-shadow:0 8px 24px rgba(30,159,233,.35);overflow:hidden;max-width:54px;height:54px;transition:max-width .45s cubic-bezier(.34,1.2,.4,1)}
-    .share-pill.open{max-width:280px}
-    .share-toggle{flex-shrink:0;width:54px;height:54px;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
-    .share-toggle svg{width:22px;height:22px}
-    .share-toggle:active{transform:scale(.9)}
-    .share-row{display:flex;align-items:center;gap:4px;padding-right:14px;opacity:0;transition:opacity .25s ease .15s}
-    .share-pill.open .share-row{opacity:1}
-    .sh-icon{flex-shrink:0;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:transform .15s,background .15s}
-    .sh-icon:hover{background:rgba(255,255,255,.32)}
-    .sh-icon:active{transform:scale(.88)}
-    .sh-save:active{transform:scale(.96)}
+    .save-img-btn{display:flex;align-items:center;gap:8px;white-space:nowrap;padding:14px 22px;background:linear-gradient(135deg,var(--pink),var(--pink-deep));color:#fff;border:none;border-radius:50px;font-family:var(--round);font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(30,159,233,.35);transition:transform .15s}
+    .save-img-btn:hover{transform:translateY(-1px)}
+    .save-img-btn:active{transform:scale(.94)}
+    .save-img-btn svg{width:16px;height:16px;flex-shrink:0}
     .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(12px);background:var(--text);color:white;font-family:var(--round);font-size:12px;font-weight:700;padding:10px 24px;border-radius:50px;opacity:0;pointer-events:none;transition:opacity .3s,transform .35s var(--eb);z-index:9999;white-space:nowrap}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -370,16 +361,16 @@
 ════════════════════════════════════════ -->
 <script>
 const C = {
-  receiverName:    "Mia",
-  senderName:      "Alex",
-  pin:             "0803",           // 4-digit PIN (e.g. her birthday DDMM)
+  receiverName:    "Brian",
+  senderName:      "May",
+  pin:             "1111",           // 4-digit PIN (e.g. his birthday DDMM)
   pinHint:         "What's your birthday? 🎂",
   loveMessage:     "I woke up today thinking about how lucky I am to have you as my best friend. Every single day with you feels like a gift. Thank you for being my favourite person to laugh with, lean on, and get into all kinds of trouble with. Here's to making a million more memories together. Happy Birthday! 🎉",
 
   cakeWishes: [
     "May all your dreams come true ✨",
     "Stay healthy and happy 💖",
-    "Love you forever 🌸",
+    "BFF forever 🌸",
     "The best is yet to come 🎂",
     "You deserve all the happiness ❤️"
   ],
@@ -435,14 +426,14 @@ const C = {
 <!-- ═══════════ PAGE 1: SPLASH ═══════════ -->
 <div class="page active" id="pg-splash">
   <div class="content">
-    <img src="sochic-logo.png" alt="So Chic Gifts" class="sochic-logo"/>
+    <img src="images/main/sochic-logo.png" alt="So Chic Gifts" class="sochic-logo"/>
     <span class="brand-tag">So Chic Gifts · Special Edition</span>
 
     <div class="cake-wrap">
       <div class="cake-heart" style="top:0;left:10px">⭐</div>
       <div class="cake-heart" style="top:10px;right:10px;animation-delay:.8s;font-size:11px">✨</div>
       <div class="cake-heart" style="top:30px;left:0;animation-delay:1.4s;font-size:11px">🎉</div>
-      <img src="birthdaycake.png" alt="Birthday Cake" class="cake-img"/>
+      <img src="images/templates/bff-2/birthdaycake.png" alt="Birthday Cake" class="cake-img"/>
     </div>
 
     <p class="splash-title">Happy Birthday</p>
@@ -504,7 +495,7 @@ const C = {
       </div>
       <div class="menu-card" onclick="goTo('pg-game')">
         <div class="menu-card-icon">🌟</div>
-        <p class="menu-card-title">Why You're The Best</p>
+        <p class="menu-card-title">BFF Card</p>
         <p class="menu-card-sub">Tap a card to find out ✨</p>
         <span class="menu-card-heart">✦</span>
       </div>
@@ -561,7 +552,7 @@ const C = {
   <div class="cake-scene">
     <div id="musicPlayer">
       <div class="mp-top">
-        <div class="mp-cover"><img src="song-cover.jpeg" alt=""></div>
+        <div class="mp-cover"><img src="images/templates/bff-2/song-cover.jpeg" alt=""></div>
         <div class="mp-info">
           <div class="mp-title">Happy Birthday</div>
           <div class="mp-artist">For You</div>
@@ -685,24 +676,10 @@ const C = {
       
 <!-- ═══════════ SHARE WRAP ═══════════ -->
       <div class="share-wrap" id="share-wrap">
-        <div class="share-pill" id="share-pill">
-          <button class="share-toggle" onclick="toggleShareRow()" aria-label="Share">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-              <line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/>
-            </svg>
-          </button>
-          <div class="share-row" id="share-row">
-            <button class="sh-icon" onclick="shareToTikTok('wish')" aria-label="TikTok">
-              <svg width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M21.5 4C21.8 6.5 23.2 8.5 26 9.3V13C24.2 13 22.6 12.4 21.5 11.5V20C21.5 24.7 17.7 28.5 13 28.5C8.3 28.5 4.5 24.7 4.5 20C4.5 15.3 8.3 11.5 13 11.5C13.4 11.5 13.8 11.5 14.2 11.6V15.7C13.8 15.6 13.4 15.5 13 15.5C10.5 15.5 8.5 17.5 8.5 20C8.5 22.5 10.5 24.5 13 24.5C15.5 24.5 17.5 22.5 17.5 20V4H21.5Z" fill="white"/></svg>
-            </button>
-            <button class="sh-icon" onclick="shareToFb('wish')" aria-label="Facebook">
-              <svg width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M18 32V18h4.8l.7-5.5H18v-3.5c0-1.6.4-2.7 2.7-2.7H24V2.2C23.4 2.1 21.5 2 19.3 2 14.8 2 11.7 4.8 11.7 9.8v3.7H7v5.5h4.7V32H18Z" fill="white"/></svg>
-            </button>
-            <button class="sh-icon" id="copy-btn" onclick="copyLink()" aria-label="Copy link">🔗</button>
-            <button class="sh-icon" id="save-wish-btn" onclick="saveWishPhoto()" aria-label="Save Photo">💾</button>
-          </div>
-        </div>
+        <button class="save-img-btn" id="save-wish-btn" onclick="saveWishPhoto()" aria-label="Save Image">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Save Image</span>
+        </button>
       </div>
     </div>
   </div>
@@ -830,14 +807,14 @@ const C = {
       <div class="ll-photos">
         <div class="ll-photo-wrap">
           <div class="ll-photo-ring">
-            <img src="memory2.jpg" alt="Sender">
+            <img src="images/templates/bff-2/memory1.jpg" alt="Sender">
           </div>
           <div class="ll-photo-name" id="ll-photo-name-0">Sender</div>
         </div>
         <div class="ll-conn">✦</div>
         <div class="ll-photo-wrap">
           <div class="ll-photo-ring">
-            <img src="memory3.jpg" alt="Receiver">
+            <img src="images/templates/bff-2/memory2.jpg" alt="Receiver">
           </div>
           <div class="ll-photo-name" id="ll-photo-name-1">Receiver</div>
         </div>
@@ -860,24 +837,10 @@ const C = {
       </div>
 <!-- ═══════════ SHARE WRAP ═══════════ -->
       <div class="share-wrap" id="share-wrap">
-        <div class="share-pill" id="share-pill">
-          <button class="share-toggle" onclick="toggleShareRow()" aria-label="Share">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-              <line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/>
-            </svg>
-          </button>
-          <div class="share-row" id="share-row">
-            <button class="sh-icon" onclick="shareToTikTok('letter')" aria-label="TikTok">
-              <svg width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M21.5 4C21.8 6.5 23.2 8.5 26 9.3V13C24.2 13 22.6 12.4 21.5 11.5V20C21.5 24.7 17.7 28.5 13 28.5C8.3 28.5 4.5 24.7 4.5 20C4.5 15.3 8.3 11.5 13 11.5C13.4 11.5 13.8 11.5 14.2 11.6V15.7C13.8 15.6 13.4 15.5 13 15.5C10.5 15.5 8.5 17.5 8.5 20C8.5 22.5 10.5 24.5 13 24.5C15.5 24.5 17.5 22.5 17.5 20V4H21.5Z" fill="white"/></svg>
-            </button>
-            <button class="sh-icon" onclick="shareToFb('letter')" aria-label="Facebook">
-              <svg width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M18 32V18h4.8l.7-5.5H18v-3.5c0-1.6.4-2.7 2.7-2.7H24V2.2C23.4 2.1 21.5 2 19.3 2 14.8 2 11.7 4.8 11.7 9.8v3.7H7v5.5h4.7V32H18Z" fill="white"/></svg>
-            </button>
-            <button class="sh-icon" id="copy-btn" onclick="copyLink()" aria-label="Copy link">🔗</button>
-            <button class="sh-icon" id="save-photo-btn" onclick="saveLetterPhoto()" aria-label="Save Photo">💾</button>
-          </div>
-        </div>
+        <button class="save-img-btn" id="save-photo-btn" onclick="saveLetterPhoto()" aria-label="Save Image">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Save Image</span>
+        </button>
       </div>
     <input type="file" id="ll-fi0" accept="image/*" style="display:none" onchange="llHandleUp(0,this)">
     <input type="file" id="ll-fi1" accept="image/*" style="display:none" onchange="llHandleUp(1,this)">
@@ -904,7 +867,7 @@ C.memCards.forEach((mc, i) => {
   card.innerHTML = `
     <div class="mem-card-inner">
       <div class="mem-card-photo" style="background:${mc.bg}">
-        ${mc.photo ? `<img src="${mc.photo}" alt="Memory"/>` : `<span style="font-size:3rem">${mc.emoji}</span>`}
+        ${mc.photo ? `<img src="images/templates/bff-2/${mc.photo}" alt="Memory"/>` : `<span style="font-size:3rem">${mc.emoji}</span>`}
       </div>
       <div class="mem-card-footer">
         <span class="mem-card-date">${mc.date}</span>
@@ -1151,13 +1114,6 @@ function llHandleUp(i, el){
   rdr.readAsDataURL(f);
 }
 
-/* ══════ SHARE ══════ */
-function toggleShareRow(){
-  const activePage = document.querySelector('.page.active');
-  const pill = activePage ? activePage.querySelector('.share-pill') : null;
-  if (pill) pill.classList.toggle('open');
-}
-
 /* ══ MUSIC PLAYER UI ══ */
 const mpMusic = document.getElementById('cakeMusic');
 const mpPlayBtn = document.getElementById('musicToggle');
@@ -1257,102 +1213,6 @@ async function saveWishPhoto(){
   }
 }
 
-/* ══ SOCIAL SHARE (Facebook / TikTok) ══
-   Captures the actual on-screen photo (cake wish or letter) and, on phones,
-   hands it straight to the OS share sheet with the image attached — tapping
-   Facebook or TikTok there drops it directly into their Story/Post composer.
-   Neither platform exposes a public web API to open "create a Story" directly
-   from a website, so on desktop (no native share sheet) we fall back to
-   Facebook's official share dialog, and for TikTok (which has no desktop web
-   equivalent at all) we auto-download the photo and prompt the user to
-   upload it in the TikTok app. */
-
-async function captureShareImage(context){
-  if(document.fonts && document.fonts.ready){ try{ await document.fonts.ready; }catch(e){} }
-  const shareScale = Math.min(5, Math.max(4, (window.devicePixelRatio||1) * 2.5));
-  if(context==='letter'){
-    const paper = document.querySelector('#pg-letter .ll-paper');
-    if(!paper) return null;
-    const original = { maxHeight: paper.style.maxHeight, overflowY: paper.style.overflowY };
-    paper.style.maxHeight = 'none';
-    paper.style.overflowY = 'visible';
-    try{
-      const canvas = await html2canvas(paper, { scale:shareScale, backgroundColor:'#EFF9FE', useCORS:true });
-      return await new Promise(res=>canvas.toBlob(res,'image/png'));
-    } finally {
-      paper.style.maxHeight = original.maxHeight;
-      paper.style.overflowY = original.overflowY;
-    }
-  } else {
-    const target = document.getElementById('pg-cake');
-    if(!target) return null;
-    const canvas = await html2canvas(target, {
-      scale: shareScale,
-      useCORS: true,
-      ignoreElements: (el) => el.classList && (
-        el.classList.contains('back-btn') ||
-        el.classList.contains('share-wrap') ||
-        el.id === 'musicPlayer'
-      )
-    });
-    return await new Promise(res=>canvas.toBlob(res,'image/png'));
-  }
-}
-
-async function shareViaNativeSheet(context, title, text, filename){
-  if(!(navigator.share && navigator.canShare)) return false;
-  try{
-    const blob = await captureShareImage(context);
-    if(!blob) return false;
-    const file = new File([blob], filename, { type:'image/png' });
-    if(!navigator.canShare({ files:[file] })) return false;
-    await navigator.share({ files:[file], title, text });
-    return true;
-  }catch(e){
-    if(e.name==='AbortError') return true; // user cancelled the sheet themselves, don't fall back
-    return false;
-  }
-}
-
-async function shareToFb(context){
-  const title = `🎂 Happy Birthday ${C.receiverName}! A special surprise from So Chic Gifts`;
-  const text = 'Made this with love 💕 — tap Facebook to post it to your Story or Wall!';
-  const shared = await shareViaNativeSheet(context, title, text, 'birthday-surprise.png');
-  if(shared) return;
-  // Desktop / unsupported fallback: Facebook's official share dialog (posts link to wall)
-  const u = encodeURIComponent(window.location.href);
-  const quote = encodeURIComponent(title);
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${u}&quote=${quote}`,'_blank','width=580,height=650');
-}
-
-async function shareToTikTok(context){
-  const title = `🎂 Happy Birthday ${C.receiverName}!`;
-  const text = 'Tap TikTok to post this to your Story! 🎬';
-  const shared = await shareViaNativeSheet(context, title, text, 'birthday-surprise.png');
-  if(shared) return;
-  // Desktop fallback: TikTok has no web share dialog, so save the photo and guide the user
-  try{
-    const blob = await captureShareImage(context);
-    if(blob){
-      const link = document.createElement('a');
-      link.download = 'birthday-surprise.png';
-      link.href = URL.createObjectURL(blob);
-      link.click();
-    }
-  }catch(e){ console.error('TikTok share capture failed:', e); }
-  copyLink('Photo saved! Open TikTok and upload it to share your Story 🎬');
-}
-function copyLink(msg){
-  navigator.clipboard.writeText(window.location.href).then(()=>{
-    document.querySelectorAll('[id="copy-lbl"]').forEach(lbl=>lbl.textContent='Copied! ✓');
-    document.querySelectorAll('[id="copy-btn"]').forEach(btn=>btn.style.borderColor='var(--pink-deep)');
-    showToast(msg||'Link copied! 🎉');
-    setTimeout(()=>{
-      document.querySelectorAll('[id="copy-lbl"]').forEach(lbl=>lbl.textContent='Copy link');
-      document.querySelectorAll('[id="copy-btn"]').forEach(btn=>btn.style.borderColor='');
-    },2500);
-  });
-}
 function showToast(msg){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);
