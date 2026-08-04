@@ -51,7 +51,17 @@ nav{
 .nav-back:hover{color:var(--rose-gold)}
 
 /* ===== MENU HERO STRIP ===== */
-.menu-head{padding:96px 24px 8px;text-align:center;flex-shrink:0}
+.menu-select{padding:150px 24px 80px;text-align:center;flex:1}
+.region-cards{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:48px}
+.region-card{
+  width:220px;padding:40px 24px;background:var(--white);
+  border:1px solid var(--border);border-radius:20px;
+  text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:16px;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.region-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(42,26,24,.12)}
+.region-flag{width:56px;height:56px;border-radius:50%;object-fit:cover}
+.region-name{font-family:'Playfair Display',serif;font-size:16px;color:var(--text)}
 .menu-eyebrow{display:block;font-size:9px;font-weight:400;letter-spacing:.5em;text-transform:uppercase;color:var(--rose-gold);margin-bottom:14px}
 .menu-title{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(26px,4vw,38px);color:var(--text);margin-bottom:8px}
 .menu-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--text-muted)}
@@ -108,32 +118,20 @@ nav{
   <a href="index.html" class="nav-back">← Back Home</a>
 </nav>
 
-<div class="menu-head">
+<div class="menu-select">
   <span class="menu-eyebrow">A Service Menu For Life's Meaningful Moments</span>
-  <h1 class="menu-title">Browse Our Full Collection</h1>
-  <p class="menu-sub">Flip through, just like a keepsake book.</p>
-</div>
+  <h1 class="menu-title">Choose Your Region</h1>
 
-<div class="flip-stage">
-  <div id="flipbook">
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-01.jpg" alt="Page 1"></div>
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-02.jpg" alt="Page 2"></div>
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-03.jpg" alt="Page 3"></div>
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-04.jpg" alt="Page 4"></div>
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-05.jpg" alt="Page 5"></div>
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-06.jpg" alt="Page 6"></div>
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-07.jpg" alt="Page 7"></div>
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-08.jpg" alt="Page 8"></div>
-    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-09.jpg" alt="Page 9"></div>
+  <div class="region-cards">
+    <a href="menu-thailand.html" class="region-card">
+      <img src="images/menu/flag-thailand.png" alt="" class="region-flag">
+      <span class="region-name">Thailand Menu</span>
+    </a>
+    <a href="menu-japan.html" class="region-card">
+      <img src="images/menu/flag-japan.png" alt="" class="region-flag">
+      <span class="region-name">Japan Menu</span>
+    </a>
   </div>
-
-  <div class="flip-controls">
-    <button class="flip-btn" id="prevBtn" aria-label="Previous page">‹</button>
-    <span class="flip-count"><span id="curPage">1</span> / <span id="totalPage">9</span></span>
-    <button class="flip-btn" id="nextBtn" aria-label="Next page">›</button>
-  </div>
-
-  <a class="flip-download" href="images/menu/So_Chic_Gifts_Service_Menu.pdf" target="_blank" rel="noopener">Download as PDF</a>
 </div>
 
 <script>

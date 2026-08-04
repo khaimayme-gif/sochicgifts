@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japan Menu — So Chic Gifts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --cream:#FBF5F0;
+  --rose-gold:#C08070;
+  --text:#2A1A18;
+  --text-mid:#5A3A35;
+  --border:#EDD8D0;
+  --white:#FFFBF8;
+}
+
+body{
+  background:var(--cream);color:var(--text);font-family:'Poppins',sans-serif;font-weight:300;
+  height:100vh;overflow:hidden;display:flex;flex-direction:column;
+}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 52px;
+  background:rgba(251,245,240,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(237,216,208,0.5);
+}
+@media(max-width:768px){nav{padding:16px 24px}}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.nav-logo-text{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--rose-gold)}
+.nav-back{font-size:10px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--text-mid);text-decoration:none}
+.nav-back:hover{color:var(--rose-gold)}
+
+.flip-stage{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:110px 16px 20px;gap:14px;flex:1;min-height:0;
+}
+#flipbook{box-shadow:0 24px 60px rgba(42,26,24,.14);border-radius:6px;overflow:hidden;background:var(--cream);height:100%;max-height:100%}
+.page-img{width:100%;height:100%;object-fit:cover;background:var(--cream)}
+
+.flip-controls{display:flex;align-items:center;gap:22px;flex-shrink:0}
+.flip-btn{
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--white);
+  color:var(--rose-gold);font-size:16px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .25s ease;
+}
+.flip-btn:hover{background:var(--rose-gold);color:#fff;border-color:var(--rose-gold)}
+.flip-btn:disabled{opacity:.35;cursor:default}
+.flip-count{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-mid);min-width:70px;text-align:center}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="images/main/main-logo.png" alt="So Chic Gifts" class="nav-logo-img">
+    <span class="nav-logo-text">So Chic Gifts</span>
+  </a>
+  <a href="menu.html" class="nav-back">← Change Region</a>
+</nav>
+
+<div class="flip-stage">
+  <div id="flipbook">
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-01.jpg" alt="Page 1"></div>
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-02.jpg" alt="Page 2"></div>
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-03.jpg" alt="Page 3"></div>
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-04.jpg" alt="Page 4"></div>
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-05.jpg" alt="Page 5"></div>
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-06.jpg" alt="Page 6"></div>
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-07.jpg" alt="Page 7"></div>
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-08.jpg" alt="Page 8"></div>
+    <div class="page-img-wrap"><img class="page-img" src="images/menu/page-09.jpg" alt="Page 9"></div>
+  </div>
+
+  <div class="flip-controls">
+    <button class="flip-btn" id="prevBtn" aria-label="Previous page">‹</button>
+    <span class="flip-count"><span id="curPage">1</span> / <span id="totalPage">9</span></span>
+    <button class="flip-btn" id="nextBtn" aria-label="Next page">›</button>
+  </div>
+</div>
+
+<script>
+const pageFlip = new St.PageFlip(document.getElementById('flipbook'), {
+  width: 380, height: 537, size: 'stretch',
+  minWidth: 260, maxWidth: 620, minHeight: 367, maxHeight: 700,
+  showCover: false, usePortrait: true, maxShadowOpacity: 0.4,
+  flippingTime: 700, mobileScrollSupport: true
+});
+pageFlip.loadFromHTML(document.querySelectorAll('.page-img-wrap'));
+
+const curPageEl = document.getElementById('curPage');
+const totalPageEl = document.getElementById('totalPage');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+totalPageEl.textContent = pageFlip.getPageCount();
+
+function updateControls(pageIndex){
+  curPageEl.textContent = pageIndex + 1;
+  prevBtn.disabled = pageIndex === 0;
+  nextBtn.disabled = pageIndex === pageFlip.getPageCount() - 1;
+}
+pageFlip.on('flip', (e) => updateControls(e.data));
+updateControls(0);
+prevBtn.addEventListener('click', () => pageFlip.flipPrev());
+nextBtn.addEventListener('click', () => pageFlip.flipNext());
+</script>
+</body>
+</html>
