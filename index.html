@@ -168,33 +168,6 @@ section{padding:100px 52px;position:relative}
 
 .digital-glow{position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(245,183,209,.18) 0%,transparent 70%);pointer-events:none}
 
-/* ===== FEATURED GIFTS ===== */
-#gifts{background:linear-gradient(160deg,var(--cream-deep) 0%,var(--cream) 70%)}
-.gifts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-@media(max-width:900px){.gifts-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.gifts-grid{grid-template-columns:1fr;gap:16px}}
-
-.gift-card{background:var(--white);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:transform .4s ease,box-shadow .4s ease,border-color .4s ease;display:flex;flex-direction:column}
-.gift-card:hover{transform:translateY(-8px);box-shadow:0 20px 48px rgba(192,128,112,.16);border-color:rgba(192,128,112,.35)}
-.gift-card.featured{grid-column:span 2}
-@media(max-width:560px){.gift-card.featured{grid-column:span 1}}
-
-.gift-img-wrap{position:relative;overflow:hidden;height:250px;background:linear-gradient(135deg,var(--cream-deep),var(--blush-light))}
-.gift-card.featured .gift-img-wrap{height:320px}
-.gift-img-wrap img{width:100%;height:100%;object-fit:cover;filter:brightness(.93) saturate(.9);transition:transform .5s ease,filter .5s ease}
-.gift-card:hover .gift-img-wrap img{transform:scale(1.04);filter:brightness(.98) saturate(1)}
-.gift-tag{position:absolute;top:14px;left:14px;background:rgba(251,245,240,.93);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:999px;padding:5px 14px;font-size:8.5px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--rose-gold)}
-
-.gift-body{padding:22px 22px 26px;flex:1;display:flex;flex-direction:column;gap:6px}
-.gift-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--text);line-height:1.3}
-.gift-name em{font-style:italic;color:var(--rose-gold)}
-.gift-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);line-height:1.7;flex:1}
-.gift-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
-.gift-price{font-family:'Poppins',sans-serif;font-size:12px;font-weight:400;color:var(--text-muted)}
-.gift-price strong{color:var(--rose-gold);font-weight:500}
-.gift-wish-btn{padding:8px 20px;background:linear-gradient(135deg,var(--blush),#F8D7E5);border:none;border-radius:999px;color:var(--burgundy);font-family:'Poppins',sans-serif;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .3s ease;box-shadow:0 3px 12px rgba(245,183,209,.3)}
-.gift-wish-btn:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(245,183,209,.45)}
-
 /* ===== DIGITAL EXPERIENCE FEATURE ===== */
 #digital{background:linear-gradient(160deg,#2A1A18 0%,#3D2220 60%,#2A1A18 100%);padding:100px 52px;overflow:hidden;position:relative}
 @media(max-width:768px){#digital{padding:72px 24px}}
@@ -375,47 +348,44 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
     <span class="nav-logo-text">So Chic Gifts</span>
   </a>
   <div class="nav-links">
-    <a href="#what" class="hide-sm">Services</a>
-    <a href="#gifts" class="hide-sm">Gifts</a>
-    <a href="menu.html">Menu Catalog</a>
-    <a href="#digital" class="hide-md">Digital</a>
-    <a href="templates.html" class="hide-md">Templates</a>
+    <a href="menu.html">Menu</a>
+    <a href="templates.html" class="hide-md">Digital Gift</a>
     <a href="#about">About</a>
   </div>
-  <a href="#cta-banner" class="nav-cta">Order Now</a>
+  <a href="menu.html" class="nav-cta">View Menu</a>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-left">
-    <span class="hero-eyebrow">Premium Gift Giving Experience</span>
+    <span class="hero-eyebrow">A Gift With QR — Wherever You Are</span>
     <h1 class="hero-title">
-      More Than Gifts.<br>
-      We Deliver <em>Emotions.</em>
+      Far From Home.<br>
+      Never <em>Far From Love.</em>
     </h1>
     <span class="hero-script">Every gift tells a story.</span>
     <p class="hero-desc">
-      Thoughtfully curated gifts, surprise deliveries, and personalized digital experiences for the people you love. Whether they're in Thailand or Japan, we help you celebrate every meaningful moment—even from miles away.
+      Living abroad and missing home? Send a beautifully curated gift to your loved ones in Thailand or Japan — paired with a personalized digital experience they unlock with a simple QR scan. Distance shouldn't mean distant.
     </p>
     <div class="hero-btns">
-      <a href="#what" class="btn-primary">Explore Services</a>
-      <a href="#about" class="btn-secondary">Our Story</a>
+      <a href="menu.html" class="btn-primary">View Full Menu</a>
+      <a href="#digital" class="btn-secondary">See How QR Works</a>
     </div>
     <div class="hero-flags">
-      <span class="flags-label">Serving</span>
+      <span class="flags-label">Delivering to</span>
       <span class="flag-chip">🇹🇭 Thailand</span>
       <span class="flag-chip">🇯🇵 Japan</span>
     </div>
   </div>
 
   <div class="hero-right">
-    <img src="images/landing/myphoto1.jpg" alt="So Chic Gifts" class="hero-img-main">
+    <img src="images/landing/banner.png" alt="So Chic Gifts" class="hero-img-main">
     <div class="hero-bow-1">🎀</div>
     <div class="hero-bow-2">🎀</div>
     <div class="hero-overlay-card">
-      <span class="hoc-icon">✨</span>
-      <span class="hoc-label">New Experience</span>
-      <span class="hoc-val">Personalized QR <br> Gift Experience</span>
+      <span class="hoc-icon">📱</span>
+      <span class="hoc-label">A Gift With QR</span>
+      <span class="hoc-val">Scan to Unlock <br> Your Personal Message</span>
     </div>
   </div>
 </section>
@@ -441,157 +411,12 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
   </div>
 </div>
 
-<!-- WHAT WE DO -->
-<section id="what">
-  <div class="inner">
-    <span class="sec-label reveal">What We Do</span>
-    <h2 class="sec-title reveal">A gift experience <em>unlike any other</em></h2>
-    <p class="sec-sub reveal">From birthday bouquets to customized gift boxes and interactive digital surprises—we make every gift feel personal.</p>
-    <div class="divider reveal"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
-
-    <div class="what-grid">
-      <!-- Physical -->
-      <div class="what-card physical reveal">
-        <span class="what-tag">Physical Gifts</span>
-        <span class="what-icon">🎁</span>
-        <h3 class="what-title">Curated <em>Gift Boxes</em> &amp; Surprises</h3>
-        <p class="what-desc">Handpicked luxury items wrapped beautifully — from bouquets and cakes to customized gift boxes and heartfelt love notes.</p>
-        <div class="what-items">
-          <div class="what-item"><div class="what-item-dot"></div>Bouquets &amp; Fresh Flowers</div>
-          <div class="what-item"><div class="what-item-dot"></div>Cakes &amp; Sweet Treats</div>
-          <div class="what-item"><div class="what-item-dot"></div>Customized Gift Boxes</div>
-          <div class="what-item"><div class="what-item-dot"></div>Love Notes &amp; Surprise Deliveries</div>
-        </div>
-        <a href="#gifts" class="what-cta">Browse Gifts</a>
-      </div>
-
-      <!-- Digital -->
-      <div class="what-card digital reveal reveal-delay-2">
-        <div class="digital-glow"></div>
-        <span class="what-tag">Digital Experiences</span>
-        <span class="what-icon">💻</span>
-        <h3 class="what-title">Personalized <em>Digital Gifts</em></h3>
-        <p class="what-desc">Go beyond a physical gift. We craft beautiful digital experiences — websites, love letters, memory timelines — delivered via QR code.</p>
-        <div class="what-items">
-          <div class="what-item"><div class="what-item-dot"></div>Birthday &amp; Anniversary Websites</div>
-          <div class="what-item"><div class="what-item-dot"></div>Digital Love Letters</div>
-          <div class="what-item"><div class="what-item-dot"></div>Memory Timelines</div>
-          <div class="what-item"><div class="what-item-dot"></div>Interactive QR Experiences</div>
-        </div>
-        <a href="templates.html" class="what-cta">Browse Templates</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURED GIFTS -->
-<section id="gifts">
-  <div class="inner">
-    <span class="sec-label reveal">Gift Collection</span>
-    <h2 class="sec-title reveal">Gifts She'll <em>Never Forget</em></h2>
-    <p class="sec-sub reveal">Every item is personally curated — because the best gifts feel like they were made just for her.</p>
-    <div class="divider reveal"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
-
-    <div class="gifts-grid">
-      <div class="gift-card featured reveal">
-        <div class="gift-img-wrap">
-          <img src="images/landing/bouquet.jpeg" alt="Noir Rose Bouquet">
-          <span class="gift-tag">Bestseller</span>
-        </div>
-        <div class="gift-body">
-          <div class="gift-name">The <em>Noir Rose</em> Bouquet</div>
-          <div class="gift-desc">Eighteen crimson roses wrapped in dramatic black paper, finished with a hand-tied satin ribbon. A bold declaration of love.</div>
-          <div class="gift-footer">
-            <span class="gift-price">From <strong>฿1,800 / ¥7,200</strong></span>
-            <button class="gift-wish-btn">Order Now</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="gift-card reveal reveal-delay-1">
-        <div class="gift-img-wrap">
-          <img src="images/landing/Dior.jpeg" alt="Dior Addict Lip Glow">
-          <span class="gift-tag">Beauty</span>
-        </div>
-        <div class="gift-body">
-          <div class="gift-name">Dior <em>Addict</em> Lip Glow</div>
-          <div class="gift-desc">A cult-favourite tinted lip balm in the softest berry tone — the gift that feels like a treat.</div>
-          <div class="gift-footer">
-            <span class="gift-price">From <strong>฿2,500</strong></span>
-            <button class="gift-wish-btn">Order Now</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="gift-card reveal reveal-delay-2">
-        <div class="gift-img-wrap">
-          <img src="images/landing/heels.jpg" alt="Crystal Heels">
-          <span class="gift-tag">Fashion</span>
-        </div>
-        <div class="gift-body">
-          <div class="gift-name"><em>Crystal</em> Strappy Heels</div>
-          <div class="gift-desc">Sleek black stilettos adorned with crystal-encrusted straps — for the girl who turns every head.</div>
-          <div class="gift-footer">
-            <span class="gift-price">From <strong>฿4,500</strong></span>
-            <button class="gift-wish-btn">Order Now</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="gift-card reveal reveal-delay-1">
-        <div class="gift-img-wrap">
-          <img src="images/landing/backpack.jpeg" alt="Soft Girl Backpack">
-          <span class="gift-tag">Lifestyle</span>
-        </div>
-        <div class="gift-body">
-          <div class="gift-name">The <em>Soft Girl</em> Backpack</div>
-          <div class="gift-desc">Cloud-white canvas with a sweet bear charm — cute, practical, and utterly adorable. Perfect for students abroad.</div>
-          <div class="gift-footer">
-            <span class="gift-price">From <strong>฿1,200</strong></span>
-            <button class="gift-wish-btn">Order Now</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="gift-card reveal reveal-delay-2">
-        <div class="gift-img-wrap">
-          <img src="images/landing/airpurifier.jpeg" alt="Air Purifier">
-          <span class="gift-tag">Wellness</span>
-        </div>
-        <div class="gift-body">
-          <div class="gift-name"><em>Pure Air</em> Purifier</div>
-          <div class="gift-desc">Clean air, clear mind. A thoughtful wellness gift she'll use and think of you every single day.</div>
-          <div class="gift-footer">
-            <span class="gift-price">From <strong>฿3,200</strong></span>
-            <button class="gift-wish-btn">Order Now</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="gift-card reveal reveal-delay-3">
-        <div class="gift-img-wrap">
-          <img src="images/landing/plushie.jpeg" alt="Cuddle Plushie">
-          <span class="gift-tag">Cozy</span>
-        </div>
-        <div class="gift-body">
-          <div class="gift-name">The <em>Cuddle</em> Plushie</div>
-          <div class="gift-desc">Because sometimes the sweetest gift is something soft to hold — especially when you're far apart.</div>
-          <div class="gift-footer">
-            <span class="gift-price">From <strong>฿650</strong></span>
-            <button class="gift-wish-btn">Order Now</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- DIGITAL EXPERIENCE SECTION -->
 <section id="digital">
   <div class="dig-inner">
-    <span class="dig-eyebrow reveal">Digital Gift Experiences</span>
-    <h2 class="dig-title reveal">Give More Than a Gift.<br><em>Give an Experience.</em></h2>
-    <p class="dig-sub reveal">So Chic's signature digital gifts combine emotional storytelling with beautiful design — delivered to your loved one via a private QR code.</p>
+    <span class="dig-eyebrow reveal">Our Signature Experience</span>
+    <h2 class="dig-title reveal">A Gift <em>With QR.</em></h2>
+    <p class="dig-sub reveal">Every So Chic gift can carry a private QR code that unlocks a personalized digital page — your photos, your words, your voice — the moment they open it. It's how we close the distance, even from thousands of miles away.</p>
 
     <div class="dig-grid">
       <div class="dig-card reveal">
@@ -629,14 +454,57 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
     <div class="dig-qr-callout reveal">
       <span class="dig-qr-icon">📱</span>
       <div class="dig-qr-text">
-        <div class="dig-qr-title">Physical Gift + <em>QR Code Experience</em></div>
-        <p class="dig-qr-desc">Combine a physical gift with a digital experience. Your loved one scans the QR code tucked inside and unlocks their personal digital surprise.</p>
+        <div class="dig-qr-title">How <em>A Gift With QR</em> Works</div>
+        <p class="dig-qr-desc">Attach a QR tag to any physical gift and they scan it to reveal your personal message — or send a digital gift entirely on its own, ready in about an hour. Perfect when you're far away, short on time, or simply want to say it beautifully.</p>
       </div>
     </div>
 
     <div class="dig-gallery-cta reveal">
-      <p class="dig-gallery-note">Ready to see the designs? Every digital gift starts with a template — <em>for best friends, girlfriends, boyfriends, or parents.</em></p>
-      <a href="templates.html" class="btn-primary">Browse the Template Gallery</a>
+      <p class="dig-gallery-note">Ready to see your options? Explore every package, price, and template — <em>all in one place.</em></p>
+      <a href="menu.html" class="btn-primary">View Full Menu Catalog</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section id="what">
+  <div class="inner">
+    <span class="sec-label reveal">What We Do</span>
+    <h2 class="sec-title reveal">A gift experience <em>unlike any other</em></h2>
+    <p class="sec-sub reveal">From birthday bouquets to customized gift boxes and interactive digital surprises—we make every gift feel personal.</p>
+    <div class="divider reveal"><div class="div-line"></div><div class="div-gem"></div><div class="div-line"></div></div>
+
+    <div class="what-grid">
+      <!-- Physical -->
+      <div class="what-card physical reveal">
+        <span class="what-tag">Physical Gifts</span>
+        <span class="what-icon">🎁</span>
+        <h3 class="what-title">Curated <em>Gift Boxes</em> &amp; Surprises</h3>
+        <p class="what-desc">Handpicked luxury items wrapped beautifully — from bouquets and cakes to customized gift boxes and heartfelt love notes.</p>
+        <div class="what-items">
+          <div class="what-item"><div class="what-item-dot"></div>Bouquets &amp; Fresh Flowers</div>
+          <div class="what-item"><div class="what-item-dot"></div>Cakes &amp; Sweet Treats</div>
+          <div class="what-item"><div class="what-item-dot"></div>Customized Gift Boxes</div>
+          <div class="what-item"><div class="what-item-dot"></div>Love Notes &amp; Surprise Deliveries</div>
+        </div>
+        <a href="menu.html" class="what-cta">Browse Gifts</a>
+      </div>
+
+      <!-- Digital -->
+      <div class="what-card digital reveal reveal-delay-2">
+        <div class="digital-glow"></div>
+        <span class="what-tag">A Gift With QR</span>
+        <span class="what-icon">💻</span>
+        <h3 class="what-title">Personalized <em>Digital Gifts</em></h3>
+        <p class="what-desc">Attach a scannable QR code to any physical gift — or send a digital-only experience on its own. Either way, they unlock a beautiful personalized page made just for them.</p>
+        <div class="what-items">
+          <div class="what-item"><div class="what-item-dot"></div>Birthday &amp; Anniversary Websites</div>
+          <div class="what-item"><div class="what-item-dot"></div>Digital Love Letters</div>
+          <div class="what-item"><div class="what-item-dot"></div>Memory Timelines</div>
+          <div class="what-item"><div class="what-item-dot"></div>Interactive QR Experiences</div>
+        </div>
+        <a href="templates.html" class="what-cta">Browse Templates</a>
+      </div>
     </div>
   </div>
 </section>
@@ -647,10 +515,10 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
     <div class="about-grid">
       <div class="about-photos reveal">
         <div class="about-photo-main">
-          <img src="images/landing/myphoto3.jpg" alt="Miki — Founder">
+          <img src="images/landing/story(1).png" alt="So Chic Gifts curated bouquet">
         </div>
         <div class="about-photo-accent">
-          <img src="images/landing/myphoto2.jpg" alt="So Chic Gifts">
+          <img src="images/landing/story(2).png" alt="So Chic Gifts">
         </div>
         <div class="about-badge">
           <span class="about-badge-num">2024</span>
@@ -660,11 +528,11 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
 
       <div class="about-content reveal reveal-delay-2">
         <span class="about-eyebrow">Our Story</span>
-        <h2 class="about-title">Born from a belief that <em>gifts create connections</em></h2>
-        <span class="about-script">Hello, I'm Miki.</span>
+        <h2 class="about-title">Built for hearts <em>living far from home</em></h2>
+        <span class="about-script">Distance shouldn't mean distant.</span>
         <p class="about-body">
-          I'm a Myanmar entrepreneur based in Thailand, and gift giving is genuinely my love language. In August 2024, I founded So Chic Gifts because I believe thoughtful gifts can communicate emotions that words alone sometimes cannot.<br><br>
-          So Chic is built for people who want their loved ones to feel truly remembered — whether they're across town or across an ocean. We serve Myanmar communities in Thailand and Japan, long-distance couples, students living abroad, and anyone who wants their gift to mean something deeper.
+          So Chic Gifts was founded on a simple belief: thoughtful gifts can say what words alone sometimes cannot. We exist for the Myanmar community living around the world — in Yangon, London, Singapore, Seoul, and beyond — who want their loved ones in Thailand and Japan to feel truly remembered.<br><br>
+          Whether it's a birthday you can't attend in person or a quiet moment you just want to mark, we handle the sourcing, the wrapping, and the delivery — so all you have to do is send the love.
         </p>
         <div class="about-facts">
           <div class="about-fact">
@@ -680,7 +548,6 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
             <span class="about-fact-lbl">THB · JPY · MMK</span>
           </div>
         </div>
-        <span class="about-signature">Miki</span>
       </div>
     </div>
   </div>
@@ -729,7 +596,7 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
         <div class="market-info">
           <div class="market-name">Thailand <em>Delivery</em></div>
           <span class="market-currency">Pay in THB · MMK</span>
-          <p class="market-note">Nationwide delivery across Thailand. Orders managed directly by Miki from our Thailand base.</p>
+          <p class="market-note">Nationwide delivery across Thailand, managed by our dedicated Thailand-based team.</p>
         </div>
       </div>
       <div class="market-card reveal reveal-delay-2">
@@ -754,27 +621,39 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
   <div style="max-width:1060px;margin:0 auto;padding:0 52px 100px">
     <div class="gallery-mosaic reveal">
       <div class="gal-item tall">
-        <img src="images/landing/myphoto1.jpg" alt="">
+        <img src="images/landing/lookbook(1).png" alt="">
         <div class="gal-overlay"><span class="gal-caption">Birthday Moments</span></div>
       </div>
       <div class="gal-item">
-        <img src="images/landing/bouquet.jpeg" alt="">
+        <img src="images/landing/lookbook(3).png" alt="">
         <div class="gal-overlay"><span class="gal-caption">Noir Rose Bouquet</span></div>
       </div>
       <div class="gal-item">
-        <img src="images/landing/Dior.jpeg" alt="">
+        <img src="images/landing/lookbook(8).png" alt="">
         <div class="gal-overlay"><span class="gal-caption">Dior Beauty</span></div>
       </div>
       <div class="gal-item tall">
-        <img src="images/landing/myphoto3.jpg" alt="">
+        <img src="images/landing/lookbook(2).png" alt="">
         <div class="gal-overlay"><span class="gal-caption">The So Chic Look</span></div>
       </div>
       <div class="gal-item wide">
-        <img src="images/landing/myphoto2.jpg" alt="">
+        <img src="images/landing/lookbook(5).png" alt="">
         <div class="gal-overlay"><span class="gal-caption">Pink &amp; Dreamy</span></div>
       </div>
       <div class="gal-item">
-        <img src="images/landing/heels.jpg" alt="">
+        <img src="images/landing/lookbook(6).png" alt="">
+        <div class="gal-overlay"><span class="gal-caption">Crystal Heels</span></div>
+      </div>
+      <div class="gal-item">
+        <img src="images/landing/lookbook(4).png" alt="">
+        <div class="gal-overlay"><span class="gal-caption">Pink &amp; Dreamy</span></div>
+      </div>
+      <div class="gal-item">
+        <img src="images/landing/lookbook(7).png" alt="">
+        <div class="gal-overlay"><span class="gal-caption">Crystal Heels</span></div>
+      </div>
+      <div class="gal-item">
+        <img src="images/landing/lookbook(9).png" alt="">
         <div class="gal-overlay"><span class="gal-caption">Crystal Heels</span></div>
       </div>
     </div>
@@ -801,13 +680,13 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
   <div class="petal" style="left:91%;animation-duration:7.5s;animation-delay:-2s">🌸</div>
 
   <div class="ctab-inner reveal">
-    <span class="ctab-eyebrow">Ready to make someone feel extraordinary?</span>
-    <h2 class="ctab-title">Luxury Gift Giving,<br><em>Reimagined.</em></h2>
+    <span class="ctab-eyebrow">Wherever you are, they'll feel you near</span>
+    <h2 class="ctab-title">A Gift With QR,<br><em>Sent With Love.</em></h2>
     <span class="ctab-tagline">Where gifts meet memories.</span>
-    <p class="ctab-desc">Whether it's a birthday in Tokyo, an anniversary in Bangkok, or a surprise for someone you miss — So Chic will create something truly unforgettable.</p>
+    <p class="ctab-desc">Whether it's a birthday in Tokyo, an anniversary in Bangkok, or a surprise for someone you miss — So Chic will create something truly unforgettable, no matter how far away you are.</p>
     <div class="ctab-btns">
-      <a href="https://www.instagram.com/sochicgifts/" target="_blank" rel="noopener" class="btn-light">DM Us on Instagram</a>
-      <a href="#what" class="btn-ghost">Explore Services</a>
+      <a href="menu.html" class="btn-light">View Full Menu</a>
+      <a href="https://www.instagram.com/sochicgifts/" target="_blank" rel="noopener" class="btn-ghost">DM Us on Instagram</a>
     </div>
   </div>
 </section>
@@ -820,7 +699,7 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
         <img src="images/main/main-logo.png" alt="So Chic Gifts">
         <span class="footer-brand-name">@sochicgifts</span>
       </div>
-      <p class="footer-brand-desc">Premium personalized gift experiences — physical and digital — for every meaningful moment.</p>
+      <p class="footer-brand-desc">A gift with QR — premium physical and digital gift experiences for hearts living far from home.</p>
       <div class="footer-currencies">
         <span class="currency-chip">฿ THB</span>
         <span class="currency-chip">¥ JPY</span>
@@ -836,18 +715,18 @@ footer{background:var(--white);padding:60px 52px 36px;border-top:1px solid var(-
     <div>
       <span class="footer-col-title">Services</span>
       <div class="footer-links">
-        <a href="#gifts">Physical Gifts</a>
         <a href="menu.html">Menu Catalog</a>
-        <a href="#digital">Digital Experiences</a>
-        <a href="#what">Birthday Websites</a>
+        <a href="#digital">A Gift With QR</a>
+        <a href="#what">Physical Gifts</a>
+        <a href="templates.html">Digital Gifts</a>
       </div>
     </div>
 
     <div>
       <span class="footer-col-title">Info</span>
       <div class="footer-links">
-        <a href="#about">About Miki</a>
-        <a href="#process">How It Works</a>
+        <a href="#about">About Us</a>
+        <a href="#digital">A Gift With QR</a>
         <a href="#markets">Delivery Areas</a>
         <a href="#cta-banner">Contact Us</a>
       </div>
@@ -874,21 +753,6 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Gift order button interaction
-document.querySelectorAll('.gift-wish-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    const orig = this.textContent;
-    this.textContent = '✓ Added';
-    this.style.background = 'linear-gradient(135deg,#c9e8d0,#d4f0dc)';
-    this.style.color = '#2a6040';
-    setTimeout(() => {
-      this.textContent = orig;
-      this.style.background = '';
-      this.style.color = '';
-    }, 2000);
-  });
-});
 </script>
 </body>
 </html>
