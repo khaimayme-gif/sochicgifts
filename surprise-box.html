@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Surprise Box — So Chic Gifts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Poppins:wght@200;300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --cream:#FBF5F0;
+  --cream-deep:#F5EDE6;
+  --blush:#F5B7D1;
+  --blush-light:#FCEEF5;
+  --rose-gold:#C08070;
+  --rose-gold-dark:#9A5E50;
+  --champagne:#D4AF37;
+  --burgundy:#6B2030;
+  --text:#2A1A18;
+  --text-mid:#5A3A35;
+  --text-muted:#8A6A65;
+  --border:#EDD8D0;
+  --white:#FFFBF8;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--text);font-family:'Poppins',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 52px;
+  background:rgba(251,245,240,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(237,216,208,0.5);
+}
+@media(max-width:768px){nav{padding:14px 20px}}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-img{width:38px;height:38px;border-radius:50%;object-fit:cover}
+.nav-logo-text{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--rose-gold)}
+.nav-back{font-size:10px;font-weight:400;letter-spacing:.25em;text-transform:uppercase;color:var(--text-mid);text-decoration:none}
+.nav-back:hover{color:var(--rose-gold)}
+
+/* ===== APP SHELL ===== */
+.app{max-width:760px;margin:0 auto;padding:110px 24px 80px;min-height:100vh;display:flex;flex-direction:column}
+@media(max-width:600px){.app{padding:96px 16px 60px}}
+
+/* progress + box tracker */
+.tracker{display:flex;align-items:center;gap:14px;margin-bottom:36px}
+.tracker-bar{flex:1;height:3px;background:var(--border);border-radius:3px;overflow:hidden}
+.tracker-fill{height:100%;background:linear-gradient(90deg,var(--rose-gold),var(--blush));border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
+.tracker-label{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
+
+.box-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;min-height:34px}
+.box-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--white);border:1px solid var(--border);border-radius:999px;font-size:10.5px;color:var(--text-mid);opacity:0;animation:chipIn .4s ease forwards}
+@keyframes chipIn{from{opacity:0;transform:translateY(-6px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.box-chip-emoji{font-size:12px}
+
+/* screens */
+.screen{display:none;flex:1;flex-direction:column}
+.screen.active{display:flex;animation:screenIn .5s cubic-bezier(.16,1,.3,1)}
+@keyframes screenIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+.step-eyebrow{display:block;font-size:9px;font-weight:400;letter-spacing:.4em;text-transform:uppercase;color:var(--rose-gold);margin-bottom:14px;text-align:center}
+.step-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,34px);font-weight:400;text-align:center;color:var(--text);line-height:1.25;margin-bottom:8px}
+.step-title em{font-style:italic;color:var(--rose-gold)}
+.step-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15.5px;color:var(--text-muted);text-align:center;margin-bottom:38px}
+
+/* intro */
+#screen-intro{align-items:center;justify-content:center;text-align:center;min-height:60vh}
+.intro-ribbon{font-size:38px;margin-bottom:22px;animation:sway 4s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.intro-title{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,46px);color:var(--text);line-height:1.2;margin-bottom:14px}
+.intro-title em{font-style:italic;color:var(--rose-gold)}
+.intro-script{font-family:'Great Vibes',cursive;font-size:26px;color:var(--blush);display:block;margin-bottom:20px}
+.intro-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--text-muted);max-width:440px;margin:0 auto 34px;line-height:1.85}
+.btn-start{padding:16px 42px;background:linear-gradient(135deg,var(--rose-gold),#B87060);border:none;border-radius:999px;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s ease;box-shadow:0 10px 30px rgba(192,128,112,.32)}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(192,128,112,.42)}
+
+/* shared card hover — used by opt-card, combo-card, item-card */
+.opt-card,.combo-card,.item-card{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.opt-card:hover,.combo-card:hover,.item-card:hover{border-color:var(--rose-gold);transform:translateY(-4px)}
+.opt-card:hover,.item-card:hover{box-shadow:0 16px 34px rgba(192,128,112,.16)}
+.combo-card:hover{box-shadow:0 18px 40px rgba(192,128,112,.18)}
+
+/* option grids (recipient + combo) */
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.opt-grid.combo-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));max-width:560px;margin:0 auto;width:100%}
+
+.opt-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:26px 18px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px}
+.opt-card.selected{border-color:var(--rose-gold);background:linear-gradient(160deg,var(--blush-light),var(--white));box-shadow:0 12px 30px rgba(192,128,112,.2)}
+.opt-emoji{font-size:34px}
+.opt-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--text)}
+
+/* combo cards */
+.combo-card{background:var(--white);border:1px solid var(--border);border-radius:22px;padding:30px 24px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px}
+.combo-badge{display:inline-block;font-size:8.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--rose-gold-dark);background:var(--blush-light);padding:5px 12px;border-radius:999px;width:fit-content}
+.combo-name{font-family:'Playfair Display',serif;font-size:19px;color:var(--text)}
+.combo-price{font-family:'Playfair Display',serif;font-size:24px;color:var(--rose-gold)}
+.combo-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13.5px;color:var(--text-muted);line-height:1.7}
+
+/* item choice cards (with image) */
+.item-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.item-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.item-card.selected{border-color:var(--rose-gold);box-shadow:0 12px 30px rgba(192,128,112,.22)}
+.item-img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--cream-deep)}
+.item-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.item-name{font-family:'Playfair Display',serif;font-size:14.5px;color:var(--text)}
+.item-price{font-size:11.5px;color:var(--rose-gold);font-weight:500}
+.item-check{position:relative}
+.item-check::after{content:'';position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--white);border:1.5px solid var(--border)}
+.item-card.selected .item-check::after{background:var(--rose-gold);border-color:var(--rose-gold)}
+.item-card.selected .item-check::before{content:'✓';position:absolute;top:10px;right:10px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;z-index:2}
+
+/* running total */
+.running-total{position:sticky;bottom:0;margin-top:auto;padding-top:20px}
+.rt-inner{background:var(--white);border:1px solid var(--border);border-radius:999px;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -8px 30px rgba(42,26,24,.06)}
+.rt-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)}
+.rt-value{font-family:'Playfair Display',serif;font-size:19px;color:var(--rose-gold)}
+
+/* nav buttons within steps */
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px}
+.btn-back-step{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);background:none;border:none;cursor:pointer;text-decoration:none;padding:8px 4px}
+.btn-back-step:hover{color:var(--rose-gold)}
+
+/* summary screen */
+.summary-card{background:var(--white);border:1px solid var(--border);border-radius:24px;padding:30px;margin-bottom:24px}
+.summary-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
+.summary-row:last-child{border-bottom:none}
+.summary-thumb{width:52px;height:52px;border-radius:12px;object-fit:cover;background:var(--cream-deep);flex-shrink:0}
+.summary-info{flex:1}
+.summary-cat{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:2px}
+.summary-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--text)}
+.summary-price{font-family:'Playfair Display',serif;font-size:14px;color:var(--rose-gold);white-space:nowrap}
+.summary-total{display:flex;justify-content:space-between;align-items:center;padding-top:18px;margin-top:6px;border-top:1.5px solid var(--rose-gold)}
+.summary-total-label{font-family:'Playfair Display',serif;font-size:16px;color:var(--text)}
+.summary-total-val{font-family:'Playfair Display',serif;font-size:26px;color:var(--rose-gold)}
+
+.screenshot-note{background:var(--blush-light);border:1px solid rgba(192,128,112,.25);border-radius:18px;padding:22px 24px;text-align:center;margin-bottom:24px}
+.screenshot-note-icon{font-size:26px;display:block;margin-bottom:10px}
+.screenshot-note-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--text);margin-bottom:6px}
+.screenshot-note-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-mid);line-height:1.7}
+
+.summary-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn-light,.btn-download{padding:15px 32px;background:linear-gradient(135deg,var(--rose-gold),#B87060);border-radius:999px;color:#fff;font-family:'Poppins',sans-serif;font-size:10.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s ease;border:none;cursor:pointer}
+.btn-light:hover,.btn-download:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(192,128,112,.35)}
+.btn-ghost{padding:14px 30px;background:transparent;border:1px solid var(--border);border-radius:999px;color:var(--text-mid);font-family:'Poppins',sans-serif;font-size:10.5px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s ease;cursor:pointer}
+.btn-ghost:hover{border-color:var(--rose-gold);color:var(--rose-gold)}
+
+/* screenshot capture wrapper — gets a solid bg so the exported PNG isn't transparent */
+#summaryCapture{background:var(--cream);padding:4px;border-radius:24px}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="images/main/main-logo.png" alt="So Chic Gifts" class="nav-logo-img">
+    <span class="nav-logo-text">So Chic Gifts</span>
+  </a>
+  <a href="menu.html" class="nav-back">← Back to Menu</a>
+</nav>
+
+<div class="app">
+
+  <!-- shared tracker (hidden on intro + summary) -->
+  <div class="tracker" id="tracker" style="display:none">
+    <span class="tracker-label" id="trackerLabel">Step 1</span>
+    <div class="tracker-bar"><div class="tracker-fill" id="trackerFill"></div></div>
+  </div>
+  <div class="box-strip" id="boxStrip"></div>
+
+  <!-- INTRO -->
+  <section class="screen active" id="screen-intro">
+    <span class="intro-ribbon">🎀</span>
+    <h1 class="intro-title">Build Their <em>Surprise Box</em></h1>
+    <span class="intro-script">Answer a few questions. We'll do the rest.</span>
+    <p class="intro-desc">Tell us who it's for, then choose exactly what goes inside — piece by piece. At the end, you'll get a summary to send us and confirm your order.</p>
+    <button class="btn-start" id="btnStart">Let's Begin</button>
+  </section>
+
+  <!-- STEP: RECIPIENT -->
+  <section class="screen" id="screen-recipient">
+    <span class="step-eyebrow">Question 1</span>
+    <h2 class="step-title">Who is this <em>surprise box</em> for?</h2>
+    <p class="step-sub">We'll tailor every option to suit them.</p>
+    <div class="opt-grid" id="recipientGrid"></div>
+  </section>
+
+  <!-- STEP: COMBO CHOICE -->
+  <section class="screen" id="screen-combo">
+    <span class="step-eyebrow">Question 2</span>
+    <h2 class="step-title" id="comboTitle">How would you like to build it?</h2>
+    <p class="step-sub">Choose a ready-made set, or pick every item yourself.</p>
+    <div class="opt-grid combo-grid" id="comboGrid"></div>
+    <div class="step-nav">
+      <button class="btn-back-step" data-back="recipient">← Back</button>
+      <span></span>
+    </div>
+  </section>
+
+  <!-- STEP: ITEM QUESTION (reused per category) -->
+  <section class="screen" id="screen-item">
+    <span class="step-eyebrow" id="itemEyebrow">Question 3</span>
+    <h2 class="step-title" id="itemTitle">Choose an item</h2>
+    <p class="step-sub" id="itemSub"></p>
+    <div class="item-grid" id="itemGrid"></div>
+    <div class="step-nav">
+      <button class="btn-back-step" id="btnItemBack">← Back</button>
+      <span></span>
+    </div>
+    <div class="running-total" id="runningTotalWrap" style="display:none">
+      <div class="rt-inner">
+        <span class="rt-label">Running Total</span>
+        <span class="rt-value" id="runningTotalVal">0 ฿</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="screen" id="screen-summary">
+    <span class="step-eyebrow">Your Surprise Box</span>
+    <h2 class="step-title">Here's What You've <em>Chosen</em></h2>
+    <p class="step-sub">Screenshot this page of your selections and send it to us to confirm your order.</p>
+
+    <div id="summaryCapture">
+      <div class="summary-card">
+        <div id="summaryRows"></div>
+        <div class="summary-total">
+          <span class="summary-total-label">Total</span>
+          <span class="summary-total-val" id="summaryTotalVal">0 ฿</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="screenshot-note">
+      <span class="screenshot-note-icon">📸</span>
+      <div class="screenshot-note-title">Almost there!</div>
+      <p class="screenshot-note-desc">Screenshot this page of your selections, then send it to us — we'll confirm your order and delivery details from there.</p>
+    </div>
+
+    <div class="summary-btns">
+      <button class="btn-ghost" id="btnStartOver">Start Over</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   DATA — edit this section to change recipients, combos, items,
+   prices, and image paths. Every "img" path below is a placeholder;
+   replace with your real product photos.
+   ============================================================ */
+const RECIPIENTS = {
+  girlfriend: {
+    label: 'Girlfriend', emoji: '💗',
+    fixedPrice: 5990,
+    fixedDesc: 'Our most-loved curated set for her — rose bouquet, perfume, candle, tumbler, and a keepsake.',
+    categories: [
+      { key:'tumbler', title:'Choose her Stanley tumbler', sub:'A everyday companion, just for her.',
+        options:[
+          { name:'Blush Pink', price:1290, img:'images/box-builder/girlfriend/Stanley-Pink.jpeg' },
+          { name:'Cream', price:1290, img:'images/box-builder/girlfriend/Stanley-Cream.jpeg' },
+        ]},
+      { key:'perfume', title:'Choose a perfume for her', sub:'A signature scent she\'ll reach for again and again.',
+        options:[
+          { name:'Chloé', price:1690, img:'images/box-builder/girlfriend/chloe-perfume.jpeg' },
+          { name:'Signature Perfume', price:1890, img:'images/box-builder/girlfriend/perfume(2).jpeg' },
+        ]},
+      { key:'candle', title:'Choose a scented candle', sub:'To fill her space with warmth.',
+        options:[
+          { name:'Champagne Toast', price:590, img:'images/box-builder/girlfriend/scented-candle(1).png' },
+          { name:'Vanilla Bloom', price:590, img:'images/box-builder/girlfriend/scented-candle(2).jpeg' },
+        ]},
+      { key:'handcream', title:'Choose a hand cream', sub:'A small comfort for her everyday.',
+        options:[
+          { name:'Hand Cream — Style 1', price:290, img:'images/box-builder/girlfriend/handcream(1).jpeg' },
+          { name:'Hand Cream — Style 2', price:290, img:'images/box-builder/girlfriend/handcream(2).jpeg' },
+        ]},
+      { key:'chocolate', title:'Choose chocolate for her', sub:'A little sweetness to top it off.',
+        options:[
+          { name:'Chocolate Box — Classic', price:490, img:'images/box-builder/girlfriend/chocolate(1).jpeg' },
+          { name:'Chocolate Box — Deluxe', price:690, img:'images/box-builder/girlfriend/chocolate(2).jpeg' },
+        ]},
+      { key:'scrunchie', title:'Choose a scrunchie', sub:'The small detail she\'ll notice last — and love most.',
+        options:[
+          { name:'Silk Scrunchie — Style 1', price:290, img:'images/box-builder/girlfriend/scrunchie(1).jpeg' },
+          { name:'Silk Scrunchie — Style 2', price:290, img:'images/box-builder/girlfriend/scrunchie(2).jpeg' },
+        ]},
+      { key:'keychain', title:'Choose a keychain for her', sub:'A small charm to carry with her.',
+        options:[
+          { name:'Keychain — Style 1', price:350, img:'images/box-builder/girlfriend/keychain(1).jpeg' },
+          { name:'Keychain — Style 2', price:350, img:'images/box-builder/girlfriend/keychain(2).jpeg' },
+        ]},
+      { key:'digital-gift', title:'Choose her digital gift tier', sub:'A personalized page she\'ll unlock with a scan.',
+        options:[
+          { name:'Basic Digital Website', price:490, img:'images/box-builder/girlfriend/digitalgift(1).png' },
+          { name:'Premium Digital Website', price:890, img:'images/box-builder/girlfriend/digitalgift(2).png' },
+        ]},
+    ]
+  },
+  boyfriend: {
+    label: 'Boyfriend', emoji: '🖤',
+    fixedPrice: 6990,
+    fixedDesc: 'A refined set for him — cologne, candle, tumbler, and an everyday essential.',
+    categories: [
+      { key:'wallet', title:'Choose his everyday piece', sub:'Something he\'ll actually use, every day.',
+        options:[
+          { name:'Leather Wallet', price:1490, img:'images/box-builder/boyfriend/wallet.jpg' },
+          { name:'Leather Keychain Set', price:890, img:'images/box-builder/boyfriend/keychain-set.jpg' },
+        ]},
+      { key:'cologne', title:'Choose a cologne for him', sub:'A scent that feels like him.',
+        options:[
+          { name:'Dior Sauvage', price:2190, img:'images/box-builder/boyfriend/cologne-sauvage.jpg' },
+          { name:'Bleu de Chanel', price:2390, img:'images/box-builder/boyfriend/cologne-bleu.jpg' },
+        ]},
+      { key:'candle', title:'Choose a scented candle', sub:'For his desk, his room, his quiet moments.',
+        options:[
+          { name:'Mahogany Teakwood', price:690, img:'images/box-builder/boyfriend/candle-teakwood.jpg' },
+          { name:'Amber & Oud', price:690, img:'images/box-builder/boyfriend/candle-amber.jpg' },
+        ]},
+      { key:'tumbler', title:'Choose his Stanley tumbler', sub:'Built for his everyday carry.',
+        options:[
+          { name:'Matte Black', price:1290, img:'images/box-builder/boyfriend/tumbler-black.jpg' },
+          { name:'Slate Blue', price:1290, img:'images/box-builder/boyfriend/tumbler-blue.jpg' },
+        ]},
+      { key:'note', title:'Choose a keepsake', sub:'A small finishing touch.',
+        options:[
+          { name:'Wax-Seal Love Letter', price:350, img:'images/box-builder/boyfriend/letter.jpg' },
+          { name:'Engraved Keychain', price:390, img:'images/box-builder/boyfriend/keychain.jpg' },
+        ]},
+    ]
+  },
+  bestfriend: {
+    label: 'Best Friend', emoji: '✨',
+    fixedPrice: 3990,
+    fixedDesc: 'A playful, thoughtful set to celebrate your favorite person.',
+    categories: [
+      { key:'bouquet', title:'Choose a bouquet', sub:'Fresh, imitation, or a toy bouquet — all equally loved.',
+        options:[
+          { name:'Mixed Wildflowers', price:690, img:'images/box-builder/bestfriend/bouquet-wild.jpg' },
+          { name:'Toy Bouquet', price:590, img:'images/box-builder/bestfriend/bouquet-toy.jpg' },
+        ]},
+      { key:'snack', title:'Choose a sweet treat', sub:'Because celebrating always tastes better together.',
+        options:[
+          { name:'Ferrero Rocher Box', price:490, img:'images/box-builder/bestfriend/ferrero.jpg' },
+          { name:'Mini Cake Slice', price:390, img:'images/box-builder/bestfriend/cake.jpg' },
+        ]},
+      { key:'candle', title:'Choose a scented candle', sub:'A little something for their space.',
+        options:[
+          { name:'Vanilla Bloom', price:590, img:'images/box-builder/bestfriend/candle-vanilla.jpg' },
+          { name:'Sea Salt', price:590, img:'images/box-builder/bestfriend/candle-seasalt.jpg' },
+        ]},
+      { key:'keepsake', title:'Choose a keepsake', sub:'The detail that says "I know you."',
+        options:[
+          { name:'Friendship Keychain', price:290, img:'images/box-builder/bestfriend/keychain.jpg' },
+          { name:'Polaroid Frame', price:350, img:'images/box-builder/bestfriend/frame.jpg' },
+        ]},
+    ]
+  },
+  parents: {
+    label: 'Parents', emoji: '🌿',
+    fixedPrice: 4990,
+    fixedDesc: 'A warm, thoughtful set to say thank you — from wherever you are.',
+    categories: [
+      { key:'flowers', title:'Choose their flowers', sub:'Timeless, never trendy.',
+        options:[
+          { name:'Classic Rose Bouquet', price:990, img:'images/box-builder/parents/bouquet.jpg' },
+          { name:'Orchid Arrangement', price:1190, img:'images/box-builder/parents/orchid.jpg' },
+        ]},
+      { key:'care', title:'Choose a self-care item', sub:'A little comfort for every day.',
+        options:[
+          { name:'Hand Cream Set', price:590, img:'images/box-builder/parents/handcream.jpg' },
+          { name:'Silk Scarf', price:990, img:'images/box-builder/parents/scarf.jpg' },
+        ]},
+      { key:'treat', title:'Choose a tea or coffee set', sub:'For their quiet mornings.',
+        options:[
+          { name:'Jasmine Tea Set', price:490, img:'images/box-builder/parents/tea.jpg' },
+          { name:'Coffee Gift Set', price:590, img:'images/box-builder/parents/coffee.jpg' },
+        ]},
+      { key:'keepsake', title:'Choose a keepsake', sub:'A small reminder you\'re thinking of them.',
+        options:[
+          { name:'Wax-Seal Letter', price:350, img:'images/box-builder/parents/letter.jpg' },
+          { name:'Photo Keychain', price:390, img:'images/box-builder/parents/keychain.jpg' },
+        ]},
+    ]
+  }
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let state = {
+  recipient: null,
+  mode: null,        // 'fixed' | 'custom'
+  catIndex: 0,
+  selections: {}      // key -> { name, price, img, catTitle }
+};
+
+const el = (id) => document.getElementById(id);
+const screens = document.querySelectorAll('.screen');
+function showScreen(id){
+  screens.forEach(s => s.classList.remove('active'));
+  el(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function fmt(n){ return n.toLocaleString('en-US') + ' ฿'; }
+
+/* ---------- INTRO ---------- */
+el('btnStart').addEventListener('click', () => {
+  el('tracker').style.display = 'flex';
+  renderRecipientStep();
+  showScreen('screen-recipient');
+  updateTracker(1, 7);
+});
+
+/* ---------- TRACKER + BOX STRIP ---------- */
+function updateTracker(step, total){
+  el('trackerLabel').textContent = `Step ${step} of ${total}`;
+  el('trackerFill').style.width = `${(step/total)*100}%`;
+}
+function renderBoxStrip(){
+  const strip = el('boxStrip');
+  strip.innerHTML = '';
+  Object.values(state.selections).forEach(sel => {
+    const chip = document.createElement('span');
+    chip.className = 'box-chip';
+    chip.innerHTML = `<span class="box-chip-emoji">🎁</span> ${sel.name}`;
+    strip.appendChild(chip);
+  });
+}
+
+/* ---------- STEP: RECIPIENT ---------- */
+function renderRecipientStep(){
+  const grid = el('recipientGrid');
+  grid.innerHTML = Object.entries(RECIPIENTS).map(([key, r]) =>
+    `<div class="opt-card" data-key="${key}"><span class="opt-emoji">${r.emoji}</span><span class="opt-name">${r.label}</span></div>`
+  ).join('');
+}
+el('recipientGrid').addEventListener('click', (e) => {
+  const card = e.target.closest('.opt-card');
+  if (!card) return;
+  state.recipient = card.dataset.key;
+  state.mode = null;
+  state.catIndex = 0;
+  state.selections = {};
+  renderBoxStrip();
+  renderComboStep();
+  showScreen('screen-combo');
+  updateTracker(2, 7);
+});
+
+/* ---------- STEP: COMBO CHOICE ---------- */
+function renderComboStep(){
+  const r = currentRecipient();
+  el('comboTitle').innerHTML = `How would you like to build <em>${r.label.toLowerCase()}'s</em> box?`;
+  el('comboGrid').innerHTML = `
+    <div class="combo-card" data-mode="fixed">
+      <span class="combo-badge">Ready-Made Set</span>
+      <span class="combo-name">The Complete Set</span>
+      <span class="combo-price">${fmt(r.fixedPrice)}</span>
+      <p class="combo-desc">${r.fixedDesc}</p>
+    </div>
+    <div class="combo-card" data-mode="custom">
+      <span class="combo-badge">Build Your Own</span>
+      <span class="combo-name">Make Your Own Box</span>
+      <span class="combo-price">From ${fmt(Math.round(r.fixedPrice*0.6))}</span>
+      <p class="combo-desc">Pick every item yourself — see the price of each piece as you go.</p>
+    </div>`;
+}
+el('comboGrid').addEventListener('click', (e) => {
+  const card = e.target.closest('.combo-card');
+  if (!card) return;
+  state.mode = card.dataset.mode;
+  state.catIndex = 0;
+  startItemFlow();
+});
+document.querySelector('[data-back="recipient"]').addEventListener('click', () => {
+  showScreen('screen-recipient');
+  updateTracker(1, 7);
+});
+
+/* ---------- STEP: ITEM QUESTIONS (looped) ---------- */
+function currentRecipient(){ return RECIPIENTS[state.recipient]; }
+
+function startItemFlow(){
+  el('runningTotalWrap').style.display = state.mode === 'custom' ? 'block' : 'none';
+  renderItemStep();
+  showScreen('screen-item');
+}
+
+function renderItemStep(){
+  const r = currentRecipient();
+  const cat = r.categories[state.catIndex];
+  const totalSteps = r.categories.length + 2;
+  updateTracker(state.catIndex + 3, totalSteps);
+
+  el('itemEyebrow').textContent = `Question ${state.catIndex + 3}`;
+  el('itemTitle').textContent = cat.title;
+  el('itemSub').textContent = cat.sub || '';
+
+  const selectedName = state.selections[cat.key]?.name;
+  el('itemGrid').innerHTML = cat.options.map(opt => `
+    <div class="item-card item-check${selectedName === opt.name ? ' selected' : ''}" data-name="${opt.name}">
+      <img class="item-img" src="${opt.img}" alt="${opt.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--blush-light)'; this.src='';">
+      <div class="item-body">
+        <span class="item-name">${opt.name}</span>
+        ${state.mode === 'custom' ? `<span class="item-price">${fmt(opt.price)}</span>` : ''}
+      </div>
+    </div>`).join('');
+
+  updateRunningTotal();
+}
+
+el('itemGrid').addEventListener('click', (e) => {
+  const card = e.target.closest('.item-card');
+  if (!card) return;
+  const r = currentRecipient();
+  const cat = r.categories[state.catIndex];
+  const opt = cat.options.find(o => o.name === card.dataset.name);
+  if (!opt) return;
+
+  state.selections[cat.key] = { name: opt.name, price: opt.price, img: opt.img, catTitle: cat.title };
+  renderBoxStrip();
+  updateRunningTotal();
+  el('itemGrid').querySelectorAll('.item-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  setTimeout(nextItemStep, 280);
+});
+
+function updateRunningTotal(){
+  if (state.mode !== 'custom') return;
+  const total = Object.values(state.selections).reduce((sum, s) => sum + (s.price || 0), 0);
+  el('runningTotalVal').textContent = fmt(total);
+}
+
+function nextItemStep(){
+  const r = currentRecipient();
+  if (state.catIndex < r.categories.length - 1) {
+    state.catIndex++;
+    renderItemStep();
+  } else {
+    renderSummary();
+    showScreen('screen-summary');
+  }
+}
+
+el('btnItemBack').addEventListener('click', () => {
+  if (state.catIndex > 0) {
+    state.catIndex--;
+    renderItemStep();
+  } else {
+    showScreen('screen-combo');
+    updateTracker(2, currentRecipient().categories.length + 2);
+  }
+});
+
+/* ---------- SUMMARY ---------- */
+function renderSummary(){
+  const r = currentRecipient();
+  const rows = el('summaryRows');
+
+  const itemRowsHtml = Object.values(state.selections).map(sel => `
+    <div class="summary-row">
+      <img class="summary-thumb" src="${sel.img}" alt="${sel.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--blush-light)'; this.src='';">
+      <div class="summary-info">
+        <span class="summary-cat">${sel.catTitle.replace(/^Choose (her |his |their |a |)?/i,'')}</span>
+        <span class="summary-name">${sel.name}</span>
+      </div>
+      ${state.mode === 'custom' ? `<span class="summary-price">${fmt(sel.price)}</span>` : ''}
+    </div>`).join('');
+
+  const recipientRowHtml = `
+    <div class="summary-row">
+      <span style="font-size:24px">${r.emoji}</span>
+      <div class="summary-info">
+        <span class="summary-cat">Surprise Box For</span>
+        <span class="summary-name">${r.label}${state.mode === 'fixed' ? ' — Complete Set' : ' — Custom Build'}</span>
+      </div>
+    </div>`;
+
+  rows.innerHTML = recipientRowHtml + itemRowsHtml;
+
+  const total = state.mode === 'fixed'
+    ? r.fixedPrice
+    : Object.values(state.selections).reduce((sum, s) => sum + (s.price || 0), 0);
+
+  el('summaryTotalVal').textContent = fmt(total);
+}
+
+/* ---------- START OVER ---------- */
+el('btnStartOver').addEventListener('click', () => {
+  state = { recipient: null, mode: null, catIndex: 0, selections: {} };
+  el('boxStrip').innerHTML = '';
+  el('tracker').style.display = 'none';
+  showScreen('screen-intro');
+});
+</script>
+</body>
+</html>
