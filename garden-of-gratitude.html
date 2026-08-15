@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Garden of Gratitude — Happy Mother's Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   GARDEN OF GRATITUDE — DESIGN TOKENS
+   ========================================================= */
+:root {
+  /* Palette */
+  --color-ivory: #FFFCF7;
+  --color-cream: #F7EFE1;
+  --color-beige: #E9DCC4;
+  --color-pink: #EFCED6;
+  --color-pink-deep: #E3AEBB;
+  --color-sage: #9FB08C;
+  --color-sage-deep: #7C9169;
+  --color-lavender: #D6C7E8;
+  --color-ink: #5B4A42;
+  --color-ink-soft: #8A7A6E;
+
+  /* Type */
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Quicksand', sans-serif;
+  --font-hand: 'Caveat', cursive;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-slow: 900ms;
+  --dur-med: 500ms;
+  --dur-fast: 250ms;
+
+  --radius-organic: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; }
+
+/* =========================================================
+   PETAL LAYER (ambient background, shared across screens)
+   ========================================================= */
+.petal-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  top: -40px;
+  border-radius: 0 100% 0 100%;
+  opacity: 0.55;
+  animation-name: petal-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translate(0, -10vh) rotate(0deg);
+  }
+  100% {
+    transform: translate(var(--drift, 40px), 110vh) rotate(360deg);
+  }
+}
+
+/* =========================================================
+   SCREENS
+   ========================================================= */
+#app {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.screen {
+  position: absolute;
+  inset: 0;
+  min-height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity var(--dur-slow) var(--ease-soft),
+              transform var(--dur-slow) var(--ease-soft),
+              visibility 0s linear var(--dur-slow);
+}
+
+.screen--active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: opacity var(--dur-slow) var(--ease-soft),
+              transform var(--dur-slow) var(--ease-soft),
+              visibility 0s linear 0s;
+}
+
+/* =========================================================
+   PAGE 1 — WELCOME SCREEN
+   ========================================================= */
+#screen-welcome {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-ivory) 65%);
+}
+
+.welcome__hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 58vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-beige) 55%, var(--color-sage) 100%);
+}
+
+.welcome__hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.welcome__hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,252,247,0) 55%, var(--color-ivory) 98%);
+}
+
+.welcome__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 28px 56px;
+  margin-top: -36px;
+  position: relative;
+  z-index: 2;
+}
+
+.welcome__eyebrow {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--color-sage-deep);
+  margin: 0 0 4px;
+  letter-spacing: 0.02em;
+}
+
+.welcome__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.1rem, 8vw, 2.8rem);
+  line-height: 1.15;
+  margin: 0 0 14px;
+  color: var(--color-ink);
+}
+
+.welcome__heart {
+  color: var(--color-pink-deep);
+  font-style: normal;
+  display: inline-block;
+  animation: heartbeat 2.4s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.18); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.12); }
+  60% { transform: scale(1); }
+}
+
+.welcome__subtitle {
+  font-size: 1.05rem;
+  color: var(--color-ink-soft);
+  max-width: 30ch;
+  margin: 0 0 36px;
+  line-height: 1.5;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: transform var(--dur-fast) var(--ease-soft),
+              box-shadow var(--dur-fast) var(--ease-soft);
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn--primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 30px;
+  font-size: 1.02rem;
+  color: var(--color-ivory);
+  background: linear-gradient(135deg, var(--color-sage-deep), var(--color-sage));
+  box-shadow: 0 10px 24px -8px rgba(124, 145, 105, 0.55);
+}
+
+.btn--primary:hover {
+  box-shadow: 0 14px 28px -8px rgba(124, 145, 105, 0.65);
+}
+
+.btn__icon {
+  transition: transform var(--dur-fast) var(--ease-soft);
+}
+
+.btn--primary:hover .btn__icon {
+  transform: translateX(3px);
+}
+
+/* Fade-in-up entrance for welcome content on load */
+.welcome__content > * {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: rise-in var(--dur-slow) var(--ease-soft) forwards;
+}
+.welcome__eyebrow { animation-delay: 200ms; }
+.welcome__title { animation-delay: 380ms; }
+.welcome__subtitle { animation-delay: 560ms; }
+.welcome__cta { animation-delay: 740ms; }
+
+@keyframes rise-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 640px) {
+  .welcome__hero { max-height: 50vh; }
+  .welcome__content { padding-bottom: 80px; }
+}
+
+/* =========================================================
+   PAGE 2 — SECRET GARDEN GATE
+   ========================================================= */
+#screen-gate {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--color-ivory) 0%, var(--color-cream) 100%);
+  display: flex;
+  align-items: center;
+}
+
+.gate {
+  width: 100%;
+  padding: 64px 24px 56px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.gate__intro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.gate__eyebrow {
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  color: var(--color-sage-deep);
+  margin: 0 0 6px;
+}
+
+.gate__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 6vw, 1.9rem);
+  line-height: 1.3;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.gate__paths {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.path-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+  padding: 38px 20px 34px;
+  min-height: 168px;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--radius-organic);
+  transition: transform var(--dur-med) var(--ease-soft),
+              border-radius var(--dur-med) var(--ease-soft);
+  opacity: 0;
+  transform: translateY(18px);
+  animation: rise-in var(--dur-slow) var(--ease-soft) forwards;
+}
+
+.screen--active .path-card:nth-child(1) { animation-delay: 150ms; }
+.screen--active .path-card:nth-child(2) { animation-delay: 300ms; }
+.screen--active .path-card:nth-child(3) { animation-delay: 450ms; }
+
+.path-card:hover {
+  transform: translateY(-4px);
+  border-radius: 15px 225px 15px 225px / 225px 15px 225px 15px;
+}
+
+.path-card:active { transform: scale(0.98) translateY(-2px); }
+
+.path-card__blob {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.path-card--pink .path-card__blob { background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-cream) 100%); }
+.path-card--lavender .path-card__blob { background: linear-gradient(135deg, var(--color-lavender) 0%, var(--color-cream) 100%); }
+.path-card--sage .path-card__blob { background: linear-gradient(135deg, var(--color-sage) 0%, var(--color-cream) 100%); }
+
+.path-card__icon {
+  font-size: 2.4rem;
+  line-height: 1;
+  margin-bottom: 6px;
+  transition: transform var(--dur-med) var(--ease-soft);
+}
+
+.path-card:hover .path-card__icon {
+  transform: scale(1.12) rotate(-4deg);
+}
+
+.path-card__label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.35rem;
+  color: var(--color-ink);
+}
+
+.path-card__hint {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--color-ink-soft);
+}
+
+@media (min-width: 640px) {
+  .gate__paths {
+    flex-direction: row;
+  }
+  .path-card {
+    flex: 1;
+    min-height: 220px;
+  }
+}
+
+/* =========================================================
+   PAGE 3A — LOVE LETTER
+   ========================================================= */
+#screen-letter {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, var(--color-lavender) 0%, var(--color-cream) 45%);
+}
+
+.letter-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.letter-bg__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+}
+
+.letter-bg__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(214,199,232,0.55) 0%, rgba(247,239,225,0.92) 70%);
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,252,247,0.85);
+  color: var(--color-ink);
+  padding: 10px 16px 10px 12px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 6px 16px -6px rgba(91,74,66,0.25);
+  backdrop-filter: blur(4px);
+  transition: transform var(--dur-fast) var(--ease-soft);
+}
+
+.back-btn:active { transform: scale(0.95); }
+
+.music-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,252,247,0.85);
+  color: var(--color-sage-deep);
+  box-shadow: 0 6px 16px -6px rgba(91,74,66,0.25);
+  backdrop-filter: blur(4px);
+  transition: transform var(--dur-fast) var(--ease-soft);
+}
+
+.music-btn:active { transform: scale(0.92); }
+
+.music-btn.is-playing {
+  animation: music-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes music-pulse {
+  0%, 100% { box-shadow: 0 6px 16px -6px rgba(91,74,66,0.25), 0 0 0 0 rgba(159,176,140,0.5); }
+  50% { box-shadow: 0 6px 16px -6px rgba(91,74,66,0.25), 0 0 0 8px rgba(159,176,140,0); }
+}
+
+.letter-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 100px 22px 64px;
+}
+
+.letter-eyebrow {
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  color: var(--color-sage-deep);
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.letter-paper {
+  position: relative;
+  background: var(--color-ivory);
+  border-radius: 4px 16px 4px 16px;
+  padding: 34px 26px 46px;
+  min-height: 260px;
+  box-shadow: 0 24px 48px -20px rgba(91,74,66,0.28);
+}
+
+.letter-paper::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(159,176,140,0.25);
+  border-radius: 2px 12px 2px 12px;
+  pointer-events: none;
+}
+
+.letter-text {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.55rem;
+  line-height: 1.65;
+  color: var(--color-ink);
+  white-space: pre-wrap;
+  display: inline;
+}
+
+.letter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background: var(--color-ink);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: blink 0.9s step-end infinite;
+}
+
+.letter-cursor.is-done { display: none; }
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* =========================================================
+   PAGE 3B — MEMORY GARDEN
+   ========================================================= */
+#screen-memories {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--color-beige) 0%, var(--color-cream) 30%);
+  padding-bottom: 60px;
+}
+
+.back-btn--static {
+  position: sticky;
+  top: 20px;
+  left: 20px;
+  margin: 20px 0 0 20px;
+}
+
+.memories-head {
+  text-align: center;
+  padding: 8px 24px 28px;
+}
+
+.memories-eyebrow {
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  color: var(--color-sage-deep);
+  margin: 0 0 6px;
+}
+
+.memories-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.4rem, 6vw, 1.8rem);
+  margin: 0 0 8px;
+  color: var(--color-ink);
+}
+
+.memories-hint {
+  font-size: 0.9rem;
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+.clothesline {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 12px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 46px;
+}
+
+.clothesline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 40px;
+  left: 50%;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(91,74,66,0.25) 0px,
+    rgba(91,74,66,0.25) 6px,
+    transparent 6px,
+    transparent 11px
+  );
+  display: none;
+}
+
+.photo-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+  animation: photo-swing 6s ease-in-out infinite;
+}
+
+.photo-item:nth-child(odd) { animation-duration: 6.5s; }
+.photo-item:nth-child(3n) { animation-duration: 7.2s; animation-delay: -1.4s; }
+.photo-item:nth-child(4n) { animation-delay: -3s; }
+
+@keyframes photo-swing {
+  0%, 100% { transform: rotate(-1.6deg); }
+  50% { transform: rotate(1.6deg); }
+}
+
+.photo-item__clip {
+  width: 20px;
+  height: 26px;
+  background: linear-gradient(180deg, #B98A57, #8C6539);
+  border-radius: 4px 4px 8px 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-bottom: -6px;
+  z-index: 2;
+}
+
+.photo-item__frame {
+  background: var(--color-ivory);
+  padding: 10px 10px 26px;
+  border-radius: 2px;
+  box-shadow: 0 14px 26px -12px rgba(91,74,66,0.35);
+  cursor: pointer;
+  border: none;
+  width: 78%;
+  max-width: 260px;
+}
+
+.photo-item__img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  background: linear-gradient(135deg, var(--color-pink), var(--color-lavender));
+}
+
+.photo-item__date {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--color-ink-soft);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .clothesline {
+    max-width: 640px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-med) var(--ease-soft), visibility 0s linear var(--dur-med);
+}
+
+.lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--dur-med) var(--ease-soft), visibility 0s linear 0s;
+}
+
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 46, 40, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.lightbox__panel {
+  position: relative;
+  z-index: 2;
+  background: var(--color-ivory);
+  border-radius: 4px 16px 4px 16px;
+  padding: 18px 18px 24px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  transform: scale(0.92);
+  transition: transform var(--dur-med) var(--ease-soft);
+}
+
+.lightbox.is-open .lightbox__panel {
+  transform: scale(1);
+}
+
+.lightbox__image {
+  width: 100%;
+  border-radius: 2px;
+  display: block;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg, var(--color-pink), var(--color-lavender));
+}
+
+.lightbox__caption {
+  margin: 0 0 4px;
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  color: var(--color-ink);
+}
+
+.lightbox__date {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+}
+
+.lightbox__close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: var(--color-ivory);
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px -6px rgba(91,74,66,0.35);
+}
+
+/* =========================================================
+   PAGE 3C — MOTHER'S DAY WISHES
+   ========================================================= */
+#screen-wishes {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-pink) 120%);
+}
+
+.wishes-wrap {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 100px 24px 64px;
+  text-align: center;
+}
+
+.wishes-photo {
+  width: 220px;
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 0;
+  margin: 0 auto 20px;
+  display: block;
+  background: none;
+  box-shadow: none;
+}
+
+.wishes-eyebrow {
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  color: var(--color-sage-deep);
+  margin: 0 0 6px;
+}
+
+.wishes-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.3rem, 5.5vw, 1.6rem);
+  color: var(--color-ink);
+  margin: 0 0 32px;
+  line-height: 1.35;
+}
+
+.wishes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.wishes-list__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,252,247,0.6);
+  border: 1px solid rgba(159,176,140,0.25);
+  border-radius: 16px;
+  padding: 16px 20px;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(14px);
+  animation: rise-in var(--dur-slow) var(--ease-soft) forwards;
+}
+
+.screen--active .wishes-list__item:nth-child(1) { animation-delay: 150ms; }
+.screen--active .wishes-list__item:nth-child(2) { animation-delay: 260ms; }
+.screen--active .wishes-list__item:nth-child(3) { animation-delay: 370ms; }
+.screen--active .wishes-list__item:nth-child(4) { animation-delay: 480ms; }
+.screen--active .wishes-list__item:nth-child(5) { animation-delay: 590ms; }
+
+.wishes-list__icon {
+  flex: none;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.wishes-list__text {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+
+</style>
+</head>
+<body>
+
+<div id="petal-layer" class="petal-layer" aria-hidden="true"></div>
+
+<main id="app">
+
+  <!-- ============ PAGE 1: WELCOME SCREEN ============ -->
+  <section id="screen-welcome" class="screen screen--active" data-screen="welcome">
+    <div class="welcome__hero">
+      <img class="welcome__hero-image" src="images/templates/garden-of-gratitude/banner.jpeg" alt="A mother and child together" onerror="this.style.display='none'">
+      <div class="welcome__hero-veil"></div>
+    </div>
+
+    <div class="welcome__content">
+      <p class="welcome__eyebrow">A little garden, grown for you</p>
+      <h1 class="welcome__title">Happy Mother&rsquo;s Day <span class="welcome__heart">❤</span></h1>
+      <p class="welcome__subtitle">Every flower blooms because of your love.</p>
+
+      <button type="button" class="btn btn--primary welcome__cta" data-action="enter-garden">
+        <span>Open Your Garden</span>
+        <svg class="btn__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 2: SECRET GARDEN GATE ============ -->
+  <section id="screen-gate" class="screen" data-screen="gate">
+    <div class="gate">
+      <div class="gate__intro">
+        <p class="gate__eyebrow">You've found the gate</p>
+        <h2 class="gate__title">Choose a path through the garden</h2>
+      </div>
+
+      <div class="gate__paths">
+
+        <button type="button" class="path-card path-card--pink" data-action="go:letter">
+          <span class="path-card__blob" aria-hidden="true"></span>
+          <span class="path-card__icon" aria-hidden="true">🌷</span>
+          <span class="path-card__label">Love Letter</span>
+          <span class="path-card__hint">A note, written just for you</span>
+        </button>
+
+        <button type="button" class="path-card path-card--lavender" data-action="go:memories">
+          <span class="path-card__blob" aria-hidden="true"></span>
+          <span class="path-card__icon" aria-hidden="true">📸</span>
+          <span class="path-card__label">Memory Garden</span>
+          <span class="path-card__hint">Moments hung out to remember</span>
+        </button>
+
+        <button type="button" class="path-card path-card--sage" data-action="go:wishes">
+          <span class="path-card__blob" aria-hidden="true"></span>
+          <span class="path-card__icon" aria-hidden="true">💐</span>
+          <span class="path-card__label">Blooming Wishes</span>
+          <span class="path-card__hint">Little thank-yous, all in one place</span>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 3A: LOVE LETTER ============ -->
+  <section id="screen-letter" class="screen" data-screen="letter">
+    <div class="letter-bg">
+      <img class="letter-bg__image" src="images/templates/garden-of-gratitudes/floral-background.jpeg" alt="" aria-hidden="true" onerror="this.style.display='none'">
+      <div class="letter-bg__veil"></div>
+    </div>
+
+    <button type="button" class="back-btn" data-action="go:gate" aria-label="Back to garden">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Garden</span>
+    </button>
+
+    <button type="button" class="music-btn" id="music-toggle" aria-label="Play background music" aria-pressed="false">
+      <svg class="music-btn__icon music-btn__icon--play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M8 5v14l11-7-11-7z"/>
+      </svg>
+      <svg class="music-btn__icon music-btn__icon--pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none;">
+        <path d="M7 5h4v14H7zM13 5h4v14h-4z"/>
+      </svg>
+    </button>
+
+    <div class="letter-wrap">
+      <p class="letter-eyebrow">🌷 A little note</p>
+      <div class="letter-paper">
+        <p class="letter-text" id="letter-text" aria-live="polite"></p>
+        <span class="letter-cursor" id="letter-cursor"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 3B: MEMORY GARDEN ============ -->
+  <section id="screen-memories" class="screen" data-screen="memories">
+    <button type="button" class="back-btn back-btn--static" data-action="go:gate" aria-label="Back to garden">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Garden</span>
+    </button>
+
+    <div class="memories-head">
+      <p class="memories-eyebrow">📸 A little clothesline</p>
+      <h2 class="memories-title">Moments hung out to remember</h2>
+      <p class="memories-hint">Tap any photo to look closer</p>
+    </div>
+
+    <div class="clothesline" id="clothesline"></div>
+  </section>
+
+  <!-- Memory lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox__backdrop" data-action="close-lightbox"></div>
+    <div class="lightbox__panel">
+      <button type="button" class="lightbox__close" data-action="close-lightbox" aria-label="Close photo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <img id="lightbox-image" class="lightbox__image" src="" alt="">
+      <p id="lightbox-caption" class="lightbox__caption"></p>
+      <p id="lightbox-date" class="lightbox__date"></p>
+    </div>
+  </div>
+
+  <!-- ============ PAGE 3C: BLOOMING WISHES ============ -->
+  <section id="screen-wishes" class="screen" data-screen="wishes">
+    <button type="button" class="back-btn" data-action="go:gate" aria-label="Back to garden">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Garden</span>
+    </button>
+
+    <div class="wishes-wrap">
+      <img class="wishes-photo" src="images/templates/garden-of-gratitude/bouquet.png" alt="A little bouquet" onerror="this.src='';">
+      <p class="wishes-eyebrow">💐 A little bouquet</p>
+      <h2 class="wishes-title">Little thank-yous, all in one place</h2>
+
+      <ul class="wishes-list" id="wishes-list"></ul>
+    </div>
+  </section>
+
+</main>
+
+<audio id="bg-music" src="audio/birthday.mp3" loop preload="none"></audio>
+
+<script>
+/* =========================================================
+   GARDEN OF GRATITUDE — CORE SCRIPT
+   ========================================================= */
+
+// ---------- Editable content ----------
+const loveLetter = `Dear Mom,
+
+Thank you for always being my home.
+
+No matter how far I go, your love is the
+one place I can always come back to.
+
+Love,
+Your Child`;
+
+const memories = [
+  { image: 'images/templates/garden-of-gratitude/photo-01.jpg', date: 'Spring, 2003', caption: 'The day you taught me to ride a bike.' },
+  { image: 'images/templates/garden-of-gratitude/photo-02.jpg', date: 'Summer, 2006', caption: 'Our first trip to the beach together.' },
+  { image: 'images/templates/garden-of-gratitude/photo-03.jpg', date: 'Autumn, 2009', caption: 'You stayed up all night helping with my project.' },
+  { image: 'images/templates/garden-of-gratitude/photo-04.jpg', date: 'Winter, 2011', caption: 'Baking cookies in the kitchen, flour everywhere.' },
+  { image: 'images/templates/garden-of-gratitude/photo-05.jpg', date: 'Spring, 2014', caption: 'You cheered louder than anyone at my recital.' },
+  { image: 'images/templates/garden-of-gratitude/photo-06.jpg', date: 'Summer, 2016', caption: 'The road trip where we sang the whole way.' },
+  { image: 'images/templates/garden-of-gratitude/photo-07.jpg', date: 'Autumn, 2018', caption: 'Moving day, and you made it feel like home.' },
+  { image: 'images/templates/garden-of-gratitude/photo-08.jpg', date: 'Winter, 2021', caption: 'Just an ordinary Tuesday, and I miss it already.' },
+  { image: 'images/templates/garden-of-gratitude/photo-09.jpg', date: 'Spring, 2023', caption: 'You, laughing at your own joke, as always.' },
+  { image: 'images/templates/garden-of-gratitude/photo-10.jpg', date: 'Today', caption: 'Still my favorite person to call.' },
+];
+
+const wishes = [
+  'Thank you for believing in me.',
+  'Thank you for every sacrifice.',
+  'Thank you for every warm meal.',
+  'Thank you for every hug.',
+  'Thank you for always loving me.',
+];
+
+// ---------- Ambient floating petals ----------
+function spawnPetals(count = 14) {
+  const layer = document.getElementById('petal-layer');
+  if (!layer) return;
+
+  const palette = ['#EFCED6', '#D6C7E8', '#E9DCC4', '#9FB08C'];
+
+  for (let i = 0; i < count; i++) {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+
+    const size = 8 + Math.random() * 10;
+    const left = Math.random() * 100;
+    const duration = 14 + Math.random() * 12;
+    const delay = Math.random() * -20;
+    const drift = (Math.random() * 120 - 60) + 'px';
+    const color = palette[Math.floor(Math.random() * palette.length)];
+
+    petal.style.width = `${size}px`;
+    petal.style.height = `${size}px`;
+    petal.style.left = `${left}vw`;
+    petal.style.background = color;
+    petal.style.setProperty('--drift', drift);
+    petal.style.animationDuration = `${duration}s`;
+    petal.style.animationDelay = `${delay}s`;
+
+    layer.appendChild(petal);
+  }
+}
+
+// ---------- Screen navigation (used by later sections too) ----------
+const screens = {};
+
+function registerScreens() {
+  document.querySelectorAll('.screen').forEach((el) => {
+    screens[el.dataset.screen] = el;
+    // Belt-and-suspenders: inactive screens are fully removed from layout
+    // flow (not just faded out) so they can never stack extra blank space
+    // above the screen that's actually showing.
+    if (!el.classList.contains('screen--active')) {
+      el.style.display = 'none';
+    }
+  });
+}
+
+function goToScreen(name) {
+  const target = screens[name];
+  if (!target) {
+    console.warn(`Screen "${name}" is not built yet.`);
+    return;
+  }
+  Object.values(screens).forEach((el) => {
+    el.classList.remove('screen--active');
+    el.style.display = 'none';
+  });
+  target.style.display = '';
+  target.classList.add('screen--active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  handleScreenEnter(name);
+}
+
+// ---------- Memory Garden: build clothesline + lightbox ----------
+let memoriesBuilt = false;
+
+function buildClothesline() {
+  if (memoriesBuilt) return;
+  memoriesBuilt = true;
+
+  const line = document.getElementById('clothesline');
+  if (!line) return;
+
+  memories.forEach((memory, index) => {
+    const item = document.createElement('div');
+    item.className = 'photo-item';
+
+    item.innerHTML = `
+      <div class="photo-item__clip"></div>
+      <button type="button" class="photo-item__frame" data-memory-index="${index}" aria-label="Open memory: ${memory.caption}">
+        <img class="photo-item__img" src="${memory.image}" alt="${memory.caption}" loading="lazy"
+             onerror="this.src='';this.style.background='linear-gradient(135deg, var(--color-pink), var(--color-lavender))'">
+      </button>
+      <span class="photo-item__date">${memory.date}</span>
+    `;
+
+    line.appendChild(item);
+  });
+}
+
+function openLightbox(index) {
+  const memory = memories[index];
+  if (!memory) return;
+
+  const lightbox = document.getElementById('lightbox');
+  const image = document.getElementById('lightbox-image');
+  const caption = document.getElementById('lightbox-caption');
+  const date = document.getElementById('lightbox-date');
+  if (!lightbox || !image) return;
+
+  image.src = memory.image;
+  image.alt = memory.caption;
+  caption.textContent = memory.caption;
+  date.textContent = memory.date;
+
+  lightbox.classList.add('is-open');
+  lightbox.setAttribute('aria-hidden', 'false');
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+  lightbox.classList.remove('is-open');
+  lightbox.setAttribute('aria-hidden', 'true');
+}
+
+// ---------- Mother's Day Wishes: render static list ----------
+let wishesBuilt = false;
+
+function buildWishesList() {
+  if (wishesBuilt) return;
+  wishesBuilt = true;
+
+  const list = document.getElementById('wishes-list');
+  if (!list) return;
+
+  const icons = ['🌷', '🌸', '🌼', '💐', '🌹'];
+
+  wishes.forEach((wish, index) => {
+    const item = document.createElement('li');
+    item.className = 'wishes-list__item';
+    item.innerHTML = `
+      <span class="wishes-list__icon" aria-hidden="true">${icons[index % icons.length]}</span>
+      <span class="wishes-list__text">${wish}</span>
+    `;
+    list.appendChild(item);
+  });
+}
+
+// ---------- Wire up actions ----------
+function initActions() {
+  document.body.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-action]');
+    if (trigger) {
+      const action = trigger.dataset.action;
+
+      if (action === 'enter-garden') {
+        goToScreen('gate');
+      } else if (action === 'close-lightbox') {
+        closeLightbox();
+      } else if (action.startsWith('go:')) {
+        goToScreen(action.split(':')[1]);
+      }
+      return;
+    }
+
+    const memoryFrame = e.target.closest('[data-memory-index]');
+    if (memoryFrame) {
+      openLightbox(Number(memoryFrame.dataset.memoryIndex));
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+}
+
+// ---------- Love Letter: typing animation ----------
+let letterTyped = false;
+
+function typeLetter() {
+  if (letterTyped) return;
+  letterTyped = true;
+
+  const textEl = document.getElementById('letter-text');
+  const cursorEl = document.getElementById('letter-cursor');
+  if (!textEl) return;
+
+  const characters = Array.from(loveLetter);
+  let i = 0;
+
+  function typeNext() {
+    if (i >= characters.length) {
+      cursorEl?.classList.add('is-done');
+      return;
+    }
+    textEl.textContent += characters[i];
+    i++;
+    // Slightly longer pause after punctuation and line breaks for a natural rhythm
+    const char = characters[i - 1];
+    let delay = 32 + Math.random() * 28;
+    if (char === '\n') delay = 260;
+    else if (',.!?'.includes(char)) delay = 240;
+    setTimeout(typeNext, delay);
+  }
+
+  setTimeout(typeNext, 500);
+}
+
+// ---------- Love Letter: background music ----------
+function initMusicToggle() {
+  const btn = document.getElementById('music-toggle');
+  const audio = document.getElementById('bg-music');
+  if (!btn || !audio) return;
+
+  const playIcon = btn.querySelector('.music-btn__icon--play');
+  const pauseIcon = btn.querySelector('.music-btn__icon--pause');
+
+  btn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play().catch(() => {
+        // Autoplay-style restrictions or missing file — fail quietly
+      });
+      btn.classList.add('is-playing');
+      btn.setAttribute('aria-pressed', 'true');
+      btn.setAttribute('aria-label', 'Pause background music');
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = '';
+    } else {
+      audio.pause();
+      btn.classList.remove('is-playing');
+      btn.setAttribute('aria-pressed', 'false');
+      btn.setAttribute('aria-label', 'Play background music');
+      playIcon.style.display = '';
+      pauseIcon.style.display = 'none';
+    }
+  });
+}
+
+// ---------- Trigger per-screen effects on navigation ----------
+function handleScreenEnter(name) {
+  if (name === 'letter') {
+    typeLetter();
+  } else if (name === 'memories') {
+    buildClothesline();
+  } else if (name === 'wishes') {
+    buildWishesList();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  spawnPetals();
+  registerScreens();
+  initActions();
+  initMusicToggle();
+});
+
+</script>
+</body>
+</html>
