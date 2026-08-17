@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Congratulations, Alex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e0b13;
+    --ink-soft:#171220;
+    --gold:#d6ad60;
+    --gold-light:#f0dba8;
+    --cream:#f8f0de;
+    --blush:#e7a9b6;
+    --white:#fbfaf7;
+    --line: rgba(214,173,96,0.25);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--white);
+    font-family:'Work Sans', sans-serif;
+    overflow-x:hidden;
+    min-height:100dvh;
+    position:relative;
+  }
+
+  /* ambient sparkle field */
+  #sparkle-field{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+  }
+  .spark{
+    position:absolute; width:3px; height:3px; border-radius:50%;
+    background:var(--gold-light); opacity:0.55;
+    animation:twinkle 3.6s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:0.15; transform:scale(1);}
+    50%{opacity:0.9; transform:scale(1.8);}
+  }
+
+  .page{
+    position:relative; z-index:1;
+    width:100%;
+    min-height:100dvh;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    padding:6vh 6vw 8vh;
+  }
+  .page.active{display:flex;}
+  .fade-in{animation:fadeIn 0.7s ease both;}
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .eyebrow{
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    font-size:0.7rem;
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:1.1rem;
+  }
+
+  /* ---------- HERO ---------- */
+  #hero{ justify-content:center; text-align:center; gap:1.6rem; padding-top:8vh;}
+  .photo-frame{
+    width:min(78vw, 330px);
+    aspect-ratio: 3/4;
+    border-radius:18px;
+    border:1.5px solid var(--line);
+    background:
+      repeating-linear-gradient(135deg, rgba(214,173,96,0.06) 0 12px, rgba(214,173,96,0.0) 12px 24px),
+      linear-gradient(160deg, #1b1624, #0e0b13);
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(248,240,222,0.35);
+    font-size:0.85rem;
+    letter-spacing:0.05em;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+    position:relative;
+  }
+  .photo-frame::before{
+    content:"";
+    position:absolute; inset:10px;
+    border:1px dashed rgba(214,173,96,0.35);
+    border-radius:12px;
+  }
+  .photo-frame span{position:relative; z-index:1; background:var(--ink); padding:0 8px;}
+
+  h1.headline{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(2.2rem, 6vw, 3.6rem);
+    color:var(--gold-light);
+    line-height:1.05;
+    max-width:14ch;
+  }
+  .subtitle{
+    max-width:32ch;
+    color:rgba(251,250,247,0.72);
+    font-size:1rem;
+    line-height:1.6;
+    font-weight:300;
+  }
+
+  .medal-btn{
+    margin-top:1.2rem;
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    letter-spacing:0.03em;
+    color:var(--ink);
+    background:linear-gradient(160deg, var(--gold-light), var(--gold));
+    padding:1rem 2.2rem;
+    border-radius:999px;
+    box-shadow:0 14px 30px -10px rgba(214,173,96,0.55);
+    position:relative;
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .medal-btn::after{
+    content:"";
+    position:absolute; left:50%; top:100%; transform:translateX(-50%);
+    width:2px; height:16px;
+    background:linear-gradient(var(--gold), transparent);
+    opacity:0.6;
+  }
+  .medal-btn:hover{ transform:translateY(-2px); box-shadow:0 18px 36px -8px rgba(214,173,96,0.65); }
+  .medal-btn:focus-visible{ outline:2px solid var(--gold-light); outline-offset:4px; }
+
+  /* ---------- MENU ---------- */
+  #menu{ justify-content:center; text-align:center; gap:2.4rem; padding-top:10vh;}
+  #menu h2{
+    font-family:'Fraunces', serif;
+    font-size:clamp(1.7rem, 4vw, 2.3rem);
+    color:var(--gold-light);
+    font-weight:500;
+  }
+  .menu-grid{
+    width:100%;
+    max-width:920px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.4rem;
+  }
+  @media (max-width:760px){ .menu-grid{ grid-template-columns:1fr; } }
+
+  .menu-card{
+    background:linear-gradient(180deg, rgba(214,173,96,0.06), rgba(214,173,96,0.02));
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:2.4rem 1.6rem;
+    cursor:pointer;
+    text-align:left;
+    color:var(--white);
+    transition:transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    display:flex; flex-direction:column; gap:0.9rem;
+  }
+  .menu-card:hover{
+    transform:translateY(-6px);
+    border-color:var(--gold);
+    background:linear-gradient(180deg, rgba(214,173,96,0.12), rgba(214,173,96,0.03));
+  }
+  .menu-card .ring{
+    width:42px; height:42px; border-radius:50%;
+    border:1.5px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold-light);
+    font-family:'Fraunces', serif;
+    font-size:1.1rem;
+  }
+  .menu-card h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.25rem;
+    color:var(--gold-light);
+  }
+  .menu-card p{
+    font-size:0.88rem;
+    color:rgba(251,250,247,0.62);
+    line-height:1.5;
+    font-weight:300;
+  }
+
+  .back-link{
+    background:none; border:none; cursor:pointer;
+    color:var(--gold); font-family:'Work Sans', sans-serif;
+    font-size:0.85rem; letter-spacing:0.03em;
+    display:flex; align-items:center; gap:0.4rem;
+    margin-bottom:2.2rem; align-self:flex-start;
+    opacity:0.85; transition:opacity 0.2s ease;
+  }
+  .back-link:hover{ opacity:1; }
+  .back-link:before{ content:"←"; }
+
+  /* ---------- LETTER PAGE ---------- */
+  #letter{ align-items:center; text-align:center; }
+  #letter .cap-photo{
+    width:150px; height:150px; border-radius:50%;
+    border:1.5px solid var(--line);
+    background:linear-gradient(160deg, #1b1624, #0e0b13);
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(248,240,222,0.35); font-size:0.75rem;
+    margin-bottom:1.6rem;
+    box-shadow:0 20px 40px -18px rgba(0,0,0,0.6);
+  }
+  .letter-paper{
+    max-width:560px;
+    width:100%;
+    background:var(--cream);
+    color:#3a2f1f;
+    border-radius:6px;
+    padding:2.6rem 2.2rem;
+    box-shadow:0 40px 70px -25px rgba(0,0,0,0.55);
+    position:relative;
+    text-align:left;
+  }
+  .letter-paper::before{
+    content:"";
+    position:absolute; inset:10px;
+    border:1px solid rgba(58,47,31,0.15);
+    pointer-events:none;
+  }
+  .letter-heading{
+    font-family:'Fraunces', serif;
+    font-size:1.5rem;
+    margin-bottom:1rem;
+    color:#5c4420;
+  }
+  .letter-body{
+    font-size:1rem;
+    line-height:1.85;
+    font-weight:300;
+    color:#4a3b26;
+  }
+  .letter-sign{
+    font-family:'Caveat', cursive;
+    font-size:1.8rem;
+    margin-top:1.4rem;
+    color:#6b4e1f;
+  }
+
+  /* ---------- MEMORIES PAGE ---------- */
+  #memories{ align-items:center; }
+  #memories h2{
+    font-family:'Fraunces', serif;
+    font-size:clamp(1.6rem, 4vw, 2.1rem);
+    color:var(--gold-light);
+    margin-bottom:2.4rem;
+    text-align:center;
+  }
+  .polaroid-board{
+    position:relative;
+    width:100%;
+    max-width:760px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.6rem 1.2rem;
+    padding:1rem;
+  }
+  @media (max-width:700px){
+    .polaroid-board{ grid-template-columns:repeat(2, 1fr); }
+  }
+  .polaroid{
+    background:var(--white);
+    padding:10px 10px 26px;
+    border-radius:3px;
+    box-shadow:0 18px 34px -14px rgba(0,0,0,0.55);
+    transform:rotate(var(--r,0deg));
+    transition:transform 0.3s ease;
+  }
+  .polaroid:hover{ transform:rotate(0deg) scale(1.04); z-index:2; }
+  .polaroid .shot{
+    width:100%; aspect-ratio:1/1;
+    background:linear-gradient(160deg,#e9e2cf,#d9cfae);
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(58,47,31,0.4); font-size:0.72rem;
+  }
+  .polaroid:nth-child(1){ --r:-6deg; margin-top:0.4rem; }
+  .polaroid:nth-child(2){ --r:4deg; margin-top:1.6rem; }
+  .polaroid:nth-child(3){ --r:-3deg; }
+  .polaroid:nth-child(4){ --r:5deg; margin-top:2.2rem; }
+  .polaroid:nth-child(5){ --r:-5deg; margin-top:0.6rem; }
+  .polaroid:nth-child(6){ --r:3deg; margin-top:1.8rem; }
+  .star-dot{
+    position:absolute; color:var(--gold); opacity:0.7; font-size:1.1rem;
+  }
+
+  /* ---------- WISHES PAGE ---------- */
+  #wishes{ align-items:center; text-align:center; }
+  #wishes h2{
+    font-family:'Fraunces', serif;
+    font-size:clamp(1.6rem, 4vw, 2.1rem);
+    color:var(--gold-light);
+    margin-bottom:0.6rem;
+  }
+  #wishes .subtitle{ margin-bottom:2.2rem; }
+  .wish-card{
+    max-width:520px;
+    width:100%;
+    background:linear-gradient(180deg, rgba(214,173,96,0.08), rgba(214,173,96,0.02));
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:2.6rem 2rem;
+    font-family:'Fraunces', serif;
+    font-size:1.25rem;
+    font-weight:500;
+    line-height:1.5;
+    color:var(--gold-light);
+    min-height:150px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .wish-index{
+    margin-top:1rem;
+    font-size:0.78rem;
+    letter-spacing:0.15em;
+    color:rgba(251,250,247,0.45);
+    text-transform:uppercase;
+  }
+  .shuffle-btn{
+    margin-top:1.6rem;
+    appearance:none; cursor:pointer;
+    background:none;
+    border:1px solid var(--gold);
+    color:var(--gold-light);
+    font-family:'Work Sans', sans-serif;
+    font-weight:500;
+    font-size:0.88rem;
+    padding:0.75rem 1.8rem;
+    border-radius:999px;
+    transition:background 0.25s ease, color 0.25s ease;
+  }
+  .shuffle-btn:hover{ background:var(--gold); color:var(--ink); }
+
+  /* confetti canvas */
+  #confetti-canvas{
+    position:fixed; inset:0; pointer-events:none; z-index:5;
+  }
+
+  footer.foot{
+    margin-top:auto;
+    padding-top:3rem;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    color:rgba(251,250,247,0.3);
+    text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+<div id="sparkle-field"></div>
+
+<!-- PAGE 1: HERO -->
+<section id="hero" class="page active">
+  <div class="eyebrow">Class of 2026</div>
+  <div class="photo-frame"><img src="images/templates/my-graduation-gift/hero.jpg" alt="Alex" style="width:100%;height:100%;object-fit:cover;border-radius:18px;"></div>
+  <h1 class="headline">Congratulations, Alex</h1>
+  <p class="subtitle">I'm so proud of you — every late night, every hard exam, every moment you almost gave up but didn't. This is just the beginning of something even bigger.</p>
+  <button class="medal-btn" onclick="goTo('menu')">Claim gifts here</button>
+</section>
+
+<!-- PAGE 2: MENU -->
+<section id="menu" class="page">
+  <div class="eyebrow">A little something from me</div>
+  <h2>Pick where to start</h2>
+  <div class="menu-grid">
+    <div class="menu-card" onclick="goTo('letter')">
+      <div class="ring">1</div>
+      <h3>Congrats Letter</h3>
+      <p>A short letter for you, straight from the heart.</p>
+    </div>
+    <div class="menu-card" onclick="goTo('memories')">
+      <div class="ring">2</div>
+      <h3>Memories Together</h3>
+      <p>A little wall of everything we've been through.</p>
+    </div>
+    <div class="menu-card" onclick="goTo('wishes')">
+      <div class="ring">3</div>
+      <h3>Future Wishes</h3>
+      <p>What I hope for you, now that this chapter closes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3: LETTER -->
+<section id="letter" class="page">
+  <button class="back-link" onclick="goTo('menu')">Back to menu</button>
+  <div class="cap-photo"><img src="images/templates/my-graduation-gift/cap.png" alt="Graduation cap" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" ></div>
+  <div class="letter-paper">
+    <div class="letter-heading">Dear Alex,</div>
+    <p class="letter-body">
+      We made it — well, you made it, and I got to watch, cheer, and occasionally panic on your behalf. From our first stressed-out study sessions to this exact moment, you've never once let me forget how hard you worked for this.<br><br>
+      You are one of the smartest, kindest, most stubborn (in the best way) people I know, and this degree is proof that you can do genuinely anything you set your mind to. I'm endlessly proud of you, and I can't wait to see what you build next.<br><br>
+      Go be brilliant. I'll be right here cheering you on, as always.
+    </p>
+    <div class="letter-sign">Your best friend, always</div>
+  </div>
+</section>
+
+<!-- PAGE 4: MEMORIES -->
+<section id="memories" class="page">
+  <button class="back-link" onclick="goTo('menu')">Back to menu</button>
+  <h2>Memories Together</h2>
+  <div class="polaroid-board">
+    <div class="polaroid"><div class="shot"><img src="images/templates/my-graduation-gift/memory1.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div></div>
+    <div class="polaroid"><div class="shot"><img src="images/templates/my-graduation-gift/memory2.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div></div>
+    <div class="polaroid"><div class="shot"><img src="images/templates/my-graduation-gift/memory3.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div></div>
+    <div class="polaroid"><div class="shot"><img src="images/templates/my-graduation-gift/memory4.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div></div>
+    <div class="polaroid"><div class="shot"><img src="images/templates/my-graduation-gift/memory5.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div></div>
+    <div class="polaroid"><div class="shot"><img src="images/templates/my-graduation-gift/memory6.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div></div>
+  </div>
+</section>
+
+<!-- PAGE 5: WISHES -->
+<section id="wishes" class="page">
+  <button class="back-link" onclick="goTo('menu')">Back to menu</button>
+  <h2>Future Wishes</h2>
+  <p class="subtitle">Tap the button, one wish for you at a time.</p>
+  <div class="wish-card" id="wishText">May every risk you take from here be met with a soft landing.</div>
+  <div class="wish-index" id="wishIndex">Wish 1 of 8</div>
+  <button class="shuffle-btn" onclick="nextWish()">Next wish</button>
+  <footer class="foot">Made with love, for Alex</footer>
+</section>
+
+<script>
+  // ---------- navigation ----------
+  function goTo(id){
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    target.classList.add('active');
+    target.classList.remove('fade-in');
+    void target.offsetWidth; // restart animation
+    target.classList.add('fade-in');
+    window.scrollTo({top:0, behavior:'instant'});
+    if(id === 'letter'){ burstConfetti(); }
+  }
+
+  // ---------- ambient sparkles ----------
+  (function initSparkles(){
+    const field = document.getElementById('sparkle-field');
+    const count = 36;
+    for(let i=0;i<count;i++){
+      const s = document.createElement('div');
+      s.className = 'spark';
+      s.style.left = Math.random()*100 + 'vw';
+      s.style.top = Math.random()*100 + 'vh';
+      s.style.animationDelay = (Math.random()*3.6) + 's';
+      field.appendChild(s);
+    }
+  })();
+
+  // ---------- confetti ----------
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const confettiColors = ['#d6ad60', '#f0dba8', '#e7a9b6', '#fbfaf7'];
+  let particles = [];
+  let confettiRunning = false;
+
+  function burstConfetti(){
+    particles = [];
+    const total = 140;
+    for(let i=0;i<total;i++){
+      particles.push({
+        x: canvas.width/2 + (Math.random()-0.5)*120,
+        y: canvas.height*0.15,
+        vx: (Math.random()-0.5)*9,
+        vy: Math.random()*-6 - 4,
+        size: Math.random()*7 + 4,
+        color: confettiColors[Math.floor(Math.random()*confettiColors.length)],
+        rot: Math.random()*360,
+        vrot: (Math.random()-0.5)*10,
+        gravity: 0.18 + Math.random()*0.08,
+        life: 0,
+        maxLife: 140 + Math.random()*40
+      });
+    }
+    if(!confettiRunning){ confettiRunning = true; requestAnimationFrame(animateConfetti); }
+  }
+
+  function animateConfetti(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive = false;
+    particles.forEach(p => {
+      p.vy += p.gravity;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.vrot;
+      p.life++;
+      if(p.life < p.maxLife && p.y < canvas.height + 40){
+        alive = true;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot * Math.PI/180);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0, 1 - p.life/p.maxLife);
+        ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+        ctx.restore();
+      }
+    });
+    if(alive){
+      requestAnimationFrame(animateConfetti);
+    } else {
+      confettiRunning = false;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+  }
+
+  // ---------- future wishes ----------
+  const wishes = [
+    "May every risk you take from here be met with a soft landing.",
+    "May your first paycheck feel like a victory, not just a routine.",
+    "May the people you meet next see exactly how brilliant you are.",
+    "May you stay curious long after the diploma stops feeling new.",
+    "May your bad days stay short and your good days multiply.",
+    "May you build a life that doesn't need a vacation to enjoy.",
+    "May you never lose the version of you that got you here.",
+    "May this be the smallest achievement on a very long list."
+  ];
+  let wishIdx = 0;
+  function nextWish(){
+    wishIdx = (wishIdx + 1) % wishes.length;
+    const el = document.getElementById('wishText');
+    el.style.opacity = 0;
+    setTimeout(() => {
+      el.textContent = wishes[wishIdx];
+      document.getElementById('wishIndex').textContent = 'Wish ' + (wishIdx+1) + ' of ' + wishes.length;
+      el.style.opacity = 1;
+    }, 220);
+  }
+  document.getElementById('wishText').style.transition = 'opacity 0.22s ease';
+</script>
+
+</body>
+</html>
