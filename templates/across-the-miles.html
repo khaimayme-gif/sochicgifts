@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Love Knows No Distance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FBF3ED;
+    --warm-white: #FFFCF9;
+    --soft-pink: #F2CFCB;
+    --beige: #EDE1D3;
+    --dusty-rose: #C98B87;
+    --burgundy: #6E2A34;
+    --ink: #4A372E;
+    --ink-soft: #8A7267;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  /* ================= App shell / slideshow track ================= */
+  .app {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background: var(--warm-white);
+  }
+
+  .track {
+    display: flex;
+    width: 600%;
+    height: 100%;
+    transition: transform 0.65s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .page {
+    flex: 0 0 16.6667%;
+    width: 16.6667%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ================= Progress spine ================= */
+  .progress-spine {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255, 252, 249, 0.82);
+    backdrop-filter: blur(6px);
+    padding: 8px 14px;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(74, 55, 46, 0.08);
+  }
+
+  .spine-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--soft-pink);
+    transition: background 0.4s ease, transform 0.4s ease;
+    position: relative;
+  }
+
+  .spine-dot.done { background: var(--dusty-rose); }
+
+  .spine-dot.current {
+    background: var(--burgundy);
+    transform: scale(1.3);
+  }
+
+  .spine-dot.current::after {
+    content: "\2764";
+    position: absolute;
+    top: -17px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--burgundy);
+  }
+
+  .spine-link {
+    width: 12px;
+    height: 1px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--dusty-rose) 0px, var(--dusty-rose) 2px,
+      transparent 2px, transparent 4px
+    );
+    opacity: 0.6;
+  }
+
+  /* ---------- Next button (shared style) ---------- */
+  .next-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: center;
+    padding: 12px 34px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--dusty-rose) 0%, var(--burgundy) 100%);
+    color: var(--warm-white);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(110, 42, 52, 0.28);
+    animation: pulse 2.8s ease-in-out infinite;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.4s ease;
+    flex: 0 0 auto;
+  }
+
+  .next-btn:hover { transform: translateY(-2px); }
+  .next-btn:active { transform: translateY(0) scale(0.97); }
+
+  .next-btn.hidden-btn {
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 8px 20px rgba(110, 42, 52, 0.28); }
+    50% { box-shadow: 0 8px 26px rgba(110, 42, 52, 0.42); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ================= PAGE 1: HERO ================= */
+  .hero-image-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    animation: heroFadeIn 1.4s ease-out forwards;
+  }
+
+  @keyframes heroFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: linear-gradient(155deg, var(--soft-pink) 0%, var(--beige) 100%);
+  }
+
+  .hero-image-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(74, 55, 46, 0) 55%, rgba(74, 55, 46, 0.55) 100%);
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 252, 249, 0.75);
+    animation: floatUp linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    12% { opacity: 0.8; }
+    88% { opacity: 0.5; }
+    100% { transform: translateY(-90vh) translateX(var(--drift-x, 10px)); opacity: 0; }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    flex: 0 0 auto;
+    padding: 18px 24px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 27px;
+    line-height: 1.22;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeUp 0.9s ease-out 0.4s forwards;
+  }
+
+  .hero-content h1 .heart { color: var(--burgundy); }
+
+  .hero-subtitle {
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-soft);
+    max-width: 300px;
+    line-height: 1.45;
+    opacity: 0;
+    animation: fadeUp 0.9s ease-out 0.6s forwards;
+  }
+
+  .hero-content .next-btn {
+    margin-top: 4px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease-out 0.8s forwards, pulse 2.8s ease-in-out 1.6s infinite;
+  }
+
+  /* ================= PAGE 2: DISTANCE JOURNEY ================= */
+  .journey-page {
+    align-items: center;
+    padding: 58px 22px 22px;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .couple-photos {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .couple-photo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .couple-photo-ring {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--soft-pink), var(--dusty-rose));
+  }
+
+  .couple-photo-ring img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    border: 2px solid var(--warm-white);
+    background: var(--beige);
+  }
+
+  .couple-photo-block span {
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: var(--burgundy);
+  }
+
+  .couple-heart {
+    font-size: 16px;
+    color: var(--dusty-rose);
+    margin-bottom: 18px;
+  }
+
+  .map-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    max-width: 320px;
+    align-self: center;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 16px 34px rgba(74, 55, 46, 0.16);
+  }
+
+  .map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: linear-gradient(155deg, var(--beige) 0%, var(--soft-pink) 100%);
+  }
+
+  .route-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .route-path {
+    fill: none;
+    stroke: var(--burgundy);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 8 7;
+    stroke-dashoffset: var(--path-length, 1000);
+    transition: stroke-dashoffset 4.8s ease-in-out;
+  }
+
+  .route-path.drawn {
+    stroke-dashoffset: 0;
+  }
+
+  .route-marker {
+    opacity: 0;
+    transition: opacity 0.4s ease 1.6s;
+  }
+
+  .route-marker.visible { opacity: 1; }
+
+  .route-mover {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .route-mover.visible { opacity: 1; }
+
+  .journey-text {
+    flex: 0 0 auto;
+  }
+
+  .journey-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .journey-text p {
+    margin-top: 6px;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 300px;
+    line-height: 1.4;
+  }
+
+  /* ================= PAGE 3: LOVE JAR ================= */
+  .jar-page {
+    align-items: center;
+    justify-content: center;
+    padding: 58px 22px 22px;
+    gap: 10px;
+    text-align: center;
+    position: relative;
+  }
+
+  .jar-heading {
+    flex: 0 0 auto;
+  }
+
+  .jar-heading h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 600;
+  }
+
+  .jar-heading p {
+    margin-top: 4px;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 280px;
+  }
+
+  .jar-hint {
+    flex: 0 0 auto;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  .jar-wrap {
+    position: relative;
+    flex: 0 0 auto;
+    width: 230px;
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .jar-wrap.shake .jar-image {
+    animation: jarShake 0.4s ease;
+  }
+
+  @keyframes jarShake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-6deg); }
+    50% { transform: rotate(5deg); }
+    75% { transform: rotate(-4deg); }
+  }
+
+  .jar-image {
+    max-width: 210px;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    background: none;
+  }
+
+  .jar-fall-zone {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .falling-heart {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    font-size: 22px;
+    animation: heartFall 1.1s cubic-bezier(0.4, 0.6, 0.6, 1) forwards;
+  }
+
+  @keyframes heartFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    70% { transform: translateY(110px) rotate(30deg); opacity: 1; }
+    85% { transform: translateY(96px) rotate(15deg); opacity: 1; }
+    100% { transform: translateY(118px) rotate(20deg); opacity: 0; }
+  }
+
+  .jar-progress {
+    flex: 0 0 auto;
+    font-size: 14px;
+    color: var(--ink-soft);
+    letter-spacing: 0.03em;
+  }
+
+  .jar-message-card {
+    flex: 0 0 auto;
+    min-height: 56px;
+    width: 100%;
+    max-width: 320px;
+    align-self: center;
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 12px 18px;
+    box-shadow: 0 6px 18px rgba(74, 55, 46, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .jar-message-card p {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    color: var(--burgundy);
+    line-height: 1.3;
+  }
+
+  .jar-message-card p.placeholder {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+
+  /* ================= PAGE 4: BOUQUET ================= */
+  .bouquet-page {
+    align-items: center;
+    padding: 58px 22px 22px;
+    gap: 12px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .petal-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .petal {
+    position: absolute;
+    top: -6%;
+    width: 10px;
+    height: 12px;
+    background: var(--soft-pink);
+    border-radius: 70% 0 70% 0;
+    opacity: 0;
+    animation: petalFall linear infinite;
+  }
+
+  @keyframes petalFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.85; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(85vh) rotate(260deg) translateX(var(--petal-drift, 24px)); opacity: 0; }
+  }
+
+  /* no card, no shadow, no background — just the image itself */
+  .bouquet-image-wrap {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  .bouquet-image-wrap.reveal {
+    animation: bouquetZoom 1.1s ease-out forwards;
+  }
+
+  @keyframes bouquetZoom {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .bouquet-image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .bouquet-text {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    opacity: 0;
+  }
+
+  .bouquet-text.reveal {
+    animation: fadeUp 0.9s ease-out 0.4s forwards;
+  }
+
+  .bouquet-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .bouquet-text p {
+    margin-top: 6px;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 300px;
+    line-height: 1.4;
+  }
+
+  .bouquet-page .next-btn {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+  }
+
+  /* ================= PAGE 3: OUR MEMORIES ================= */
+  .memories-page {
+    align-items: center;
+    justify-content: center;
+    padding: 58px 22px 22px;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .memories-heading {
+    flex: 0 0 auto;
+  }
+
+  .memories-heading h2 {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 34px;
+    color: var(--burgundy);
+  }
+
+  .memories-heading p {
+    margin-top: 2px;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+
+  .memory-stack {
+    position: relative;
+    flex: 0 0 auto;
+    width: 240px;
+    height: 320px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .memory-card {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--warm-white);
+    box-shadow: 0 14px 28px rgba(74, 55, 46, 0.18);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .memory-card img {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    object-fit: cover;
+    display: block;
+    background: var(--beige);
+  }
+
+  .memory-card-caption {
+    flex: 0 0 auto;
+    padding: 10px 14px 12px;
+    background: var(--warm-white);
+    text-align: left;
+  }
+
+  .memory-card-caption .memory-date {
+    font-size: 12px;
+    color: var(--dusty-rose);
+    letter-spacing: 0.03em;
+  }
+
+  .memory-card-caption .memory-caption {
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+
+  .memory-card.leaving {
+    transform: translateY(-40px) rotate(-8deg) scale(0.95);
+    opacity: 0;
+  }
+
+  .memories-hint {
+    flex: 0 0 auto;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  /* ================= PAGE 5: FINAL MESSAGE ================= */
+  .final-page {
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-image-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    overflow: hidden;
+    filter: brightness(0.72);
+    transition: filter 2.2s ease;
+  }
+
+  .final-image-wrap.bright {
+    filter: brightness(1);
+  }
+
+  .final-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: linear-gradient(155deg, var(--ink) 0%, var(--burgundy) 100%);
+  }
+
+  .final-image-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(74, 55, 46, 0) 45%, rgba(74, 55, 46, 0.62) 100%);
+  }
+
+  .star-layer, .final-heart-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--warm-white);
+    border-radius: 50%;
+    animation: twinkle ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.9; }
+  }
+
+  .final-heart {
+    position: absolute;
+    bottom: -4%;
+    font-size: 14px;
+    color: rgba(255, 252, 249, 0.85);
+    animation: heartRise linear infinite;
+  }
+
+  @keyframes heartRise {
+    0% { transform: translateY(0) scale(0.8); opacity: 0; }
+    15% { opacity: 0.9; }
+    85% { opacity: 0.5; }
+    100% { transform: translateY(-58vh) scale(1.05); opacity: 0; }
+  }
+
+  .final-content {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    padding: 16px 22px 22px;
+    text-align: center;
+  }
+
+  .final-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .final-content .final-sub {
+    margin-top: 6px;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  .final-note {
+    margin-top: 12px;
+    font-family: 'Caveat', cursive;
+    font-size: 19px;
+    line-height: 1.35;
+    color: var(--burgundy);
+    white-space: pre-line;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .final-note.reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------- Music control ---------- */
+  .music-btn {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    z-index: 30;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: var(--warm-white);
+    box-shadow: 0 8px 20px rgba(74, 55, 46, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .music-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--burgundy);
+  }
+
+  @media (max-width: 360px) {
+    .hero-content h1 { font-size: 24px; }
+    .journey-text h2, .bouquet-text h2, .jar-heading h2 { font-size: 19px; }
+    .final-content h1 { font-size: 22px; }
+  }
+
+  @media (max-height: 640px) {
+    .hero-content h1 { font-size: 23px; }
+    .final-note { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app" id="app">
+
+    <div class="progress-spine" id="progressSpine"></div>
+
+    <div class="track" id="track">
+
+      <!-- ================= PAGE 1: HERO ================= -->
+      <section class="page hero-page active" data-page="1">
+        <div class="hero-image-wrap">
+          <img class="hero-image" id="heroImage" src="images/templates/across-the-miles/hero.jpeg" alt="A moment together" />
+          <div class="hero-particles" id="heroParticles"></div>
+        </div>
+
+        <div class="hero-content">
+          <h1>Love Knows No Distance <span class="heart">&#10084;</span></h1>
+          <p class="hero-subtitle">No matter how many miles separate us, you never feel far from my heart.</p>
+          <button class="next-btn" data-next>Next &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ================= PAGE 2: DISTANCE JOURNEY ================= -->
+      <section class="page journey-page" data-page="2">
+        <div class="couple-photos">
+          <div class="couple-photo-block">
+            <div class="couple-photo-ring">
+              <img src="images/templates/across-the-miles/person-one.jpeg" alt="" />
+            </div>
+            <span id="personOneName">Koko</span>
+          </div>
+          <div class="couple-heart">&#10084;</div>
+          <div class="couple-photo-block">
+            <div class="couple-photo-ring">
+              <img src="images/templates/across-the-miles/person-two.jpeg" alt="" />
+            </div>
+            <span id="personTwoName">Baby</span>
+          </div>
+        </div>
+
+        <div class="map-wrap">
+          <img class="map-image" src="images/templates/across-the-miles/map.jpeg" alt="A map between two places" />
+          <svg class="route-svg" id="routeSvg" viewBox="0 0 300 400" preserveAspectRatio="none">
+            <path
+              id="routePath"
+              class="route-path"
+              d="M 40 350 C 20 320, 90 320, 60 290 C 30 260, 130 250, 150 210 C 170 170, 90 160, 130 130 C 170 100, 210 150, 230 110 C 250 70, 210 60, 240 45"
+            />
+            <text class="route-marker" id="markerStart" x="40" y="360" font-size="20" text-anchor="middle">&#128205;</text>
+            <text class="route-marker" id="markerEnd" x="242" y="38" font-size="20" text-anchor="middle">&#10084;&#65039;</text>
+            <text class="route-mover" id="routeMover" x="0" y="0" font-size="14" text-anchor="middle">&#10084;&#65039;</text>
+          </svg>
+        </div>
+
+        <div class="journey-text">
+          <h2>Every Mile Leads Back to You</h2>
+          <p>I miss your voice. I miss your smile. But every day apart is one day closer to seeing you again.</p>
+        </div>
+
+        <button class="next-btn" data-next>Next &rarr;</button>
+      </section>
+
+      <!-- ================= PAGE 3: OUR MEMORIES ================= -->
+      <section class="page memories-page" data-page="3">
+        <div class="memories-heading">
+          <h2>Our Sweet Moments</h2>
+          <p>tap the cards &#127800;</p>
+        </div>
+
+        <div class="memory-stack" id="memoryStack"></div>
+
+        <p class="memories-hint">Tap to browse through our memories</p>
+
+        <button class="next-btn" data-next>Next &rarr;</button>
+      </section>
+
+      <!-- ================= PAGE 4: LOVE JAR ================= -->
+      <section class="page jar-page" data-page="4">
+        <div class="jar-heading">
+          <h2>Shake This Love Jar <span style="color:var(--burgundy);">&#10084;</span></h2>
+          <p>Every little heart inside this jar carries a message for you.</p>
+        </div>
+
+        <p class="jar-hint" id="jarHint">Tap the jar</p>
+
+        <div class="jar-wrap" id="jarWrap">
+          <img class="jar-image" src="images/templates/across-the-miles/love-jar.png" alt="A jar full of little hearts" />
+          <div class="jar-fall-zone" id="jarFallZone"></div>
+        </div>
+
+        <p class="jar-progress" id="jarProgress">0 / 6 hearts opened</p>
+
+        <div class="jar-message-card">
+          <p class="placeholder" id="jarMessageText">Tap the jar to release the first heart</p>
+        </div>
+
+        <button class="next-btn hidden-btn" id="jarNextBtn" data-next>Next &rarr;</button>
+      </section>
+
+      <!-- ================= PAGE 5: BOUQUET ================= -->
+      <section class="page bouquet-page" data-page="5">
+        <div class="petal-layer" id="petalLayer"></div>
+
+        <div class="bouquet-image-wrap" id="bouquetImageWrap">
+          <img class="bouquet-image" src="images/templates/across-the-miles/bouquet.png" alt="A bouquet of flowers" />
+        </div>
+
+        <div class="bouquet-text" id="bouquetText">
+          <h2>A Bouquet Just for You &#128144;</h2>
+          <p>If I could be there today, I'd hand these flowers to you myself.</p>
+        </div>
+
+        <button class="next-btn" data-next>Next &rarr;</button>
+      </section>
+
+      <!-- ================= PAGE 6: FINAL MESSAGE ================= -->
+      <section class="page final-page" data-page="6">
+        <div class="final-image-wrap" id="finalImageWrap">
+          <img class="final-image" src="images/templates/across-the-miles/final-photo.jpeg" alt="Looking forward to being together again" />
+          <div class="star-layer" id="starLayer"></div>
+          <div class="final-heart-layer" id="finalHeartLayer"></div>
+        </div>
+
+        <div class="final-content">
+          <h1>We'll Meet Again Soon &#10084;</h1>
+          <p class="final-sub">Distance can delay us, but it can never stop us.<br>No matter where life takes us, love will always guide us back to each other.</p>
+          <div class="final-note" id="finalNote">Until then...
+
+Take care of yourself.
+
+Think of me whenever you look at the stars.
+
+I'll be waiting for our next hug.
+
+&#10084;</div>
+      <button class="next-btn" id="seeAgainBtn" style="margin-top: 18px;">See Again</button>
+    </div>
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+
+  <button class="music-btn" id="musicBtn" aria-label="Play or pause music">
+    <svg id="musicIconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="musicIconPause" viewBox="0 0 24 24" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <audio id="bgMusic" src="images/templates/across-the-miles/music.mp3" loop preload="none"></audio>
+
+<script>
+  // =====================================================
+  // CONFIG — everything editable lives here
+  // =====================================================
+  const CONFIG = {
+    heroImage: "images/templates/across-the-miles/hero.jpeg",
+    mapImage: "images/templates/across-the-miles/map.jpeg",
+    loveJarImage: "images/templates/across-the-miles/love-jar.png",
+    bouquetImage: "images/templates/across-the-miles/bouquet.png",
+    finalImage: "images/templates/across-the-miles/final-photo.jpeg",
+    music: "images/templates/across-the-miles/music.mp3",
+    personOnePhoto: "images/templates/across-the-miles/person-one.jpeg",
+    personTwoPhoto: "images/templates/across-the-miles/person-two.jpeg",
+    personOneName: "Koko",
+    personTwoName: "Baby"
+  };
+
+  const memories = [
+    { image: "images/templates/across-the-miles/memory1.jpg", date: "Feb 14, 2023", caption: "Valentine's Day 2023" },
+    { image: "images/templates/across-the-miles/memory2.jpg", date: "", caption: "" },
+    { image: "images/templates/across-the-miles/memory3.jpg", date: "", caption: "" }
+  ];
+
+  // wishes hidden inside the love jar, easy to rewrite
+  const jarMessages = [
+    "I miss our late-night conversations.",
+    "I can't wait to see you again.",
+    "You're always on my mind.",
+    "Thank you for staying by my side.",
+    "Distance has never changed how much I care about you.",
+    "We'll make more memories together soon."
+  ];
+
+  const TOTAL_PAGES = 6;
+
+  // =====================================================
+  // Progress spine
+  // =====================================================
+  const spineEl = document.getElementById('progressSpine');
+
+  function renderSpine(current) {
+    spineEl.innerHTML = '';
+    for (let i = 1; i <= TOTAL_PAGES; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'spine-dot';
+      if (i < current) dot.classList.add('done');
+      if (i === current) dot.classList.add('current');
+      spineEl.appendChild(dot);
+
+      if (i < TOTAL_PAGES) {
+        const link = document.createElement('div');
+        link.className = 'spine-link';
+        spineEl.appendChild(link);
+      }
+    }
+  }
+
+  // =====================================================
+  // Page navigation — sliding track, true slideshow feel
+  // =====================================================
+  let currentPage = 1;
+  const track = document.getElementById('track');
+  const pageInitDone = {};
+
+  function goToPage(n) {
+    if (n < 1 || n > TOTAL_PAGES || n === currentPage) return;
+    currentPage = n;
+    track.style.transform = `translateX(-${(currentPage - 1) * (100 / TOTAL_PAGES)}%)`;
+    renderSpine(currentPage);
+
+    if (!pageInitDone[n]) {
+      pageInitDone[n] = true;
+      if (n === 2) initJourneyPage();
+      if (n === 3) initMemoriesPage();
+      if (n === 4) initJarPage();
+      if (n === 5) initBouquetPage();
+      if (n === 6) initFinalPage();
+    }
+  }
+
+  document.querySelectorAll('[data-next]').forEach(btn => {
+    btn.addEventListener('click', () => goToPage(currentPage + 1));
+  });
+
+  renderSpine(currentPage);
+
+  // =====================================================
+  // PAGE 1: hero floating particles
+  // =====================================================
+  function spawnHeroParticles() {
+    const container = document.getElementById('heroParticles');
+    const count = 12;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'hero-particle';
+      const size = 3 + Math.random() * 4;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = (Math.random() * 100) + '%';
+      p.style.bottom = '-5%';
+      p.style.animationDuration = (7 + Math.random() * 7) + 's';
+      p.style.animationDelay = (Math.random() * 8) + 's';
+      p.style.setProperty('--drift-x', (Math.random() * 40 - 20) + 'px');
+      container.appendChild(p);
+    }
+  }
+  spawnHeroParticles();
+
+  // =====================================================
+  // PAGE 2: distance journey — dashed route drawing + moving heart
+  // =====================================================
+  function initJourneyPage() {
+    const path = document.getElementById('routePath');
+    const length = path.getTotalLength();
+    path.style.setProperty('--path-length', length);
+    path.style.strokeDasharray = '8 7';
+    path.getBoundingClientRect();
+
+    setTimeout(() => {
+      path.classList.add('drawn');
+      path.style.strokeDashoffset = '0';
+    }, 150);
+
+    document.getElementById('markerStart').classList.add('visible');
+    setTimeout(() => {
+      document.getElementById('markerEnd').classList.add('visible');
+    }, 3500);
+
+    const mover = document.getElementById('routeMover');
+    let start = null;
+    const duration = 4200;
+
+    function animateMover(ts) {
+      if (!start) start = ts;
+      const elapsed = (ts - start) % duration;
+      const t = elapsed / duration;
+      const point = path.getPointAtLength(t * length);
+      mover.setAttribute('x', point.x);
+      mover.setAttribute('y', point.y);
+      requestAnimationFrame(animateMover);
+    }
+
+    setTimeout(() => {
+      mover.classList.add('visible');
+      requestAnimationFrame(animateMover);
+    }, 4900);
+  }
+
+  function initMemoriesPage() {
+  const stackEl = document.getElementById('memoryStack');
+  let index = 0;
+
+  function render() {
+    stackEl.innerHTML = '';
+    const depth = Math.min(3, memories.length);
+    for (let i = depth - 1; i >= 0; i--) {
+      const m = memories[(index + i) % memories.length];
+      const card = document.createElement('div');
+      card.className = 'memory-card';
+      card.style.transform = `translateY(${i * 6}px) rotate(${i === 0 ? 0 : (i % 2 ? -6 : 6)}deg) scale(${1 - i * 0.04})`;
+      card.style.zIndex = depth - i;
+
+      const img = document.createElement('img');
+      img.src = m.image;
+      img.alt = m.caption || '';
+      card.appendChild(img);
+
+      if (m.date || m.caption) {
+        const captionWrap = document.createElement('div');
+        captionWrap.className = 'memory-card-caption';
+        captionWrap.innerHTML =
+          (m.date ? `<div class="memory-date">${m.date}</div>` : '') +
+          (m.caption ? `<div class="memory-caption">${m.caption}</div>` : '');
+        card.appendChild(captionWrap);
+      }
+
+      if (i === 0) {
+        card.addEventListener('click', () => {
+          card.classList.add('leaving');
+          setTimeout(() => {
+            index = (index + 1) % memories.length;
+            render();
+          }, 260);
+        });
+      }
+
+      stackEl.appendChild(card);
+    }
+  }
+
+  render();
+}
+
+  // =====================================================
+  // PAGE 3: love jar — tap to release hearts with messages
+  // =====================================================
+  function initJarPage() {
+    const jarWrap = document.getElementById('jarWrap');
+    const fallZone = document.getElementById('jarFallZone');
+    const progressEl = document.getElementById('jarProgress');
+    const messageEl = document.getElementById('jarMessageText');
+    const hintEl = document.getElementById('jarHint');
+    const nextBtn = document.getElementById('jarNextBtn');
+
+    let opened = 0;
+    const total = jarMessages.length;
+
+    function releaseHeart() {
+      if (opened >= total) return;
+
+      jarWrap.classList.remove('shake');
+      void jarWrap.offsetWidth;
+      jarWrap.classList.add('shake');
+
+      const heart = document.createElement('div');
+      heart.className = 'falling-heart';
+      heart.textContent = '\u2764\uFE0F';
+      heart.style.left = (30 + Math.random() * 40) + '%';
+      fallZone.appendChild(heart);
+      setTimeout(() => heart.remove(), 1200);
+
+      messageEl.textContent = jarMessages[opened];
+      messageEl.classList.remove('placeholder');
+
+      opened++;
+      progressEl.textContent = opened + ' / ' + total + ' hearts opened';
+
+      if (opened >= total) {
+        hintEl.textContent = 'All hearts opened';
+        nextBtn.classList.remove('hidden-btn');
+      }
+    }
+
+    jarWrap.addEventListener('click', releaseHeart);
+
+    if (window.DeviceMotionEvent) {
+      let lastShake = 0;
+      window.addEventListener('devicemotion', (e) => {
+        const acc = e.accelerationIncludingGravity;
+        if (!acc) return;
+        const magnitude = Math.abs(acc.x || 0) + Math.abs(acc.y || 0) + Math.abs(acc.z || 0);
+        const now = Date.now();
+        if (magnitude > 35 && now - lastShake > 800) {
+          lastShake = now;
+          releaseHeart();
+        }
+      });
+    }
+  }
+
+  // =====================================================
+  // PAGE 4: bouquet — falling petals + zoom reveal
+  // =====================================================
+  function initBouquetPage() {
+    const petalLayer = document.getElementById('petalLayer');
+    const count = 16;
+    for (let i = 0; i < count; i++) {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.style.left = (Math.random() * 100) + '%';
+      petal.style.animationDuration = (6 + Math.random() * 6) + 's';
+      petal.style.animationDelay = (Math.random() * 6) + 's';
+      petal.style.setProperty('--petal-drift', (Math.random() * 50 - 25) + 'px');
+      petal.style.background = Math.random() > 0.5 ? 'var(--soft-pink)' : 'var(--dusty-rose)';
+      petalLayer.appendChild(petal);
+    }
+
+    document.getElementById('bouquetImageWrap').classList.add('reveal');
+    document.getElementById('bouquetText').classList.add('reveal');
+  }
+
+  // =====================================================
+  // PAGE 5: final message — stars, rising hearts, brighten, note
+  // =====================================================
+  function initFinalPage() {
+    const starLayer = document.getElementById('starLayer');
+    for (let i = 0; i < 22; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = (Math.random() * 100) + '%';
+      star.style.top = (Math.random() * 70) + '%';
+      star.style.animationDuration = (1.8 + Math.random() * 2.4) + 's';
+      star.style.animationDelay = (Math.random() * 3) + 's';
+      starLayer.appendChild(star);
+    }
+
+    const heartLayer = document.getElementById('finalHeartLayer');
+    for (let i = 0; i < 8; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'final-heart';
+      heart.textContent = '\u2764';
+      heart.style.left = (Math.random() * 100) + '%';
+      heart.style.animationDuration = (7 + Math.random() * 5) + 's';
+      heart.style.animationDelay = (Math.random() * 6) + 's';
+      heartLayer.appendChild(heart);
+    }
+
+    setTimeout(() => {
+      document.getElementById('finalImageWrap').classList.add('bright');
+    }, 300);
+
+    setTimeout(() => {
+      document.getElementById('finalNote').classList.add('reveal');
+    }, 1400);
+  }
+
+  // =====================================================
+  // Background music — manual only, never autoplay
+  // =====================================================
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  const musicIconPlay = document.getElementById('musicIconPlay');
+  const musicIconPause = document.getElementById('musicIconPause');
+
+  function setPlayingIcon(isPlaying) {
+    musicIconPlay.style.display = isPlaying ? 'none' : 'block';
+    musicIconPause.style.display = isPlaying ? 'block' : 'none';
+  }
+
+  musicBtn.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play().then(() => setPlayingIcon(true)).catch(() => {});
+    } else {
+      bgMusic.pause();
+      setPlayingIcon(false);
+    }
+  });
+
+  document.getElementById('seeAgainBtn').addEventListener('click', () => goToPage(1));
+</script>
+
+</body>
+</html>

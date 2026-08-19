@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Happy Mother's Day 💐</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Dancing+Script:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+:root{
+  --pink:       #F3A9BB;
+  --pink-deep:  #C23B5A;
+  --maroon:     #9E2A38;
+  --cream:      #FFF8EE;
+  --bg-1:       #FFFFFF;
+  --bg-2:       #FFFBF9;
+  --bg-3:       #FDF3F1;
+  --white:      #FFFFFF;
+  --text:       #4A1E22;
+  --muted:      #9C6B72;
+  --marker:     'Permanent Marker', cursive;
+  --script:     'Dancing Script', cursive;
+  --body:       'Quicksand', system-ui, sans-serif;
+  --es:         cubic-bezier(0.22,1,0.36,1);
+}
+html,body{height:100%;overflow:hidden;font-family:var(--body);color:var(--text);background:var(--bg-1)}
+
+/* ══ PAGE SYSTEM ══ */
+.page{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transition:opacity .4s var(--es);padding-bottom:3rem}
+.page.active{opacity:1;pointer-events:all}
+
+.back-btn{position:fixed;top:16px;left:16px;z-index:100;display:flex;align-items:center;gap:5px;font-family:var(--body);font-size:13px;font-weight:700;color:var(--maroon);background:rgba(255,255,255,.85);border:1px solid rgba(158,42,56,.18);border-radius:50px;padding:8px 16px 8px 12px;cursor:pointer;backdrop-filter:blur(8px)}
+
+.img-ph{position:relative;background:linear-gradient(135deg,#FBD7DE,#F3B8C6);display:flex;align-items:center;justify-content:center}
+.img-ph img{width:100%;height:100%;object-fit:cover;display:block}
+.img-ph.ph-empty img{display:none}
+.img-ph.ph-empty::after{content:'📷  add photo';font-family:var(--body);font-weight:600;font-size:.68rem;color:#9E2A38;opacity:.6}
+
+/* ══════════ PAGE 1: SPLASH ══════════ */
+#pg-splash{justify-content:flex-start;align-items:center;background:linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 55%,var(--bg-3) 100%);padding-top:5vh}
+.hero-frame{width:min(74vw,300px)}
+.hero-frame img{width:100%;display:block}
+.splash-title{font-family:var(--marker);font-size:clamp(1.7rem,7vw,2.3rem);color:var(--maroon);text-align:center;margin-top:1.3rem;text-shadow:1px 1px 0 rgba(255,255,255,.4)}
+.splash-sub{font-family:var(--script);font-size:1.1rem;color:var(--text);opacity:.75;margin-top:.3rem;text-align:center}
+.see-inside-btn{margin-top:1.6rem;background:var(--maroon);color:#fff;font-family:var(--body);font-weight:700;font-size:.9rem;border:none;border-radius:50px;padding:14px 34px;cursor:pointer;box-shadow:0 10px 24px rgba(158,42,56,.35);animation:btnPulse 2.2s ease-in-out infinite}
+@keyframes btnPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+
+/* ══════════ PAGE 2: MENU ══════════ */
+#pg-menu{justify-content:center;background:linear-gradient(180deg,var(--bg-1) 0%,var(--bg-3) 100%)}
+.menu-header{text-align:center;margin-bottom:1.6rem}
+.menu-title{font-family:var(--marker);font-size:clamp(1.5rem,6vw,1.9rem);color:var(--maroon)}
+.menu-sub{font-family:var(--script);font-size:1rem;color:var(--text);opacity:.8;margin-top:.2rem}
+.menu-list{width:min(340px,88vw);display:flex;flex-direction:column;gap:16px}
+.menu-card{background:var(--cream);border-radius:20px;padding:1.5rem 1.3rem;display:flex;align-items:center;gap:16px;box-shadow:0 12px 26px rgba(158,42,56,.18);cursor:pointer;transition:transform .15s}
+.menu-card:active{transform:scale(.97)}
+.menu-icon{width:58px;height:58px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:1.7rem;flex-shrink:0}
+.menu-card-title{font-family:var(--marker);font-size:1.05rem;color:var(--maroon)}
+.menu-card-sub{font-family:var(--body);font-size:.76rem;color:var(--muted);margin-top:.2rem}
+
+/* ══════════ PAGE 3: LOVE NOTE ══════════ */
+#pg-note{justify-content:flex-start;padding-top:4.4rem;background-size:cover;background-position:center}
+.note-floral-bg{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(253,243,241,.65)),var(--bg-3);background-size:cover;background-position:center}
+.note-floral-bg.ph-empty{background:linear-gradient(160deg,var(--bg-1),var(--bg-3))}
+.note-card{width:min(340px,88vw);background:rgba(255,252,247,.94);border-radius:16px;padding:1.8rem 1.5rem;box-shadow:0 16px 34px rgba(158,42,56,.22);backdrop-filter:blur(3px)}
+.note-heading{font-family:var(--marker);font-size:1.2rem;color:var(--maroon);text-align:center;margin-bottom:1rem}
+.note-typed{font-family:var(--script);font-size:1.3rem;line-height:1.65;color:var(--text);white-space:pre-wrap;min-height:220px}
+.note-typed .cursor{display:inline-block;width:2px;background:var(--maroon);margin-left:1px;animation:blinkCur .8s steps(1) infinite;height:1.1em;vertical-align:text-bottom}
+@keyframes blinkCur{50%{opacity:0}}
+.music-pill{margin-top:1.3rem;width:min(340px,88vw);display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.9);border-radius:999px;padding:8px 16px 8px 8px;box-shadow:0 8px 20px rgba(158,42,56,.16)}
+.music-btn{width:32px;height:32px;border-radius:50%;background:var(--maroon);border:none;color:#fff;font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.music-info{display:flex;flex-direction:column}
+.music-title{font-family:var(--body);font-weight:700;font-size:.74rem;color:var(--text)}
+.eq{display:flex;align-items:flex-end;gap:2px;height:10px;margin-top:2px}
+.eq span{width:2px;background:var(--maroon);border-radius:1px;animation:eqAnim 1s ease-in-out infinite}
+.eq span:nth-child(1){height:40%}
+.eq span:nth-child(2){height:100%;animation-delay:.2s}
+.eq span:nth-child(3){height:60%;animation-delay:.4s}
+.eq.paused span{animation-play-state:paused;height:30%!important}
+@keyframes eqAnim{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+
+/* ══════════ PAGE 4: HAPPY MEMORIES (polaroid scroll-reveal) ══════════ */
+#pg-memories{padding-top:4.4rem;background:linear-gradient(180deg,var(--bg-1) 0%,var(--bg-3) 100%)}
+.polaroid-list{width:min(320px,88vw);margin-top:.5rem;display:flex;flex-direction:column;gap:2.6rem;padding-bottom:1rem}
+.polaroid-item{position:relative;align-self:center;opacity:0;transform:translateY(40px) scale(.94);transition:opacity .7s var(--es), transform .7s var(--es)}
+.polaroid-item.in-view{opacity:1;transform:translateY(0) scale(1)}
+.polaroid-item:nth-child(odd){align-self:flex-start;transform:translateY(40px) rotate(-4deg) scale(.94)}
+.polaroid-item:nth-child(odd).in-view{transform:translateY(0) rotate(-4deg) scale(1)}
+.polaroid-item:nth-child(even){align-self:flex-end;transform:translateY(40px) rotate(4deg) scale(.94)}
+.polaroid-item:nth-child(even).in-view{transform:translateY(0) rotate(4deg) scale(1)}
+.polaroid-card{width:220px;background:#fff;padding:12px 12px 34px;box-shadow:0 14px 30px rgba(158,42,56,.28)}
+.polaroid-card .img-ph{aspect-ratio:1;overflow:hidden;background:#1a1a1a}
+.polaroid-doodle{position:absolute;width:34px;height:34px}
+.polaroid-caption{margin-top:1.5rem;text-align:center;font-family:var(--script);font-size:1.15rem;color:var(--maroon)}
+
+/* ══════════ PAGE 5: BLOOMING WISHES (real daisy, petals stay attached) ══════════ */
+#pg-bouquet{justify-content:flex-start;padding-top:4rem;background:linear-gradient(180deg,var(--bg-1) 0%,#FFF9EE 100%)}
+.bouquet-counter{font-family:var(--body);font-weight:700;font-size:.85rem;color:var(--maroon);letter-spacing:.02em;margin-bottom:.4rem;background:#fff;padding:8px 18px;border-radius:50px;box-shadow:0 6px 16px rgba(158,42,56,.1)}
+.bouquet-instructions-under{margin:.9rem 0 .2rem;text-align:center;font-family:var(--script);font-size:1.15rem;color:var(--maroon);max-width:80vw}
+
+.flower-wrap{position:relative;width:min(80vw,300px);height:min(100vw,380px);margin-top:.4rem}
+.flower-wrap svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 14px 22px rgba(158,42,56,.14))}
+
+.petal-group{cursor:pointer;transform-origin:160px 160px;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.petal-shape{transition:fill .5s ease, stroke .5s ease}
+.petal-group:hover .petal-shape{filter:brightness(1.04)}
+.petal-group.bloom{animation:petalBloom .55s cubic-bezier(.34,1.56,.64,1)}
+@keyframes petalBloom{
+  0%{transform:scale(1)}
+  35%{transform:scale(1.3)}
+  100%{transform:scale(1.1)}
+}
+.petal-group.opened{transform:scale(1.06)}
+.petal-group.opened .petal-shape{fill:url(#petalOpenedGrad);stroke:#E8B23D}
+
+.flower-center{fill:url(#centerGrad);transition:transform .5s ease}
+.flower-center-ring{fill:none;stroke:#E8B23D;stroke-width:1.5;opacity:.5}
+.flower-wrap.full-bloom .flower-center{transform:scale(1.06)}
+.flower-wrap.full-bloom{animation:flowerGlow 1.8s ease-in-out infinite}
+@keyframes flowerGlow{0%,100%{filter:drop-shadow(0 14px 22px rgba(158,42,56,.14))}50%{filter:drop-shadow(0 14px 34px rgba(232,178,61,.4))}}
+
+.wish-card{width:min(320px,86vw);margin-top:1.2rem;background:var(--cream);border-radius:18px;padding:1.5rem 1.4rem;box-shadow:0 16px 34px rgba(158,42,56,.2);text-align:center;display:none;border:1px solid rgba(232,178,61,.25)}
+.wish-card.show{display:block;animation:wishIn .5s var(--es)}
+@keyframes wishIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.wish-card .wish-icon{font-size:1.4rem;margin-bottom:.5rem;display:block}
+.wish-card p{font-family:var(--script);font-size:1.4rem;color:var(--text);line-height:1.5}
+
+.bouquet-complete{width:min(320px,86vw);margin-top:1.2rem;background:linear-gradient(160deg,var(--maroon),#7A1E29);color:#fff;border-radius:18px;padding:1.6rem 1.4rem;text-align:center;display:none;box-shadow:0 18px 36px rgba(158,42,56,.32)}
+.bouquet-complete.show{display:block;animation:wishIn .6s var(--es)}
+.bouquet-complete p{font-family:var(--script);font-size:1.25rem;line-height:1.55;margin-bottom:.3rem}
+.bouquet-complete p:last-of-type{margin-bottom:0}
+
+.restart-btn{margin-top:1.3rem;background:var(--maroon);color:#fff;font-family:var(--body);font-weight:700;font-size:.82rem;border:none;border-radius:50px;padding:12px 28px;cursor:pointer;box-shadow:0 8px 20px rgba(158,42,56,.3);display:none}
+.restart-btn.show{display:inline-block;animation:wishIn .5s var(--es)}
+
+/* falling petals on completion */
+.falling-petals{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
+.falling-petal{position:absolute;top:-30px;width:14px;height:20px;border-radius:60% 60% 55% 55% / 70% 70% 45% 45%;background:linear-gradient(160deg,#FFF6DC,#FFD97A);opacity:.9;animation:petalFall linear forwards}
+@keyframes petalFall{
+  0%{transform:translateY(0) translateX(0) rotate(0deg);opacity:.95}
+  100%{transform:translateY(115vh) translateX(var(--drift,20px)) rotate(380deg);opacity:0}
+}
+</style>
+
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     ██████████ CONFIGURATION ██████████
+════════════════════════════════════════ -->
+<script>
+const C = {
+  heroTitle: "Happy Mother's Day",
+  heroSub:   "for the woman who gave us everything 💐",
+
+  noteHeading: "A little letter for you",
+  noteLines: [
+    "Dear Mom,",
+    "",
+    "Thank you for every sacrifice you made that I probably still don't fully know about, for the patience you had on the hard days, and for loving me in a thousand quiet ways I didn't always notice.",
+    "",
+    "You've shaped who I am more than anyone else ever could. I hope today you get to rest, feel celebrated, and know just how loved you are.",
+    "",
+    "Happy Mother's Day \u2014 I love you endlessly."
+  ],
+  typeSpeedMs: 28,
+
+  floralBg:  "images/templates/forever-my-mom/floral-background.jpeg",
+  musicSrc:  "audio/mothers-day-song.mp3",
+  musicTitle:"for you, mom",
+
+  /* 8 photos for the "Happy Memories" polaroid scroll */
+  memoryPhotos: [
+    "images/templates/forever-my-mom/photo-01.jpg","images/templates/forever-my-mom/photo-05.jpg",
+    "images/templates/forever-my-mom/photo-02.jpg","images/templates/forever-my-mom/photo-06.jpg",
+    "images/templates/forever-my-mom/photo-03.jpg","images/templates/forever-my-mom/photo-07.jpg",
+    "images/templates/forever-my-mom/photo-04.jpg","images/templates/forever-my-mom/photo-08.jpg"
+  ],
+
+  /* one wish per petal — the flower auto-sizes to match this list */
+  bouquetWishes: [
+    "Thank you for always believing in me.",
+    "Thank you for every sacrifice.",
+    "Thank you for every warm meal.",
+    "Thank you for every hug.",
+    "Thank you for teaching me to be strong.",
+    "Thank you for every smile.",
+    "Thank you for always supporting me.",
+    "Happy Mother's Day. I love you."
+  ]
+};
+</script>
+<!-- ═══════════════════════════════════════ -->
+
+<!-- ═══════════ PAGE 1: SPLASH ═══════════ -->
+<div class="page active" id="pg-splash">
+  <div class="hero-frame"><img src="images/templates/forever-my-mom/hero.png" alt="Happy Mother's Day"/></div>
+  <p class="splash-title" id="heroTitleEl"></p>
+  <p class="splash-sub" id="heroSubEl"></p>
+  <button class="see-inside-btn" onclick="goTo('pg-menu')">See Inside 💌</button>
+</div>
+
+<!-- ═══════════ PAGE 2: MENU ═══════════ -->
+<div class="page" id="pg-menu">
+  <div class="menu-header">
+    <p class="menu-title">For You, Mom</p>
+    <p class="menu-sub">✿ with all our love ✿</p>
+  </div>
+  <div class="menu-list">
+    <div class="menu-card" onclick="goTo('pg-note'); startNoteIfNeeded();">
+      <div class="menu-icon">💌</div>
+      <div>
+        <p class="menu-card-title">Love Note</p>
+        <p class="menu-card-sub">A little letter, just for you</p>
+      </div>
+    </div>
+    <div class="menu-card" onclick="goTo('pg-memories')">
+      <div class="menu-icon">📷</div>
+      <div>
+        <p class="menu-card-title">Happy Memories</p>
+        <p class="menu-card-sub">Moments we'll always treasure</p>
+      </div>
+    </div>
+    <div class="menu-card" onclick="goTo('pg-bouquet')">
+      <div class="menu-icon">💐</div>
+      <div>
+        <p class="menu-card-title">Bouquet of Wishes</p>
+        <p class="menu-card-sub">Tap a petal to find a wish</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 3: LOVE NOTE ═══════════ -->
+<div class="page" id="pg-note">
+  <button class="back-btn" onclick="goTo('pg-menu')">‹ Back</button>
+  <div class="note-floral-bg" id="floralBg"></div>
+  <div class="note-card">
+    <p class="note-heading" id="noteHeadingEl"></p>
+    <p class="note-typed" id="noteTyped"></p>
+  </div>
+  <div class="music-pill">
+    <button class="music-btn" id="musicBtn">▶</button>
+    <div class="music-info">
+      <span class="music-title" id="musicTitleEl"></span>
+      <div class="eq paused" id="eq"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE 4: HAPPY MEMORIES ═══════════ -->
+<div class="page" id="pg-memories">
+  <button class="back-btn" onclick="goTo('pg-menu')">‹ Back</button>
+  <p class="polaroid-caption" style="margin-bottom:.4rem">Happy Memories 📸</p>
+  <div class="polaroid-list" id="polaroidList"></div>
+</div>
+
+<!-- ═══════════ PAGE 5: BLOOMING WISHES ═══════════ -->
+<div class="page" id="pg-bouquet">
+  <button class="back-btn" onclick="goTo('pg-menu')">‹ Back</button>
+  <p class="bouquet-counter" id="bouquetCounter">0 / 8 wishes discovered</p>
+  <div class="flower-wrap" id="flowerWrap"></div>
+  <p class="bouquet-instructions-under" id="bouquetHint">🌼 tap a petal to discover a wish</p>
+  <div class="wish-card" id="wishCard"><span class="wish-icon">💌</span><p id="wishText"></p></div>
+  <div class="bouquet-complete" id="bouquetComplete">
+    <p>Every petal carries a memory.</p>
+    <p>Every memory carries your love.</p>
+    <p>Happy Mother's Day ❤️</p>
+  </div>
+  <button class="restart-btn" id="restartBtn" onclick="restartFlower()">🌼 Bloom Again</button>
+</div>
+
+<script>
+/* ══ config-driven text ══ */
+document.getElementById('heroTitleEl').textContent = C.heroTitle;
+document.getElementById('heroSubEl').textContent = C.heroSub;
+document.getElementById('noteHeadingEl').textContent = C.noteHeading;
+document.getElementById('musicTitleEl').textContent = C.musicTitle;
+
+/* ══ page nav ══ */
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById(id).scrollTop = 0;
+}
+
+/* ══ floral background placeholder wiring ══ */
+const floralBg = document.getElementById('floralBg');
+(function(){
+  const test = new Image();
+  test.onload = ()=>{ floralBg.style.backgroundImage = `url('${C.floralBg}')`; };
+  test.onerror = ()=>{ floralBg.classList.add('ph-empty'); };
+  test.src = C.floralBg;
+})();
+
+/* ══ PAGE 3: love note typing + music ══ */
+let noteStarted = false;
+function startNoteIfNeeded(){
+  if(noteStarted) return;
+  noteStarted = true;
+  typeNote();
+  tryPlayMusic();
+}
+function typeNote(){
+  const el = document.getElementById('noteTyped');
+  const fullText = C.noteLines.join('\n');
+  el.innerHTML = '<span class="cursor"></span>';
+  let i = 0;
+  const cursor = el.querySelector('.cursor');
+  function step(){
+    if(i <= fullText.length){
+      el.textContent = fullText.slice(0,i);
+      el.appendChild(cursor);
+      i++;
+      setTimeout(step, C.typeSpeedMs);
+    } else {
+      cursor.remove();
+    }
+  }
+  step();
+}
+const bgm = new Audio(C.musicSrc);
+bgm.loop = true;
+function tryPlayMusic(){
+  bgm.play().then(()=>{
+    document.getElementById('musicBtn').textContent = '❚❚';
+    document.getElementById('eq').classList.remove('paused');
+  }).catch(()=>{
+    document.getElementById('musicBtn').textContent = '▶';
+    document.getElementById('eq').classList.add('paused');
+  });
+}
+document.getElementById('musicBtn').addEventListener('click', ()=>{
+  const btn = document.getElementById('musicBtn');
+  const eq = document.getElementById('eq');
+  if(bgm.paused){
+    bgm.play().then(()=>{ btn.textContent='❚❚'; eq.classList.remove('paused'); }).catch(()=>{});
+  } else {
+    bgm.pause();
+    btn.textContent = '▶';
+    eq.classList.add('paused');
+  }
+});
+
+/* ══ PAGE 4: happy memories — polaroids that fade in as you scroll ══ */
+const polaroidList = document.getElementById('polaroidList');
+const DOODLES = [
+  `<svg viewBox="0 0 40 40" class="polaroid-doodle"><path d="M20,32 C10,24 5,16 8,10 C11,4 18,6 20,12 C22,6 29,4 32,10 C35,16 30,24 20,32 Z" fill="none" stroke="#C23B5A" stroke-width="2.4"/></svg>`,
+  `<svg viewBox="0 0 40 40" class="polaroid-doodle"><path d="M20,32 C10,24 5,16 8,10 C11,4 18,6 20,12 C22,6 29,4 32,10 C35,16 30,24 20,32 Z" fill="#C23B5A"/></svg>`,
+  `<svg viewBox="0 0 40 24" class="polaroid-doodle" style="width:38px;height:22px"><path d="M20,4 C14,0 8,2 4,7 C10,6 14,9 20,13 C26,9 30,6 36,7 C32,2 26,0 20,4 Z" fill="#C23B5A"/><path d="M4,7 C8,12 14,15 20,13 C26,15 32,12 36,7 C30,12 26,15 20,15 C14,15 10,12 4,7 Z" fill="#8F1B30"/></svg>`
+];
+const DOODLE_POS = [
+  {top:'-14px', right:'-10px'},
+  {bottom:'26px', left:'-14px'},
+  {top:'40%', right:'-16px'}
+];
+C.memoryPhotos.forEach((photo, idx)=>{
+  const item = document.createElement('div');
+  item.className = 'polaroid-item';
+  const dPos = DOODLE_POS[idx % DOODLE_POS.length];
+  const posStyle = Object.entries(dPos).map(([k,v])=>`${k}:${v}`).join(';');
+  item.innerHTML = `
+    <div class="polaroid-card">
+      <div class="img-ph"><img alt="memory ${idx+1}"></div>
+    </div>
+    <div style="position:absolute;${posStyle}">${DOODLES[idx % DOODLES.length]}</div>
+  `;
+  polaroidList.appendChild(item);
+  const img = item.querySelector('img');
+  img.src = photo;
+  img.onerror = function(){ this.closest('.img-ph').classList.add('ph-empty'); };
+});
+
+const memObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add('in-view');
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.polaroid-item').forEach(el=> memObserver.observe(el));
+
+/* ══ PAGE 5: Blooming Wishes — a real daisy, petals stay attached ══ */
+const wishes = C.bouquetWishes;   // one wish per petal
+const flowerWrap = document.getElementById('flowerWrap');
+const N = wishes.length;
+const svgNS = 'http://www.w3.org/2000/svg';
+let svg;
+
+const CENTER_X = 160, CENTER_Y = 160;
+const PETAL_BASE_R = 24;   // distance from center to the base of each petal (attachment point)
+const PETAL_TIP_R  = 100;  // distance from center to the tip of each petal
+const PETAL_CAP_R  = 15;   // radius of the rounded caps — controls how soft/chunky the petal looks
+
+function buildFlower(){
+  flowerWrap.innerHTML = '';
+  flowerWrap.classList.remove('full-bloom');
+  svg = document.createElementNS(svgNS,'svg');
+  svg.setAttribute('viewBox','0 0 320 400');
+  flowerWrap.appendChild(svg);
+
+  const defs = document.createElementNS(svgNS,'defs');
+  defs.innerHTML = `
+    <radialGradient id="centerGrad" cx="38%" cy="32%" r="65%">
+      <stop offset="0%" stop-color="#FFF3C4"/>
+      <stop offset="55%" stop-color="#F2C230"/>
+      <stop offset="100%" stop-color="#D89A1B"/>
+    </radialGradient>
+    <linearGradient id="petalGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#FFFDF6"/>
+      <stop offset="100%" stop-color="#FFF3D2"/>
+    </linearGradient>
+    <linearGradient id="petalOpenedGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#FFF3D2"/>
+      <stop offset="100%" stop-color="#FCE388"/>
+    </linearGradient>`;
+  svg.appendChild(defs);
+
+  /* stem */
+  const stem = document.createElementNS(svgNS,'path');
+  stem.setAttribute('d', `M${CENTER_X},${CENTER_Y+55} C${CENTER_X-4},${CENTER_Y+120} ${CENTER_X+4},${CENTER_Y+170} ${CENTER_X},${CENTER_Y+225}`);
+  stem.setAttribute('stroke','#7CA35C'); stem.setAttribute('stroke-width','7');
+  stem.setAttribute('fill','none'); stem.setAttribute('stroke-linecap','round');
+  svg.appendChild(stem);
+
+  /* leaves */
+  const leaf1 = document.createElementNS(svgNS,'path');
+  leaf1.setAttribute('d', `M${CENTER_X},${CENTER_Y+120} C${CENTER_X-32},${CENTER_Y+114} ${CENTER_X-52},${CENTER_Y+136} ${CENTER_X-58},${CENTER_Y+168} C${CENTER_X-26},${CENTER_Y+168} ${CENTER_X-6},${CENTER_Y+150} ${CENTER_X},${CENTER_Y+120} Z`);
+  leaf1.setAttribute('fill','#7CA35C');
+  svg.appendChild(leaf1);
+
+  const leaf2 = document.createElementNS(svgNS,'path');
+  leaf2.setAttribute('d', `M${CENTER_X},${CENTER_Y+152} C${CENTER_X+30},${CENTER_Y+147} ${CENTER_X+50},${CENTER_Y+168} ${CENTER_X+55},${CENTER_Y+198} C${CENTER_X+24},${CENTER_Y+197} ${CENTER_X+5},${CENTER_Y+180} ${CENTER_X},${CENTER_Y+152} Z`);
+  leaf2.setAttribute('fill','#8EB56C');
+  svg.appendChild(leaf2);
+
+  /* 8 petals, evenly spaced in a perfect circle, each a soft rounded "pill" shape */
+  const petalD = `M -${PETAL_CAP_R},-${PETAL_BASE_R}
+                   A ${PETAL_CAP_R} ${PETAL_CAP_R} 0 0 1 ${PETAL_CAP_R},-${PETAL_BASE_R}
+                   L ${PETAL_CAP_R},-${PETAL_TIP_R}
+                   A ${PETAL_CAP_R} ${PETAL_CAP_R} 0 0 1 -${PETAL_CAP_R},-${PETAL_TIP_R} Z`;
+
+  for(let i=0;i<N;i++){
+    const angle = (360/N)*i;
+    const g = document.createElementNS(svgNS,'g');
+    g.setAttribute('class','petal-group');
+    g.setAttribute('data-idx', i);
+    g.setAttribute('transform', `translate(${CENTER_X} ${CENTER_Y}) rotate(${angle})`);
+
+    const petal = document.createElementNS(svgNS,'path');
+    petal.setAttribute('d', petalD);
+    petal.setAttribute('fill','url(#petalGrad)');
+    petal.setAttribute('stroke','#EDE3C2');
+    petal.setAttribute('stroke-width','1');
+    petal.setAttribute('class','petal-shape');
+    g.appendChild(petal);
+
+    g.addEventListener('click', ()=> onPetalClick(i, g));
+    svg.appendChild(g);
+  }
+
+  /* center, drawn last so petals tuck neatly behind it */
+  const center = document.createElementNS(svgNS,'circle');
+  center.setAttribute('cx', CENTER_X); center.setAttribute('cy', CENTER_Y); center.setAttribute('r','34');
+  center.setAttribute('class','flower-center');
+  svg.appendChild(center);
+
+  const centerRing = document.createElementNS(svgNS,'circle');
+  centerRing.setAttribute('cx', CENTER_X); centerRing.setAttribute('cy', CENTER_Y); centerRing.setAttribute('r','34');
+  centerRing.setAttribute('class','flower-center-ring');
+  svg.appendChild(centerRing);
+}
+buildFlower();
+
+let openedPetals = new Set();
+function onPetalClick(i, groupEl){
+  if(openedPetals.has(i)) return;
+  openedPetals.add(i);
+
+  groupEl.classList.add('opened');
+  groupEl.classList.add('bloom');
+  groupEl.addEventListener('animationend', ()=> groupEl.classList.remove('bloom'), { once:true });
+
+  document.getElementById('bouquetCounter').textContent = `${openedPetals.size} / ${N} wishes discovered`;
+
+  const wishCard = document.getElementById('wishCard');
+  document.getElementById('wishText').textContent = wishes[i];
+  wishCard.classList.remove('show');
+  void wishCard.offsetWidth; // restart the fade-in animation
+  wishCard.classList.add('show');
+
+  if(openedPetals.size === N){
+    document.getElementById('bouquetHint').style.display = 'none';
+    flowerWrap.classList.add('full-bloom');
+    setTimeout(()=>{
+      document.getElementById('bouquetComplete').classList.add('show');
+      document.getElementById('restartBtn').classList.add('show');
+      spawnFallingPetals();
+    }, 550);
+  }
+}
+
+/* gentle petal-falling flourish once the flower has fully bloomed */
+let fallingPetalsLayer = null;
+function spawnFallingPetals(){
+  if(!fallingPetalsLayer){
+    fallingPetalsLayer = document.createElement('div');
+    fallingPetalsLayer.className = 'falling-petals';
+    document.body.appendChild(fallingPetalsLayer);
+  }
+  for(let i=0;i<22;i++){
+    setTimeout(()=>{
+      const p = document.createElement('div');
+      p.className = 'falling-petal';
+      p.style.left = Math.random()*100+'vw';
+      p.style.setProperty('--drift', (Math.random()*80-40)+'px');
+      p.style.animationDuration = (3.2+Math.random()*2.4)+'s';
+      p.style.opacity = 0.6+Math.random()*0.3;
+      fallingPetalsLayer.appendChild(p);
+      setTimeout(()=> p.remove(), 6000);
+    }, i*90);
+  }
+}
+
+function restartFlower(){
+  openedPetals = new Set();
+  document.getElementById('bouquetCounter').textContent = `0 / ${N} wishes discovered`;
+  document.getElementById('bouquetHint').style.display = '';
+  document.getElementById('wishCard').classList.remove('show');
+  document.getElementById('bouquetComplete').classList.remove('show');
+  document.getElementById('restartBtn').classList.remove('show');
+  if(fallingPetalsLayer){ fallingPetalsLayer.innerHTML = ''; }
+  buildFlower();
+}
+</script>
+</body>
+</html>

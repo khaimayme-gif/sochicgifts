@@ -117,11 +117,34 @@ section{padding:100px 52px;position:relative}
 /* phone mock */
 .phone-mock{width:158px;height:300px;border-radius:26px;padding:7px;position:relative;z-index:2;box-shadow:0 20px 40px rgba(42,26,24,.22)}
 .phone-notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:44px;height:5px;border-radius:4px;background:rgba(255,255,255,.35);z-index:4}
-.phone-screen{width:100%;height:100%;border-radius:19px;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;padding:26px 12px 14px}
+.phone-screen{width:100%;height:100%;border-radius:19px;overflow:hidden;position:relative;display:flex;flex-direction:column;align-items:center;padding:0}
 .phone-name{font-family:'Great Vibes',cursive;font-size:19px;text-align:center;line-height:1.15;margin-bottom:8px; display: none;}
 .phone-photo{width:100%;height:64px;border-radius:10px;margin-bottom:8px;position:relative;overflow:hidden; display: none;}
 .phone-btn{margin-top:10px;padding:6px 16px;border-radius:999px;font-size:7.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase; display: none;}
 .phone-emoji{position:absolute;font-size:13px;opacity:.85;animation:float 5s ease-in-out infinite; display: none;}
+
+/* ===== TEMPLATE PREVIEW VIDEO ===== */
+.phone-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;background:#2A1A18;pointer-events:none}
+.video-controls{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;justify-content:center;gap:10px;padding:14px 10px 12px;background:linear-gradient(to top,rgba(20,12,10,.65),rgba(20,12,10,0));opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease}
+.phone-mock:hover .video-controls,.phone-mock:focus-within .video-controls{opacity:1;transform:translateY(0)}
+.vid-btn{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.14);backdrop-filter:blur(6px);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s ease;line-height:1}
+.vid-btn:hover{background:rgba(255,255,255,.28);transform:translateY(-1px)}
+.phone-mock{cursor:pointer}
+
+/* Tap-to-expand affordance, always visible so touch users know it's playable */
+.tap-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(20,12,10,.38);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:2;opacity:.9;transition:opacity .25s ease,transform .25s ease;pointer-events:none}
+.tap-hint svg{width:16px;height:16px;fill:#fff;margin-left:2px}
+.phone-mock:hover .tap-hint{opacity:0;transform:translate(-50%,-50%) scale(.7)}
+
+/* ===== VIDEO LIGHTBOX (pop-out player) ===== */
+.video-lightbox{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;padding:24px;visibility:hidden;opacity:0;transition:opacity .3s ease,visibility 0s linear .3s}
+.video-lightbox.open{visibility:visible;opacity:1;transition:opacity .3s ease}
+.video-lightbox-backdrop{position:absolute;inset:0;background:rgba(20,12,10,.82);backdrop-filter:blur(6px)}
+.video-lightbox-stage{position:relative;width:min(88vw,380px);max-height:88vh;border-radius:26px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.5);transform:scale(.85);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.video-lightbox.open .video-lightbox-stage{transform:scale(1)}
+.video-lightbox-player{display:block;width:100%;height:100%;max-height:88vh;object-fit:contain;background:#0F0B0A}
+.video-lightbox-close{position:absolute;top:12px;right:12px;z-index:2;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(20,12,10,.5);backdrop-filter:blur(6px);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+body.lightbox-open{overflow:hidden}
 
 /* category color themes */
 .theme-bestfriend .phone-mock{background:linear-gradient(160deg,#4A3418,#2A1A18)}
@@ -178,9 +201,7 @@ section{padding:100px 52px;position:relative}
 .tpl-price{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--rose-gold);white-space:nowrap;flex-shrink:0}
 .tpl-name em{font-style:italic;color:var(--rose-gold)}
 .tpl-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-muted);line-height:1.7;flex:1}
-.tpl-footer{margin-top:14px;padding-top:16px;border-top:1px solid var(--border)}
-.tpl-btn-preview{display:block;box-sizing:border-box;width:100%;text-align:center;padding:10px 14px;background:transparent;border:1px solid var(--border);border-radius:999px;color:var(--text-mid);font-family:'Poppins',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .3s ease}
-.tpl-btn-preview:hover{border-color:var(--rose-gold);color:var(--rose-gold)}
+
 
 /* ===== FLOW STRIP ===== */
 #flow{background:linear-gradient(160deg,#2A1A18 0%,#3D2220 60%,#2A1A18 100%)}
@@ -301,22 +322,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen oh-my-love">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">Oh My Love</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/oh-my-love.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Oh <em>My Love</em></h3>
-            <span class="tpl-price">490 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="ohmylove.html" class="tpl-btn-preview" data-preview="Oh My Love">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -327,22 +347,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen all-my-love">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">All My Love</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/all-my-love.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">All <em>My Love</em></h3>
-            <span class="tpl-price">490 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="all-my-love.html" class="tpl-btn-preview" data-preview="All My Love">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -353,22 +372,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen my-special-one">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">My Special One</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/my-special-one.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">My <em>Special One</em></h3>
-            <span class="tpl-price">490 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="Special-One.html" class="tpl-btn-preview" data-preview="Oh My Love">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -379,22 +397,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen my-love-song">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">Love Song</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/my-love-song.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name"> Our Love <em>Song</em></h3>
-            <span class="tpl-price">490 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="love-song.html" class="tpl-btn-preview" data-preview="Oh My Love">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -405,22 +422,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen to-my-fav-graduate">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">To My Fav Graduate</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/to-my-fav-graduate.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name"> To My <em> Favorite Graduate</em></h3>
-            <span class="tpl-price">490 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="to-my-favorite-graduate.html" class="tpl-btn-preview" data-preview="Oh My Love">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -431,22 +447,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen congrats-bff">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">Congrats BFF</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/congrats-bff.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name"> Congrats <em> BFF</em></h3>
-            <span class="tpl-price">490 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="congrats-bff.html" class="tpl-btn-preview" data-preview="Oh My Love">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -457,22 +472,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen made-her-smile">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">Made Her Smile</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/made-her-smile.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Made <em>Her Smile</em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="made-her-smile.html" class="tpl-btn-preview" data-preview="Oh My Love">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -485,22 +499,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen my-graduation-gift">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">My Graduation Gift</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/my-graduation-gift.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">My Graduation <em> Gift </em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="my-graduation-gift.html" class="tpl-btn-preview" data-preview="My Graduation Gift">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -511,22 +524,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen across-the-miles">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">Across the Miles</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/across-the-miles.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Across <em>The Miles</em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="across-the-miles.html" class="tpl-btn-preview" data-preview="Across the Miles">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -537,22 +549,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen especially-for-her">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">Especially For Her</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/especially-for-her.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Especially <em>For Her</em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="especially-for-her.html" class="tpl-btn-preview" data-preview="Especially For Her">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -563,22 +574,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen hold-my-heart">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">Hold My Heart</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/hold-my-heart.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Hold <em>My Heart</em></h3>
-            <span class="tpl-price">490 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="hold-my-heart.html" class="tpl-btn-preview" data-preview="Especially For Her">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -589,22 +599,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen gift-for-u">
-              <span class="phone-emoji" style="top:8px;right:10px">🌹</span>
-              <div class="phone-name">Gift For U</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/gift-for-u.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Gift <em>For You</em></h3>
-            <span class="tpl-price">490 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A soft, romantic love-letter site with a countdown to your next date and a gallery of your favorite moments.</p>
-          <div class="tpl-footer">
-            <a href="gift-for-u.html" class="tpl-btn-preview" data-preview="Especially For Her">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -615,22 +624,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen my-dad-my-hero">
-              <span class="phone-emoji" style="top:8px;right:10px">🎉</span>
-              <div class="phone-name">My Dad, My Hero</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/my-dad-my-hero.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">My Dad, <em> My Hero</em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A playful scrapbook wall of inside jokes, throwback photos, and every "remember when" you two have.</p>
-          <div class="tpl-footer">
-            <a href="my-dad-my-hero.html" class="tpl-btn-preview" data-preview="Beyond BFF">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -641,22 +649,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen garden-of-gratitude">
-              <span class="phone-emoji" style="top:8px;right:10px">🎉</span>
-              <div class="phone-name">Happy Mother's Day</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/garden-of-gratitude.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Happy  <em>Mother's Day</em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A playful scrapbook wall of inside jokes, throwback photos, and every "remember when" you two have.</p>
-          <div class="tpl-footer">
-            <a href="garden-of-gratitude.html" class="tpl-btn-preview" data-preview="Beyond BFF">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -667,22 +674,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen beyond-bff">
-              <span class="phone-emoji" style="top:8px;right:10px">🎉</span>
-              <div class="phone-name">Beyond BFF</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/beyond-bff.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Beyond <em>BFF</em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A playful scrapbook wall of inside jokes, throwback photos, and every "remember when" you two have.</p>
-          <div class="tpl-footer">
-            <a href="beyond-bff.html" class="tpl-btn-preview" data-preview="Beyond BFF">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -693,22 +699,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen better-together">
-              <span class="phone-emoji" style="top:8px;left:10px">📸</span>
-              <div class="phone-name">Better Together</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/better-together.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Better <em>Together</em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A warm, nostalgic photo-timeline that scrolls through your friendship, year by year, laugh by laugh.</p>
-          <div class="tpl-footer">
-            <a href="better-together.html" class="tpl-btn-preview" data-preview="Better Together">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -719,22 +724,21 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen forever-my-mom">
-              <span class="phone-emoji" style="top:8px;left:10px">📸</span>
-              <div class="phone-name">Forever My Mom</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/forever-my-mom.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="tpl-body">
           <div class="tpl-name-row">
             <h3 class="tpl-name">Forever <em>My Mom</em></h3>
-            <span class="tpl-price">790 ฿</span>
+            <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A warm, nostalgic photo-timeline that scrolls through your friendship, year by year, laugh by laugh.</p>
-          <div class="tpl-footer">
-            <a href="forever-my-mom.html" class="tpl-btn-preview" data-preview="Forever My Mom">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -745,10 +749,12 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen thank-you-card">
-              <span class="phone-emoji" style="top:8px;left:10px">📸</span>
-              <div class="phone-name">Thank You Card</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/thank-you-card.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
@@ -758,9 +764,6 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
             <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A warm, nostalgic photo-timeline that scrolls through your friendship, year by year, laugh by laugh.</p>
-          <div class="tpl-footer">
-            <a href="thank-you-card.html" class="tpl-btn-preview" data-preview="Thank You">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -771,10 +774,12 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
           <div class="phone-mock">
             <div class="phone-notch"></div>
             <div class="phone-screen miss-you-card">
-              <span class="phone-emoji" style="top:8px;left:10px">📸</span>
-              <div class="phone-name">Miss You Card</div>
-              <div class="phone-photo"></div>
-              <div class="phone-btn">Open Memory</div>
+              <video class="phone-video" src="videos/templates/miss-you-card.mp4" autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false"></video>
+              <div class="tap-hint" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 1l13 7-13 7V1z"/></svg></div>
+              <div class="video-controls">
+                <button type="button" class="vid-btn vid-play" aria-label="Play or pause video">⏸</button>
+                <button type="button" class="vid-btn vid-mute" aria-label="Mute or unmute video">🔇</button>
+              </div>
             </div>
           </div>
         </div>
@@ -784,9 +789,6 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
             <span class="tpl-price">290 ฿</span>
           </div>
           <p class="tpl-tagline">A warm, nostalgic photo-timeline that scrolls through your friendship, year by year, laugh by laugh.</p>
-          <div class="tpl-footer">
-            <a href="miss-you-card.html" class="tpl-btn-preview" data-preview="Miss You">Preview</a>
-          </div>
         </div>
       </div>
 
@@ -881,6 +883,15 @@ footer{background:var(--cream-deep);padding:64px 52px 28px;border-top:1px solid 
   </div>
 </footer>
 
+<!-- POP-OUT VIDEO PLAYER -->
+<div class="video-lightbox" id="videoLightbox">
+  <div class="video-lightbox-backdrop"></div>
+  <div class="video-lightbox-stage">
+    <button type="button" class="video-lightbox-close" aria-label="Close preview">&times;</button>
+    <video class="video-lightbox-player" playsinline controls></video>
+  </div>
+</div>
+
 <script>
 // Nav scroll
 const nav = document.getElementById('main-nav');
@@ -905,6 +916,71 @@ function applyFilter(filter){
 }
 pills.forEach(p => p.addEventListener('click', () => applyFilter(p.dataset.filter)));
 
+// Pop-out lightbox player
+const lightbox = document.getElementById('videoLightbox');
+const lightboxVideo = lightbox.querySelector('.video-lightbox-player');
+const lightboxClose = lightbox.querySelector('.video-lightbox-close');
+const lightboxBackdrop = lightbox.querySelector('.video-lightbox-backdrop');
+
+function openLightbox(src) {
+  if (!src) return;
+  lightboxVideo.src = src;
+  lightboxVideo.muted = false; // pop-out plays with sound
+  lightboxVideo.currentTime = 0;
+  lightbox.classList.add('open');
+  document.body.classList.add('lightbox-open');
+  lightboxVideo.play().catch(() => {});
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.classList.remove('lightbox-open');
+  lightboxVideo.pause();
+  lightboxVideo.removeAttribute('src');
+  lightboxVideo.load();
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightboxBackdrop.addEventListener('click', closeLightbox);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Template preview videos — tap/click to pop out + play; hover controls for inline scrub
+document.querySelectorAll('.phone-mock').forEach(mock => {
+  const video = mock.querySelector('.phone-video');
+  const playBtn = mock.querySelector('.vid-play');
+  const muteBtn = mock.querySelector('.vid-mute');
+  if (!video) return;
+
+  video.muted = true; // always start muted so autoplay is allowed
+
+  playBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (video.paused) { video.play(); playBtn.textContent = '⏸'; }
+    else { video.pause(); playBtn.textContent = '▶'; }
+  });
+
+  muteBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    video.muted = !video.muted;
+    muteBtn.textContent = video.muted ? '🔇' : '🔊';
+  });
+
+  // Tapping/clicking the mock (but not the small hover controls, which stop propagation)
+  // pops the video out into a larger player with sound.
+  mock.addEventListener('click', () => openLightbox(video.getAttribute('src')));
+
+  // Pause videos scrolled out of view to save resources; resume when visible
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { video.play().catch(() => {}); }
+      else { video.pause(); }
+    });
+  }, { threshold: 0.25 });
+  io.observe(video);
+});
+
 // Footer quick-links jump straight to a filtered category
 document.querySelectorAll('[data-filter-link]').forEach(a => {
   a.addEventListener('click', (e) => {
@@ -913,6 +989,7 @@ document.querySelectorAll('[data-filter-link]').forEach(a => {
     document.getElementById('tpl-gallery').scrollIntoView({ behavior: 'smooth' });
   });
 });
+
 
 </script>
 </body>

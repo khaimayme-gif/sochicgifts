@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Congratulations, Bff! 🎓</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#ffffff;
+    --cream:#fffdf8;
+    --blush:#ff8fae;
+    --blush-deep:#ff6d95;
+    --blush-soft:#ffe4ec;
+    --butter:#ffc93c;
+    --butter-soft:#fff3cf;
+    --sage:#8fb996;
+    --sage-soft:#e4f2e6;
+    --lav:#c9b6ff;
+    --lav-soft:#efe8ff;
+    --ink:#2b2a2e;
+    --ink-soft:rgba(43,42,46,0.62);
+    --ink-faint:rgba(43,42,46,0.4);
+    --line:rgba(43,42,46,0.1);
+    --shadow:0 20px 45px -20px rgba(43,42,46,0.22);
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Quicksand', sans-serif;
+    overflow-x:hidden;
+    min-height:100dvh;
+    position:relative;
+  }
+
+  /* ---------- ambient dot/sparkle field ---------- */
+  #sparkle-field{ position:fixed; inset:0; pointer-events:none; z-index:0; }
+  .spark{
+    position:absolute; border-radius:50%;
+    animation:float-bob 5.5s ease-in-out infinite;
+  }
+  @keyframes float-bob{
+    0%,100%{ transform:translateY(0) scale(1); opacity:0.5; }
+    50%{ transform:translateY(-14px) scale(1.15); opacity:0.95; }
+  }
+
+  #confetti-canvas{ position:fixed; inset:0; pointer-events:none; z-index:5; }
+
+  /* ---------- page shell ---------- */
+  .page{
+    position:relative; z-index:1;
+    width:100%;
+    min-height:100dvh;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    padding:7vh 6vw 8vh;
+  }
+  .page.active{ display:flex; }
+  .fade-in{ animation:fadeIn 0.6s cubic-bezier(.2,.8,.3,1.1) both; }
+  @keyframes fadeIn{
+    from{ opacity:0; transform:translateY(18px) scale(0.98); }
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  .eyebrow{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:0.8rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--blush-deep);
+    background:var(--blush-soft);
+    padding:0.35em 0.9em;
+    border-radius:999px;
+    display:inline-block;
+  }
+
+  .back-link{
+    position:absolute; top:5vh; left:6vw;
+    display:inline-flex; align-items:center; gap:0.4em;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    color:var(--ink);
+    background:var(--white);
+    border:1.5px solid var(--line);
+    padding:0.6em 1.1em 0.6em 0.9em;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 8px 20px -10px rgba(43,42,46,0.18);
+    transition:transform 0.25s cubic-bezier(.3,1.6,.5,1), box-shadow 0.25s ease;
+  }
+  .back-link:before{ content:"←"; color:var(--blush-deep); font-weight:700; }
+  .back-link:hover{ transform:translateY(-2px) rotate(-1deg); box-shadow:0 12px 24px -10px rgba(43,42,46,0.24); }
+
+  /* washi tape accent, reused across cards as the recurring motif */
+  .tape{
+    position:absolute; top:-14px; left:50%;
+    width:74px; height:26px;
+    background:var(--butter);
+    opacity:0.85;
+    transform:translateX(-50%) rotate(-3deg);
+    border-radius:2px;
+    box-shadow:0 4px 10px -4px rgba(43,42,46,0.35);
+  }
+
+  /* =========================================================
+     PAGE 1 — HERO
+     ========================================================= */
+  #hero{ justify-content:center; text-align:center; gap:1.5rem; padding-top:6vh; }
+
+  .hero-stage{
+    position:relative;
+    width:min(72vw, 300px);
+    aspect-ratio:2/3;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:0.4rem;
+  }
+
+  @keyframes blob-morph{
+    0%,100%{ border-radius:44% 56% 58% 42% / 46% 40% 60% 54%; transform:rotate(0deg) scale(1); }
+    50%{ border-radius:58% 42% 44% 56% / 54% 60% 40% 46%; transform:rotate(4deg) scale(1.03); }
+  }
+  .hero-photo{
+  position:relative; z-index:1;
+  width:100%; height:100%;
+  object-fit:contain;
+  animation:hero-bob 4.2s ease-in-out infinite;
+  }
+  @keyframes hero-bob{
+    0%,100%{ transform:translateY(0) rotate(-1deg); }
+    50%{ transform:translateY(-12px) rotate(1deg); }
+  }
+  .hero-sticker{
+    position:absolute;
+    font-size:1.6rem;
+    animation:twirl 3.6s ease-in-out infinite;
+    z-index:2;
+  }
+  .hero-sticker--1{ top:6%; right:2%; animation-delay:0.2s; }
+  .hero-sticker--2{ bottom:14%; left:-2%; font-size:1.3rem; animation-delay:1.1s; }
+  @keyframes twirl{
+    0%,100%{ transform:rotate(-8deg) scale(1); }
+    50%{ transform:rotate(8deg) scale(1.12); }
+  }
+
+  h1.headline{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:clamp(2.1rem, 8vw, 3rem);
+    line-height:1.08;
+    color:var(--ink);
+  }
+  h1.headline .pop{
+    color:var(--blush-deep);
+    position:relative;
+    display:inline-block;
+  }
+
+  p.subtitle{
+    max-width:420px;
+    font-size:1.02rem;
+    font-weight:500;
+    line-height:1.65;
+    color:var(--ink-soft);
+  }
+
+  .btn-primary{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:1.02rem;
+    color:var(--ink);
+    background:linear-gradient(135deg, var(--butter), var(--blush));
+    border:none;
+    padding:0.95em 2em;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 14px 30px -12px rgba(255,109,149,0.55);
+    transition:transform 0.28s cubic-bezier(.3,1.7,.4,1), box-shadow 0.28s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-3px) rotate(-1deg) scale(1.03); box-shadow:0 18px 36px -12px rgba(255,109,149,0.6); }
+  .btn-primary:active{ transform:translateY(0) scale(0.97) rotate(0deg); }
+
+  /* =========================================================
+     PAGE 2 — MENU
+     ========================================================= */
+  #menu{ justify-content:center; text-align:center; gap:2.2rem; padding-top:9vh; }
+  #menu h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:clamp(1.7rem, 6vw, 2.3rem);
+    color:var(--ink);
+  }
+  .menu-grid{
+    display:flex; flex-direction:column; gap:1.1rem;
+    width:100%; max-width:420px;
+  }
+  .menu-card{
+    position:relative;
+    text-align:left;
+    background:var(--white);
+    border:1.5px solid var(--line);
+    border-radius:22px;
+    padding:1.5rem 1.4rem 1.4rem;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    transition:transform 0.3s cubic-bezier(.3,1.5,.4,1), box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .menu-card:hover{ transform:translateY(-4px) rotate(-0.6deg); border-color:transparent; box-shadow:0 26px 46px -18px rgba(43,42,46,0.28); }
+  .menu-card:nth-child(1) .chip{ background:var(--blush-soft); }
+  .menu-card:nth-child(2) .chip{ background:var(--sage-soft); }
+  .menu-card:nth-child(3) .chip{ background:var(--butter-soft); }
+  .chip{
+    width:48px; height:48px;
+    border-radius:16px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.4rem;
+    margin-bottom:0.9rem;
+  }
+  .menu-card h3{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:0.3rem;
+  }
+  .menu-card p{
+    font-size:0.9rem;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+
+  /* =========================================================
+     PAGE 3 — LETTER
+     ========================================================= */
+  #letter{ align-items:center; text-align:center; }
+  #letter .cap-badge{
+    width:120px; height:120px; border-radius:50%;
+    background:linear-gradient(150deg, var(--blush-soft), var(--butter-soft));
+    display:flex; align-items:center; justify-content:center;
+    font-size:2.6rem;
+    margin-bottom:1.5rem;
+    box-shadow:var(--shadow);
+    animation:hero-bob 4.6s ease-in-out infinite;
+  }
+  .letter-paper{
+    position:relative;
+    max-width:520px;
+    width:100%;
+    background:var(--white);
+    border-radius:20px;
+    padding:2.4rem 1.9rem;
+    box-shadow:var(--shadow);
+    text-align:left;
+  }
+  .letter-heading{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:1.4rem;
+    margin-bottom:1rem;
+    color:var(--blush-deep);
+  }
+  .letter-body{
+    font-size:1rem;
+    line-height:1.85;
+    font-weight:500;
+    color:var(--ink);
+  }
+  .letter-sign{
+    font-family:'Caveat', cursive;
+    font-weight:700;
+    font-size:1.9rem;
+    margin-top:1.3rem;
+    color:var(--blush-deep);
+  }
+
+  /* =========================================================
+     PAGE 4 — MEMORIES
+     ========================================================= */
+  #memories{ align-items:center; padding-top:13vh; }
+  #memories h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:clamp(1.6rem, 5vw, 2.1rem);
+    margin-bottom:2.2rem;
+    text-align:center;
+  }
+  .polaroid-board{
+    position:relative; width:100%; max-width:760px;
+    display:grid; grid-template-columns:repeat(3, 1fr);
+    gap:1.5rem 1.1rem; padding:0.5rem;
+  }
+  @media (max-width:700px){ .polaroid-board{ grid-template-columns:repeat(2, 1fr); } }
+  .polaroid{
+    background:var(--white);
+    padding:9px 9px 22px;
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    transform:rotate(var(--r,0deg));
+    transition:transform 0.3s cubic-bezier(.3,1.5,.4,1);
+  }
+  .polaroid:hover{ transform:rotate(0deg) scale(1.05); z-index:2; }
+  .polaroid .shot{
+    width:100%; aspect-ratio:1/1; border-radius:6px;
+    background:linear-gradient(160deg, var(--blush-soft), var(--sage-soft));
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-faint); font-size:0.7rem; overflow:hidden;
+  }
+  .polaroid:nth-child(1){ --r:-6deg; margin-top:0.4rem; }
+  .polaroid:nth-child(2){ --r:4deg; margin-top:1.5rem; }
+  .polaroid:nth-child(3){ --r:-3deg; }
+  .polaroid:nth-child(4){ --r:5deg; margin-top:2rem; }
+  .polaroid:nth-child(5){ --r:-5deg; margin-top:0.6rem; }
+  .polaroid:nth-child(6){ --r:3deg; margin-top:1.7rem; }
+
+  /* =========================================================
+     PAGE 5 — WISHES
+     ========================================================= */
+  #wishes{ align-items:center; text-align:center; padding-top:13vh; }
+  #wishes h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:clamp(1.6rem, 5vw, 2.1rem);
+  }
+  #wishes .subtitle{ margin-bottom:2rem; }
+  .wish-card{
+    position:relative;
+    max-width:420px; width:100%;
+    background:var(--white);
+    border-radius:20px;
+    padding:2.2rem 1.8rem;
+    font-family:'Caveat', cursive;
+    font-weight:600;
+    font-size:1.55rem;
+    line-height:1.5;
+    color:var(--ink);
+    box-shadow:var(--shadow);
+  }
+  .wish-index{
+    margin-top:1.1rem;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:0.82rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  .shuffle-btn{
+    margin-top:1.6rem;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    color:var(--ink);
+    background:var(--white);
+    border:1.5px solid var(--line);
+    padding:0.8em 1.7em;
+    border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 10px 22px -12px rgba(43,42,46,0.2);
+    transition:transform 0.25s cubic-bezier(.3,1.6,.5,1), background 0.25s ease, color 0.25s ease;
+  }
+  .shuffle-btn:hover{ background:var(--blush); color:var(--white); transform:translateY(-2px) rotate(-1deg); }
+
+  footer.foot{
+    margin-top:auto;
+    padding-top:3rem;
+    font-family:'Baloo 2', sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+<div id="sparkle-field"></div>
+
+<!-- PAGE 1: HERO -->
+<section id="hero" class="page active">
+  <div class="eyebrow">Class of 2026</div>
+  <div class="hero-stage">
+    <span class="hero-sticker hero-sticker--1">💐</span>
+    <span class="hero-sticker hero-sticker--2">✨</span>
+    <img class="hero-photo" src="images/templates/congrats-bff/hero.jpg" alt="You, mid-celebration">
+  </div>
+  <h1 class="headline">Congratulations,<br><span class="pop">Bff!</span> 🎉</h1>
+  <p class="subtitle">You actually did it. All the deadlines, the group projects, the 2am panic texts — and here you are, officially unstoppable. I'm so ridiculously proud of you.</p>
+  <button class="btn-primary" onclick="goTo('menu')">Claim your gifts 🎁</button>
+</section>
+
+<!-- PAGE 2: MENU -->
+<section id="menu" class="page">
+  <div class="eyebrow">A little something from me</div>
+  <h2>Pick where to start</h2>
+  <div class="menu-grid">
+    <div class="menu-card" onclick="goTo('letter')">
+      <div class="chip">✉️</div>
+      <h3>Congrats Letter</h3>
+      <p>A short letter for you, straight from the heart.</p>
+    </div>
+    <div class="menu-card" onclick="goTo('memories')">
+      <div class="chip">📸</div>
+      <h3>Memories Together</h3>
+      <p>A little wall of everything we've been through.</p>
+    </div>
+    <div class="menu-card" onclick="goTo('wishes')">
+      <div class="chip">⭐</div>
+      <h3>Future Wishes</h3>
+      <p>What I hope for you, now that this chapter closes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3: LETTER -->
+<section id="letter" class="page">
+  <button class="back-link" onclick="goTo('menu')">Back to menu</button>
+  <div class="cap-badge">🎓</div>
+  <div class="letter-paper">
+    <div class="tape"></div>
+    <div class="letter-heading">Dear you,</div>
+    <p class="letter-body">
+      We made it — well, you made it, and I got to watch, cheer, and occasionally panic on your behalf. From our first stressed-out study sessions to this exact moment, you've never once let me forget how hard you worked for this.<br><br>
+      You are one of the smartest, kindest, most stubborn (in the best way) people I know, and this degree is proof that you can do genuinely anything you set your mind to. I'm endlessly proud of you, and I can't wait to see what you build next.<br><br>
+      Go be brilliant. I'll be right here cheering you on, as always.
+    </p>
+    <div class="letter-sign">Your best friend, always</div>
+  </div>
+</section>
+
+<!-- PAGE 4: MEMORIES -->
+<section id="memories" class="page">
+  <button class="back-link" onclick="goTo('menu')">Back to menu</button>
+  <h2>Memories Together</h2>
+  <div class="polaroid-board">
+    <div class="polaroid"><img src="images/templates/congrats-bff/memory1.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div>
+    <div class="polaroid"><img src="images/templates/congrats-bff/memory2.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div>
+    <div class="polaroid"><img src="images/templates/congrats-bff/memory3.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div>
+    <div class="polaroid"><img src="images/templates/congrats-bff/memory4.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div>
+    <div class="polaroid"><img src="images/templates/congrats-bff/memory5.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div>
+    <div class="polaroid"><img src="images/templates/congrats-bff/memory6.jpg" alt="Memory 1" style="width:100%;height:100%;object-fit:cover;"></div>
+  </div>
+</section>
+
+<!-- PAGE 5: WISHES -->
+<section id="wishes" class="page">
+  <button class="back-link" onclick="goTo('menu')">Back to menu</button>
+  <h2>Future Wishes</h2>
+  <p class="subtitle">Tap the button, one wish for you at a time.</p>
+  <div class="wish-card" id="wishText">May every risk you take from here be met with a soft landing.</div>
+  <div class="wish-index" id="wishIndex">Wish 1 of 8</div>
+  <button class="shuffle-btn" onclick="nextWish()">Next wish</button>
+  <footer class="foot">Made with love, for my favorite graduate</footer>
+</section>
+
+<script>
+  // ---------- navigation ----------
+  function goTo(id){
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(id);
+    target.classList.add('active');
+    target.classList.remove('fade-in');
+    void target.offsetWidth; // restart animation
+    target.classList.add('fade-in');
+    window.scrollTo({top:0, behavior:'instant'});
+    if(id === 'letter'){ burstConfetti(); }
+  }
+
+  // ---------- ambient sparkles ----------
+  (function initSparkles(){
+    const field = document.getElementById('sparkle-field');
+    const palette = ['#ff8fae', '#ffc93c', '#8fb996', '#c9b6ff'];
+    const count = 22;
+    for(let i=0;i<count;i++){
+      const s = document.createElement('div');
+      s.className = 'spark';
+      const size = 4 + Math.random()*5;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.background = palette[Math.floor(Math.random()*palette.length)];
+      s.style.left = Math.random()*100 + 'vw';
+      s.style.top = Math.random()*100 + 'vh';
+      s.style.animationDelay = (Math.random()*5) + 's';
+      s.style.animationDuration = (4.5 + Math.random()*3) + 's';
+      field.appendChild(s);
+    }
+  })();
+
+  // ---------- confetti ----------
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const confettiColors = ['#ff8fae', '#ffc93c', '#8fb996', '#c9b6ff', '#ffffff'];
+  let particles = [];
+  function burstConfetti(){
+    for(let i=0;i<70;i++){
+      particles.push({
+        x: canvas.width/2 + (Math.random()-0.5)*80,
+        y: canvas.height*0.25,
+        vx: (Math.random()-0.5)*9,
+        vy: Math.random()*-9 - 3,
+        size: 5 + Math.random()*5,
+        color: confettiColors[Math.floor(Math.random()*confettiColors.length)],
+        rot: Math.random()*Math.PI,
+        vr: (Math.random()-0.5)*0.3,
+        life: 0
+      });
+    }
+  }
+  function tick(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+      p.vy += 0.22;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.vr;
+      p.life++;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+      ctx.restore();
+    });
+    particles = particles.filter(p => p.life < 160 && p.y < canvas.height + 40);
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  // ---------- wishes ----------
+  const wishes = [
+    "May every risk you take from here be met with a soft landing.",
+    "May you never stop asking questions you don't know the answer to.",
+    "I hope your bad days stay short and your good ones stay loud.",
+    "May the people around you always deserve you.",
+    "I hope you chase the plan, and also the thing that ruins the plan in a good way.",
+    "May your coffee always be warm and your bugs always be findable.",
+    "I hope future-you looks back and is proud, the way present-me already is.",
+    "Wherever you land next, I hope it feels like home."
+  ];
+  let wishIdx = 0;
+  function nextWish(){
+    wishIdx = (wishIdx + 1) % wishes.length;
+    const el = document.getElementById('wishText');
+    el.style.opacity = 0;
+    setTimeout(() => {
+      el.textContent = wishes[wishIdx];
+      document.getElementById('wishIndex').textContent = `Wish ${wishIdx+1} of ${wishes.length}`;
+      el.style.opacity = 1;
+    }, 200);
+  }
+  document.getElementById('wishText').style.transition = 'opacity 0.2s ease';
+</script>
+
+</body>
+</html>
