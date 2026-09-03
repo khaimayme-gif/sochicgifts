@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>I'm Sorry</title>
+
+<style>
+  :root{
+    --accent: #2A9D8F;
+    --accent-soft: #E6F3F1;
+    --ink: #2B2B2B;
+    --ink-soft: #6B6B6B;
+    --bg: #FFFFFF;
+    --shadow: 0 8px 30px rgba(0,0,0,0.06);
+    --radius: 20px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Poppins', 'Inter', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;   /* keeps photo still while content scrolls */
+    position: relative;
+  }
+
+  /* soft white wash so text stays legible over any photo */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.72);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .screen, .music-control, .no-tooltip {
+    position: relative;
+    z-index: 1;   /* lifts content above the white wash */
+  }
+
+  .screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    position: relative;
+  }
+
+  .screen-inner {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* ---------- visibility / transition control ---------- */
+  #screen2 {
+    display: none;
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: fadeInUp 0.8s ease forwards;
+  }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.35s; }
+  .delay-3 { animation-delay: 0.55s; }
+  .delay-4 { animation-delay: 0.75s; }
+
+  .screen-exit {
+    animation: screenExit 0.5s ease forwards;
+  }
+  @keyframes screenExit {
+    to { opacity: 0; transform: scale(0.97); }
+  }
+
+  .screen-enter {
+    animation: screenEnter 0.7s ease forwards;
+  }
+  @keyframes screenEnter {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* ---------- images ---------- */
+  .hero-image, .bouquet-image {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    border-radius: 18px;
+    object-fit: cover;
+    margin-bottom: 32px;
+    display: block;
+  }
+
+  .hero-image {
+    max-height: 340px;
+  }
+
+  .bouquet-image {
+    max-height: 300px;
+  }
+
+  /* ---------- typography ---------- */
+  .eyebrow {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0 0 6px 0;
+    font-weight: 400;
+  }
+
+  .supporting {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0 0 28px 0;
+    font-weight: 400;
+  }
+
+  .question {
+    font-size: clamp(24px, 5vw, 32px);
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 36px 0;
+    color: var(--ink);
+  }
+
+  .apology-heading {
+    font-size: clamp(26px, 5vw, 34px);
+    font-weight: 600;
+    margin: 0 0 24px 0;
+  }
+
+  .apology-message {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    text-align: left;
+    white-space: pre-line;
+    margin: 0 0 28px 0;
+  }
+
+  .final-line {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* ---------- buttons ---------- */
+  /* "arena" is a bounded box the NO button lives and dodges inside —
+     it never jumps outside this box or across the whole viewport. */
+  .btn-arena {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+
+  .btn {
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 15px 32px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .btn-yes {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(255, 141, 161, 0.28);
+    position: relative;
+    z-index: 2;
+  }
+
+  .btn-yes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255, 141, 161, 0.34);
+  }
+
+  .btn-no {
+    background: #F4F4F4;
+    color: var(--ink-soft);
+    position: absolute;
+    z-index: 1;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    transition: left 0.22s cubic-bezier(.2,.8,.2,1), top 0.22s cubic-bezier(.2,.8,.2,1);
+  }
+
+  .btn-no:hover {
+    background: #EFEFEF;
+  }
+
+  .no-tooltip {
+    position: fixed;
+    background: rgba(43,43,43,0.9);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 999px;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 30;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .no-tooltip.show {
+    opacity: 1;
+  }
+
+  /* ---------- music control ---------- */
+  .music-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #EDEDED;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 20;
+  }
+
+  .music-control.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .music-control svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--ink);
+  }
+
+  @media (max-width: 480px) {
+    .screen { padding: 36px 20px; }
+    .apology-message { font-size: 15px; }
+    .btn { padding: 14px 26px; font-size: 15px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SCREEN 1 — APOLOGY REQUEST
+     ============================================================ -->
+<section id="screen1" class="screen">
+  <div class="screen-inner">
+
+    <img id="heroImage" class="hero-image fade-in" src="" alt="">
+
+    <p class="eyebrow fade-in delay-1" id="heroLine">I know I messed up…</p>
+    <p class="supporting fade-in delay-1" id="supportingLine">And I really want to make things right.</p>
+
+    <h1 class="question fade-in delay-2" id="questionLine">Please accept my apology?</h1>
+
+    <div class="btn-arena fade-in delay-3" id="btnArena">
+      <button class="btn btn-yes" id="yesBtn">Yes ❤️</button>
+      <button class="btn btn-no" id="noBtn">No</button>
+    </div>
+    <div class="no-tooltip" id="noTooltip"></div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN 2 — THE APOLOGY
+     ============================================================ -->
+<section id="screen2" class="screen">
+  <div class="screen-inner">
+
+    <img id="bouquetImage" class="bouquet-image fade-in" src="" alt="">
+
+    <h2 class="apology-heading fade-in delay-1">I'm really sorry.</h2>
+
+    <p class="apology-message fade-in delay-2" id="apologyMessage"></p>
+
+    <p class="final-line fade-in delay-3" id="finalLine">I hope you can forgive me. ❤️</p>
+
+  </div>
+</section>
+
+<!-- MUSIC -->
+<audio id="backgroundMusic" loop></audio>
+
+<div class="music-control" id="musicControl" aria-label="Toggle music">
+  <svg id="musicIcon" viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURATION — edit everything here
+   ========================================================= */
+const CONFIG = {
+  // Assets
+  heroImage: "../images/templates/i-am-sorry/hero.png",
+  bouquetImage: "../images/templates/i-am-sorry/sorry.png",
+  music: "../images/templates/i-am-sorry/sorry-song.mp3",
+  backgroundImage: "../images/templates/i-am-sorry/background.jpeg",   // ADD THIS
+
+  // Screen 1 text
+  heroLine: "I know I messed up…",
+  supportingLine: "And I really want to make things right.",
+  questionLine: "Please accept my apology?",
+  yesButtonText: "Yes ❤️",
+  noButtonText: "No",
+
+  // Screen 2 text
+  apologyHeading: "I'm really sorry.",
+  apologyMessage: "I know I may have hurt you, disappointed you, or made things harder than they needed to be. I'm not trying to make excuses. I just want you to know that I genuinely regret what I did.\n\nYou mean a lot to me, and I never wanted my actions to make you feel the way you did. I know saying sorry doesn't automatically fix everything, but I truly hope you can see that I mean it.\n\nI'll do my best to learn from this and make things right.",
+  finalLine: "I hope you can forgive me. ❤️",
+
+  // Style
+  accentColor: "#FF8DA1",
+
+  // Audio
+  musicVolume: 0.28,
+
+  // Playful hints shown briefly near the escaping NO button
+  noHints: ["Nice try 😌", "Are you sure?", "Try again!", "Nope 🥺", "Almost!"]
+};
+
+/* =========================================================
+   APPLY CONFIG TO DOM
+   ========================================================= */
+document.documentElement.style.setProperty('--accent', CONFIG.accentColor);
+document.documentElement.style.setProperty('--bg-image', `url('${CONFIG.backgroundImage}')`);
+
+document.getElementById('heroImage').src = CONFIG.heroImage;
+document.getElementById('bouquetImage').src = CONFIG.bouquetImage;
+
+document.getElementById('heroLine').textContent = CONFIG.heroLine;
+document.getElementById('supportingLine').textContent = CONFIG.supportingLine;
+document.getElementById('questionLine').textContent = CONFIG.questionLine;
+document.getElementById('yesBtn').textContent = CONFIG.yesButtonText;
+document.getElementById('noBtn').textContent = CONFIG.noButtonText;
+
+document.querySelector('#screen2 .apology-heading').textContent = CONFIG.apologyHeading;
+document.getElementById('apologyMessage').textContent = CONFIG.apologyMessage;
+document.getElementById('finalLine').textContent = CONFIG.finalLine;
+
+const audio = document.getElementById('backgroundMusic');
+audio.src = CONFIG.music;
+audio.volume = CONFIG.musicVolume;
+
+/* =========================================================
+   NO BUTTON — dodges inside a bounded "arena", never the
+   whole viewport. Ported from the RSVP escaping-NO-button
+   pattern: candidates are generated inside the arena and the
+   one farthest from the cursor (while clearing the YES
+   button) is chosen.
+   ========================================================= */
+const arena  = document.getElementById('btnArena');
+const noBtn  = document.getElementById('noBtn');
+const tooltip = document.getElementById('noTooltip');
+
+let tooltipHideTimer;
+let lastHintIdx = -1;
+let noEscapes = 0;
+
+/* ── Position NO button randomly inside the arena ──────── */
+function placeNoBtn(mouseX, mouseY) {
+  const ar = arena.getBoundingClientRect();
+  const bw = noBtn.offsetWidth || 90;
+  const bh = noBtn.offsetHeight || 48;
+  const pad = 12;
+
+  const maxX = ar.width - bw - pad;
+  const maxY = ar.height - bh - pad;
+
+  // Generate candidates, pick the one farthest from the cursor,
+  // while staying clear of the YES button at arena center.
+  let best = null, bestDist = -1;
+  for (let i = 0; i < 12; i++) {
+    const cx = pad + Math.random() * Math.max(maxX - pad, 0);
+    const cy = pad + Math.random() * Math.max(maxY - pad, 0);
+    const px = ar.left + cx + bw / 2;
+    const py = ar.top + cy + bh / 2;
+    const dist = Math.hypot(px - mouseX, py - mouseY);
+
+    const yesCx = ar.width / 2, yesCy = ar.height / 2;
+    const yDist = Math.hypot(cx + bw / 2 - yesCx, cy + bh / 2 - yesCy);
+
+    if (dist > bestDist && yDist > 60) {
+      best = { cx, cy };
+      bestDist = dist;
+    }
+  }
+  if (!best) best = { cx: pad, cy: pad };
+
+  noBtn.style.left = best.cx + 'px';
+  noBtn.style.top = best.cy + 'px';
+  noBtn.style.right = 'auto';
+}
+
+/* Initial placement — bottom-right of the arena */
+noBtn.style.position = 'absolute';
+noBtn.style.right = '8px';
+noBtn.style.bottom = '8px';
+noBtn.style.top = 'auto';
+noBtn.style.left = 'auto';
+requestAnimationFrame(() => {
+  const ar = arena.getBoundingClientRect();
+  const nb = noBtn.getBoundingClientRect();
+  noBtn.style.left = (nb.left - ar.left) + 'px';
+  noBtn.style.top = (nb.top - ar.top) + 'px';
+  noBtn.style.right = 'auto';
+  noBtn.style.bottom = 'auto';
+});
+
+/* ── Show tooltip near cursor ────────────────────────────── */
+function showTooltip(x, y) {
+  clearTimeout(tooltipHideTimer);
+  let idx;
+  do { idx = Math.floor(Math.random() * CONFIG.noHints.length); }
+  while (idx === lastHintIdx && CONFIG.noHints.length > 1);
+  lastHintIdx = idx;
+  tooltip.textContent = CONFIG.noHints[idx];
+  tooltip.style.left = (x + 14) + 'px';
+  tooltip.style.top = (y - 38) + 'px';
+  tooltip.classList.add('show');
+  tooltipHideTimer = setTimeout(() => tooltip.classList.remove('show'), 1200);
+}
+
+/* ── Mouse proximity detection (desktop) ─────────────────── */
+const FLEE_RADIUS = 90; // px — start fleeing when the cursor gets this close
+
+document.addEventListener('mousemove', (e) => {
+  if (document.getElementById('screen1').style.display === 'none') return;
+  const nb = noBtn.getBoundingClientRect();
+  const cx = nb.left + nb.width / 2;
+  const cy = nb.top + nb.height / 2;
+  const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+
+  if (dist < FLEE_RADIUS) {
+    placeNoBtn(e.clientX, e.clientY);
+    noEscapes++;
+    if (noEscapes % 2 === 0) showTooltip(e.clientX, e.clientY);
+  }
+});
+
+/* ── Touch: button jumps away on tap attempt ─────────────── */
+noBtn.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  const t = e.touches[0];
+  placeNoBtn(t.clientX, t.clientY);
+  showTooltip(t.clientX, t.clientY);
+}, { passive: false });
+
+/* ── Absolute safety net: click never succeeds ───────────── */
+noBtn.addEventListener('click', (e) => e.preventDefault());
+
+/* =========================================================
+   YES BUTTON — TRANSITION TO SCREEN 2 + START MUSIC
+   ========================================================= */
+const yesBtn = document.getElementById('yesBtn');
+const screen1 = document.getElementById('screen1');
+const screen2 = document.getElementById('screen2');
+const musicControl = document.getElementById('musicControl');
+const musicIcon = document.getElementById('musicIcon');
+
+const ICON_PLAYING = '<path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>';
+const ICON_MUTED = '<path d="M16.5 12A4.5 4.5 0 0 0 14 8v1.6a3 3 0 0 1 1 2.4 3 3 0 0 1-.14.9l1.13 1.13c.32-.6.51-1.28.51-2.03zM19 12c0 .94-.2 1.82-.55 2.62l1.51 1.51A8.9 8.9 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27l6 6V15a1 1 0 0 0 1 1h.17l4.32 4.32a4.48 4.48 0 0 1-.49.18v2.06c1.02-.24 1.96-.68 2.79-1.27L19.73 21 21 19.73 4.27 3zM12 4l-1.88 1.88L12 7.76V4z"/>';
+
+let musicStarted = false;
+let musicPlaying = false;
+
+yesBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  clearTimeout(tooltipHideTimer);
+  tooltip.classList.remove('show');
+
+  // Start music on this genuine user interaction (respects autoplay policy)
+  if (!musicStarted) {
+    audio.play().then(() => {
+      musicPlaying = true;
+      musicIcon.innerHTML = ICON_PLAYING;
+    }).catch(() => {
+      musicPlaying = false;
+    });
+    musicStarted = true;
+  }
+
+  screen1.classList.add('screen-exit');
+
+  setTimeout(() => {
+    screen1.style.display = 'none';
+    screen2.style.display = 'flex';
+    screen2.classList.add('screen-enter');
+    musicControl.classList.add('visible');
+  }, 480);
+});
+
+/* =========================================================
+   MUSIC CONTROL — PLAY/PAUSE + MUTE/UNMUTE
+   ========================================================= */
+musicControl.addEventListener('click', () => {
+  if (!musicStarted) return;
+
+  if (musicPlaying) {
+    audio.pause();
+    musicPlaying = false;
+    musicIcon.innerHTML = ICON_MUTED;
+  } else {
+    audio.play().then(() => {
+      musicPlaying = true;
+      musicIcon.innerHTML = ICON_PLAYING;
+    }).catch(() => {});
+  }
+});
+</script>
+
+</body>
+</html>
