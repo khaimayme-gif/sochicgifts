@@ -4,165 +4,174 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Build Your Surprise Box — So Chic Gifts</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Poppins:wght@200;300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root{
-  --cream:#FBF5F0;
-  --cream-deep:#F5EDE6;
-  --blush:#F5B7D1;
-  --blush-light:#FCEEF5;
-  --rose-gold:#C08070;
-  --rose-gold-dark:#9A5E50;
-  --champagne:#D4AF37;
-  --burgundy:#6B2030;
-  --text:#2A1A18;
-  --text-mid:#5A3A35;
-  --text-muted:#8A6A65;
-  --border:#EDD8D0;
-  --white:#FFFBF8;
+  --white:#FFFFFF;
+  --paper:#F6F6F3;
+  --ink:#141410;
+  --ink-soft:#63635C;
+  --ink-faint:#9C9C93;
+  --line:#E5E5DF;
+  --accent:#000;
+  --accent-dark:#B92E1C;
+  --rose:#FADADD;
+  --rose-dark:#F0BFC5;
+  --rose-deep:#D98E96;
 }
 
 html{scroll-behavior:smooth}
-body{background:var(--cream);color:var(--text);font-family:'Poppins',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden}
+body{background:var(--white);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif}
+.accent-word{color:var(--accent)}
 
 /* ===== NAV ===== */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:1000;
   display:flex;align-items:center;justify-content:space-between;
-  padding:16px 52px;
-  background:rgba(251,245,240,0.92);backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(237,216,208,0.5);
+  padding:22px 52px;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  transition:padding .25s ease;
 }
-@media(max-width:768px){nav{padding:14px 20px}}
-.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-.nav-logo-img{width:38px;height:38px;border-radius:50%;object-fit:cover}
-.nav-logo-text{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--rose-gold)}
-.nav-back{font-size:10px;font-weight:400;letter-spacing:.25em;text-transform:uppercase;color:var(--text-mid);text-decoration:none}
-.nav-back:hover{color:var(--rose-gold)}
+nav.scrolled{padding:14px 52px}
+@media(max-width:768px){nav{padding:18px 24px}nav.scrolled{padding:12px 24px}}
+
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-img{width:34px;height:34px;border-radius:4px;object-fit:cover}
+.nav-logo-text{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.nav-back{font-size:13px;font-weight:500;color:var(--ink-soft);text-decoration:none;transition:color .2s ease}
+.nav-back:hover{color:var(--ink)}
 
 /* ===== APP SHELL ===== */
-.app{max-width:760px;margin:0 auto;padding:110px 24px 80px;min-height:100vh;display:flex;flex-direction:column}
-@media(max-width:600px){.app{padding:96px 16px 60px}}
+.app{max-width:720px;margin:0 auto;padding:100px 24px 40px;min-height:100vh;display:flex;flex-direction:column}
+@media(max-width:600px){.app{padding:84px 20px 28px}}
 
 /* progress + box tracker */
-.tracker{display:flex;align-items:center;gap:14px;margin-bottom:36px}
-.tracker-bar{flex:1;height:3px;background:var(--border);border-radius:3px;overflow:hidden}
-.tracker-fill{height:100%;background:linear-gradient(90deg,var(--rose-gold),var(--blush));border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
-.tracker-label{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
+.tracker{display:flex;align-items:center;gap:14px;margin-bottom:32px}
+.tracker-bar{flex:1;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+.tracker-fill{height:100%;background:var(--rose-deep);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
+.tracker-label{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap}
 
 .box-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;min-height:34px}
-.box-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--white);border:1px solid var(--border);border-radius:999px;font-size:10.5px;color:var(--text-mid);opacity:0;animation:chipIn .4s ease forwards}
-@keyframes chipIn{from{opacity:0;transform:translateY(-6px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.box-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--paper);border:1px solid var(--line);border-radius:5px;font-size:11px;font-weight:500;color:var(--ink-soft);opacity:0;animation:chipIn .4s ease forwards}
+@keyframes chipIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 .box-chip-emoji{font-size:12px}
 
 /* screens */
 .screen{display:none;flex:1;flex-direction:column}
-.screen.active{display:flex;animation:screenIn .5s cubic-bezier(.16,1,.3,1)}
-@keyframes screenIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.screen.active{display:flex;animation:screenIn .45s cubic-bezier(.16,1,.3,1)}
+@keyframes screenIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
-.step-eyebrow{display:block;font-size:9px;font-weight:400;letter-spacing:.4em;text-transform:uppercase;color:var(--rose-gold);margin-bottom:14px;text-align:center}
-.step-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,34px);font-weight:400;text-align:center;color:var(--text);line-height:1.25;margin-bottom:8px}
-.step-title em{font-style:italic;color:var(--rose-gold)}
-.step-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15.5px;color:var(--text-muted);text-align:center;margin-bottom:38px}
+.step-eyebrow{display:block;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:14px;text-align:center}
+.step-title{font-size:clamp(24px,3.6vw,32px);font-weight:600;letter-spacing:-.015em;text-align:center;color:var(--ink);line-height:1.3;margin-bottom:8px}
+.step-sub{font-size:14px;color:var(--ink-soft);text-align:center;margin-bottom:36px;line-height:1.6}
 
 /* intro */
-#screen-intro{align-items:center;justify-content:center;text-align:center;min-height:60vh}
-.intro-ribbon{font-size:38px;margin-bottom:22px;animation:sway 4s ease-in-out infinite}
+#screen-intro{justify-content:center}
+.intro-mosaic{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:clamp(90px,16vh,190px);gap:8px;margin-bottom:22px}
+.intro-mosaic img{width:100%;height:100%;object-fit:cover;border-radius:12px;background:var(--paper);border:1px solid var(--line);display:block}
+.intro-mosaic .m-big{grid-column:span 3}
+.intro-mosaic .m-small{grid-column:span 2}
+@media(max-width:560px){
+  .intro-mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(80px,15vh,150px)}
+  .intro-mosaic .m-big,.intro-mosaic .m-small{grid-column:span 1}
+}
+.intro-text{text-align:center}
+.intro-ribbon{font-size:22px;margin-bottom:10px;display:inline-block;animation:sway 4s ease-in-out infinite}
 @keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
-.intro-title{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,46px);color:var(--text);line-height:1.2;margin-bottom:14px}
-.intro-title em{font-style:italic;color:var(--rose-gold)}
-.intro-script{font-family:'Great Vibes',cursive;font-size:26px;color:var(--blush);display:block;margin-bottom:20px}
-.intro-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--text-muted);max-width:440px;margin:0 auto 34px;line-height:1.85}
-.btn-start{padding:16px 42px;background:linear-gradient(135deg,var(--rose-gold),#B87060);border:none;border-radius:999px;color:#fff;font-family:'Poppins',sans-serif;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s ease;box-shadow:0 10px 30px rgba(192,128,112,.32)}
-.btn-start:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(192,128,112,.42)}
+.intro-title{font-size:clamp(22px,3.6vw,32px);font-weight:600;letter-spacing:-.02em;color:var(--ink);line-height:1.2;margin-bottom:8px}
+.intro-script{font-size:12px;font-weight:500;color:var(--ink-faint);display:block;margin-bottom:12px}
+.intro-desc{font-size:13.5px;color:var(--ink-soft);max-width:380px;margin:0 auto 20px;line-height:1.65}
+
+.btn-start{padding:12px 28px;background:var(--rose-deep);border:1px solid var(--rose-deep);border-radius:5px;color:var(--white);font-family:'Inter',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;transition:all .2s ease}
+.btn-start:hover{background:var(--ink);border-color:var(--ink)}
 
 /* shared card hover — used by opt-card, combo-card, item-card */
-.opt-card,.combo-card,.item-card{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
-.opt-card:hover,.combo-card:hover,.item-card:hover{border-color:var(--rose-gold);transform:translateY(-4px)}
-.opt-card:hover,.item-card:hover{box-shadow:0 16px 34px rgba(192,128,112,.16)}
-.combo-card:hover{box-shadow:0 18px 40px rgba(192,128,112,.18)}
+.opt-card,.combo-card,.item-card{transition:border-color .2s ease,background .2s ease}
+.opt-card:hover,.combo-card:hover,.item-card:hover{border-color:var(--rose-deep)}
 
 /* option grids (recipient + combo) */
-.opt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
 .opt-grid.combo-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));max-width:560px;margin:0 auto;width:100%}
 
-.opt-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:26px 18px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px}
-.opt-card.selected{border-color:var(--rose-gold);background:linear-gradient(160deg,var(--blush-light),var(--white));box-shadow:0 12px 30px rgba(192,128,112,.2)}
-.opt-emoji{font-size:34px}
-.opt-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--text)}
+.opt-card{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:26px 18px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px}
+.opt-card.selected{border-color:var(--rose-deep);background:var(--rose)}
+.opt-emoji{font-size:30px}
+.opt-name{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;color:var(--ink)}
 
 /* combo cards */
-.combo-card{background:var(--white);border:1px solid var(--border);border-radius:22px;padding:30px 24px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px}
-.combo-badge{display:inline-block;font-size:8.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--rose-gold-dark);background:var(--blush-light);padding:5px 12px;border-radius:999px;width:fit-content}
-.combo-name{font-family:'Playfair Display',serif;font-size:19px;color:var(--text)}
-.combo-price{font-family:'Playfair Display',serif;font-size:24px;color:var(--rose-gold)}
-.combo-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13.5px;color:var(--text-muted);line-height:1.7}
+.combo-card{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:28px 24px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px}
+.combo-badge{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);background:var(--rose);padding:4px 10px;border-radius:5px;width:fit-content}
+.combo-name{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;color:var(--ink)}
+.combo-price{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600;color:var(--rose-deep)}
+.combo-desc{font-size:13px;color:var(--ink-soft);line-height:1.65}
 
 /* item choice cards (with image) */
-.item-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
-.item-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
-.item-card.selected{border-color:var(--rose-gold);box-shadow:0 12px 30px rgba(192,128,112,.22)}
-.item-img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--cream-deep)}
+.item-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}
+.item-card{background:var(--white);border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.item-card.selected{border-color:var(--rose-deep)}
+.item-img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--paper)}
 .item-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
-.item-name{font-family:'Playfair Display',serif;font-size:14.5px;color:var(--text)}
-.item-price{font-size:11.5px;color:var(--rose-gold);font-weight:500}
+.item-name{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;color:var(--ink)}
+.item-price{font-size:11.5px;color:var(--rose-deep);font-weight:500}
 .item-check{position:relative}
-.item-check::after{content:'';position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--white);border:1.5px solid var(--border)}
-.item-card.selected .item-check::after{background:var(--rose-gold);border-color:var(--rose-gold)}
+.item-check::after{content:'';position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--white);border:1.5px solid var(--line)}
+.item-card.selected .item-check::after{background:var(--rose-deep);border-color:var(--rose-deep)}
 .item-card.selected .item-check::before{content:'✓';position:absolute;top:10px;right:10px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;z-index:2}
 
 /* running total */
 .running-total{position:sticky;bottom:0;margin-top:auto;padding-top:20px}
-.rt-inner{background:var(--white);border:1px solid var(--border);border-radius:999px;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -8px 30px rgba(42,26,24,.06)}
-.rt-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)}
-.rt-value{font-family:'Playfair Display',serif;font-size:19px;color:var(--rose-gold)}
+.rt-inner{background:var(--white);border:1px solid var(--line);border-radius:999px;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -8px 24px rgba(20,20,16,.06)}
+.rt-label{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint)}
+.rt-value{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--rose-deep)}
 
 /* nav buttons within steps */
-.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:32px}
-.btn-back-step{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);background:none;border:none;cursor:pointer;text-decoration:none;padding:8px 4px}
-.btn-back-step:hover{color:var(--rose-gold)}
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+.btn-back-step{font-size:13px;font-weight:500;color:var(--ink-soft);background:none;border:none;cursor:pointer;padding:8px 4px;transition:color .2s ease}
+.btn-back-step:hover{color:var(--ink)}
 
 /* summary screen */
-.summary-card{background:var(--white);border:1px solid var(--border);border-radius:24px;padding:30px;margin-bottom:24px}
-.summary-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
+.summary-card{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:28px}
+.summary-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
 .summary-row:last-child{border-bottom:none}
-.summary-thumb{width:52px;height:52px;border-radius:12px;object-fit:cover;background:var(--cream-deep);flex-shrink:0}
+.summary-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:var(--paper);flex-shrink:0}
 .summary-info{flex:1}
-.summary-cat{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:2px}
-.summary-name{font-family:'Playfair Display',serif;font-size:15px;color:var(--text)}
-.summary-price{font-family:'Playfair Display',serif;font-size:14px;color:var(--rose-gold);white-space:nowrap}
-.summary-total{display:flex;justify-content:space-between;align-items:center;padding-top:18px;margin-top:6px;border-top:1.5px solid var(--rose-gold)}
-.summary-total-label{font-family:'Playfair Display',serif;font-size:16px;color:var(--text)}
-.summary-total-val{font-family:'Playfair Display',serif;font-size:26px;color:var(--rose-gold)}
+.summary-cat{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:3px}
+.summary-name{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;color:var(--ink)}
+.summary-price{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;color:var(--rose-deep);white-space:nowrap}
+.summary-total{display:flex;justify-content:space-between;align-items:center;padding-top:18px;margin-top:6px;border-top:1px solid var(--ink)}
+.summary-total-label{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--ink)}
+.summary-total-val{font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:600;color:var(--rose-deep)}
 
-.screenshot-note{background:var(--blush-light);border:1px solid rgba(192,128,112,.25);border-radius:18px;padding:22px 24px;text-align:center;margin-bottom:24px}
-.screenshot-note-icon{font-size:26px;display:block;margin-bottom:10px}
-.screenshot-note-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--text);margin-bottom:6px}
-.screenshot-note-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--text-mid);line-height:1.7}
+.screenshot-note{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px 24px;text-align:center;margin:24px 0}
+.screenshot-note-icon{font-size:24px;display:block;margin-bottom:10px}
+.screenshot-note-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.screenshot-note-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.65}
 
 .summary-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
-.btn-light,.btn-download{padding:15px 32px;background:linear-gradient(135deg,var(--rose-gold),#B87060);border-radius:999px;color:#fff;font-family:'Poppins',sans-serif;font-size:10.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s ease;border:none;cursor:pointer}
-.btn-light:hover,.btn-download:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(192,128,112,.35)}
-.btn-ghost{padding:14px 30px;background:transparent;border:1px solid var(--border);border-radius:999px;color:var(--text-mid);font-family:'Poppins',sans-serif;font-size:10.5px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s ease;cursor:pointer}
-.btn-ghost:hover{border-color:var(--rose-gold);color:var(--rose-gold)}
+.btn-light,.btn-download{padding:13px 28px;background:var(--rose-deep);border:1px solid var(--rose-deep);border-radius:5px;color:var(--white);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s ease;cursor:pointer}
+.btn-light:hover,.btn-download:hover{background:var(--ink);border-color:var(--ink)}
+.btn-ghost{padding:12px 26px;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--ink-soft);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s ease;cursor:pointer}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
 
 /* screenshot capture wrapper — gets a solid bg so the exported PNG isn't transparent */
-#summaryCapture{background:var(--cream);padding:4px;border-radius:24px}
+#summaryCapture{background:var(--white);padding:2px}
 
 </style>
 </head>
 <body>
 
-<nav>
+<nav id="main-nav">
   <a href="index.html" class="nav-logo">
     <img src="images/main/main-logo.png" alt="So Chic Gifts" class="nav-logo-img">
     <span class="nav-logo-text">So Chic Gifts</span>
   </a>
-  <a href="menu.html" class="nav-back">← Back to Menu</a>
+  <a href="menu.html" class="nav-back">&larr; Back to Menu</a>
 </nav>
 
 <div class="app">
@@ -176,17 +185,26 @@ nav{
 
   <!-- INTRO -->
   <section class="screen active" id="screen-intro">
-    <span class="intro-ribbon">🎀</span>
-    <h1 class="intro-title">Build Their <em>Surprise Box</em></h1>
-    <span class="intro-script">Answer a few questions. We'll do the rest.</span>
-    <p class="intro-desc">Tell us who it's for, then choose exactly what goes inside — piece by piece. At the end, you'll get a summary to send us and confirm your order.</p>
-    <button class="btn-start" id="btnStart">Let's Begin</button>
+    <div class="intro-mosaic">
+      <img class="m-big" src="images/box-builder/girlfriend/Stanley-Pink.jpeg" alt="Gift box item" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <img class="m-big" src="images/box-builder/boyfriend/cologne-sauvage.jpg" alt="Gift box item" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <img class="m-small" src="images/box-builder/girlfriend/chocolate(1).jpeg" alt="Gift box item" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <img class="m-small" src="images/box-builder/girlfriend/scented-candle(1).png" alt="Gift box item" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <img class="m-small" src="images/box-builder/boyfriend/wallet.jpg" alt="Gift box item" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+    </div>
+    <div class="intro-text">
+      <span class="intro-ribbon">🎀</span>
+      <h1 class="intro-title">Build Their <span class="accent-word">Surprise Box</span></h1>
+      <span class="intro-script">Answer a few questions. We'll do the rest.</span>
+      <p class="intro-desc">Tell us who it's for, then choose exactly what goes inside — piece by piece. At the end, you'll get a summary to send us and confirm your order.</p>
+      <button class="btn-start" id="btnStart">Let's Begin</button>
+    </div>
   </section>
 
   <!-- STEP: RECIPIENT -->
   <section class="screen" id="screen-recipient">
     <span class="step-eyebrow">Question 1</span>
-    <h2 class="step-title">Who is this <em>surprise box</em> for?</h2>
+    <h2 class="step-title">Who is this <span class="accent-word">surprise box</span> for?</h2>
     <p class="step-sub">We'll tailor every option to suit them.</p>
     <div class="opt-grid" id="recipientGrid"></div>
   </section>
@@ -198,7 +216,7 @@ nav{
     <p class="step-sub">Choose a ready-made set, or pick every item yourself.</p>
     <div class="opt-grid combo-grid" id="comboGrid"></div>
     <div class="step-nav">
-      <button class="btn-back-step" data-back="recipient">← Back</button>
+      <button class="btn-back-step" data-back="recipient">&larr; Back</button>
       <span></span>
     </div>
   </section>
@@ -210,7 +228,7 @@ nav{
     <p class="step-sub" id="itemSub"></p>
     <div class="item-grid" id="itemGrid"></div>
     <div class="step-nav">
-      <button class="btn-back-step" id="btnItemBack">← Back</button>
+      <button class="btn-back-step" id="btnItemBack">&larr; Back</button>
       <span></span>
     </div>
     <div class="running-total" id="runningTotalWrap" style="display:none">
@@ -224,7 +242,7 @@ nav{
   <!-- SUMMARY -->
   <section class="screen" id="screen-summary">
     <span class="step-eyebrow">Your Surprise Box</span>
-    <h2 class="step-title">Here's What You've <em>Chosen</em></h2>
+    <h2 class="step-title">Here's What You've <span class="accent-word">Chosen</span></h2>
     <p class="step-sub">Screenshot this page of your selections and send it to us to confirm your order.</p>
 
     <div id="summaryCapture">
@@ -459,7 +477,7 @@ el('recipientGrid').addEventListener('click', (e) => {
 /* ---------- STEP: COMBO CHOICE ---------- */
 function renderComboStep(){
   const r = currentRecipient();
-  el('comboTitle').innerHTML = `How would you like to build <em>${r.label.toLowerCase()}'s</em> box?`;
+  el('comboTitle').innerHTML = `How would you like to build <span class="accent-word">${r.label.toLowerCase()}'s</span> box?`;
   el('comboGrid').innerHTML = `
     <div class="combo-card" data-mode="fixed">
       <span class="combo-badge">Ready-Made Set</span>
@@ -508,7 +526,7 @@ function renderItemStep(){
   const selectedName = state.selections[cat.key]?.name;
   el('itemGrid').innerHTML = cat.options.map(opt => `
     <div class="item-card item-check${selectedName === opt.name ? ' selected' : ''}" data-name="${opt.name}">
-      <img class="item-img" src="${opt.img}" alt="${opt.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--blush-light)'; this.src='';">
+      <img class="item-img" src="${opt.img}" alt="${opt.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
       <div class="item-body">
         <span class="item-name">${opt.name}</span>
         ${state.mode === 'custom' ? `<span class="item-price">${fmt(opt.price)}</span>` : ''}
@@ -568,7 +586,7 @@ function renderSummary(){
 
   const itemRowsHtml = Object.values(state.selections).map(sel => `
     <div class="summary-row">
-      <img class="summary-thumb" src="${sel.img}" alt="${sel.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--blush-light)'; this.src='';">
+      <img class="summary-thumb" src="${sel.img}" alt="${sel.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
       <div class="summary-info">
         <span class="summary-cat">${sel.catTitle.replace(/^Choose (her |his |their |a |)?/i,'')}</span>
         <span class="summary-name">${sel.name}</span>
@@ -601,6 +619,12 @@ el('btnStartOver').addEventListener('click', () => {
   el('tracker').style.display = 'none';
   showScreen('screen-intro');
 });
+
+/* ---------- NAV SCROLL BEHAVIOR ---------- */
+const mainNav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  mainNav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
 </script>
 </body>
 </html>

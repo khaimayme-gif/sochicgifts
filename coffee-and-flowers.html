@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Coffee & Flowers — So Chic Gifts</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --white:#FFFFFF;
+  --paper:#F6F6F3;
+  --ink:#141410;
+  --ink-soft:#63635C;
+  --ink-faint:#9C9C93;
+  --line:#E5E5DF;
+  --accent:#000;
+  --accent-dark:#B92E1C;
+  --rose:#FADADD;
+  --rose-dark:#F0BFC5;
+  --rose-deep:#D98E96;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif}
+.accent-word{color:var(--accent)}
+
+/* ===== NAV ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 52px;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  transition:padding .25s ease;
+}
+nav.scrolled{padding:14px 52px}
+@media(max-width:768px){nav{padding:18px 24px}nav.scrolled{padding:12px 24px}}
+
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-img{width:34px;height:34px;border-radius:4px;object-fit:cover}
+.nav-logo-text{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.nav-back{font-size:13px;font-weight:500;color:var(--ink-soft);text-decoration:none;transition:color .2s ease}
+.nav-back:hover{color:var(--ink)}
+
+/* ===== APP SHELL ===== */
+.app{max-width:720px;margin:0 auto;padding:100px 24px 40px;min-height:100vh;display:flex;flex-direction:column}
+@media(max-width:600px){.app{padding:84px 20px 28px}}
+
+/* progress + selection tracker */
+.tracker{display:flex;align-items:center;gap:14px;margin-bottom:32px}
+.tracker-bar{flex:1;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+.tracker-fill{height:100%;background:var(--rose-deep);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
+.tracker-label{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap}
+
+.box-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;min-height:34px}
+.box-chip{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--paper);border:1px solid var(--line);border-radius:5px;font-size:11px;font-weight:500;color:var(--ink-soft);opacity:0;animation:chipIn .4s ease forwards}
+@keyframes chipIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.box-chip-emoji{font-size:12px}
+
+/* screens */
+.screen{display:none;flex:1;flex-direction:column}
+.screen.active{display:flex;animation:screenIn .45s cubic-bezier(.16,1,.3,1)}
+@keyframes screenIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.step-eyebrow{display:block;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:14px;text-align:center}
+.step-title{font-size:clamp(24px,3.6vw,32px);font-weight:600;letter-spacing:-.015em;text-align:center;color:var(--ink);line-height:1.3;margin-bottom:8px}
+.step-sub{font-size:14px;color:var(--ink-soft);text-align:center;margin-bottom:36px;line-height:1.6}
+
+/* intro */
+#screen-intro{justify-content:center}
+.intro-mosaic{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:clamp(90px,16vh,190px);gap:8px;margin-bottom:22px}
+.intro-mosaic img{width:100%;height:100%;object-fit:cover;border-radius:12px;background:var(--paper);border:1px solid var(--line);display:block}
+.intro-mosaic .m-big{grid-column:span 3}
+.intro-mosaic .m-small{grid-column:span 2}
+@media(max-width:560px){
+  .intro-mosaic{grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(80px,15vh,150px)}
+  .intro-mosaic .m-big,.intro-mosaic .m-small{grid-column:span 1}
+}
+.intro-text{text-align:center}
+.intro-ribbon{font-size:22px;margin-bottom:10px;display:inline-block;animation:sway 4s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.intro-title{font-size:clamp(22px,3.6vw,32px);font-weight:600;letter-spacing:-.02em;color:var(--ink);line-height:1.2;margin-bottom:8px}
+.intro-script{font-size:12px;font-weight:500;color:var(--ink-faint);display:block;margin-bottom:12px}
+.intro-desc{font-size:13.5px;color:var(--ink-soft);max-width:380px;margin:0 auto 20px;line-height:1.65}
+
+.btn-start{padding:12px 28px;background:var(--rose-deep);border:1px solid var(--rose-deep);border-radius:5px;color:var(--white);font-family:'Inter',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;transition:all .2s ease}
+.btn-start:hover{background:var(--ink);border-color:var(--ink)}
+
+/* item choice cards (with image) — reused for both coffee and flower steps */
+.item-card{transition:border-color .2s ease,background .2s ease}
+.item-card:hover{border-color:var(--rose-deep)}
+.item-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}
+.item-card{background:var(--white);border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.item-card.selected{border-color:var(--rose-deep)}
+.item-img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--paper)}
+.item-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.item-name{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;color:var(--ink)}
+.item-price{font-size:11.5px;color:var(--rose-deep);font-weight:500}
+.item-check{position:relative}
+.item-check::after{content:'';position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--white);border:1.5px solid var(--line)}
+.item-card.selected .item-check::after{background:var(--rose-deep);border-color:var(--rose-deep)}
+.item-card.selected .item-check::before{content:'✓';position:absolute;top:10px;right:10px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;z-index:2}
+
+/* running total */
+.running-total{position:sticky;bottom:0;margin-top:auto;padding-top:20px}
+.rt-inner{background:var(--white);border:1px solid var(--line);border-radius:999px;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -8px 24px rgba(20,20,16,.06)}
+.rt-label{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint)}
+.rt-value{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:600;color:var(--rose-deep)}
+
+/* nav buttons within steps */
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+.btn-back-step{font-size:13px;font-weight:500;color:var(--ink-soft);background:none;border:none;cursor:pointer;padding:8px 4px;transition:color .2s ease}
+.btn-back-step:hover{color:var(--ink)}
+
+/* summary screen */
+.summary-card{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:28px}
+.summary-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.summary-row:last-child{border-bottom:none}
+.summary-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:var(--paper);flex-shrink:0}
+.summary-info{flex:1}
+.summary-cat{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:3px}
+.summary-name{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;color:var(--ink)}
+.summary-price{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;color:var(--rose-deep);white-space:nowrap}
+.summary-total{display:flex;justify-content:space-between;align-items:center;padding-top:18px;margin-top:6px;border-top:1px solid var(--ink)}
+.summary-total-label{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--ink)}
+.summary-total-val{font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:600;color:var(--rose-deep)}
+
+.love-note-wrap{margin:24px 0}
+.love-note-label{display:block;font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px}
+.love-note-textarea{width:100%;min-height:90px;padding:14px 16px;background:var(--white);border:1px solid var(--line);border-radius:10px;font-family:'Inter',sans-serif;font-size:13.5px;color:var(--ink);line-height:1.6;resize:vertical;transition:border-color .2s ease}
+.love-note-textarea:focus{outline:none;border-color:var(--rose-deep)}
+.love-note-textarea::placeholder{color:var(--ink-faint)}
+
+.combo-preview{margin:24px 0}
+.combo-preview-label{display:block;font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;text-align:center}
+.combo-preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.combo-preview-img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:var(--paper);border:1px solid var(--line)}
+
+.screenshot-note{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px 24px;text-align:center;margin:24px 0}
+.screenshot-note-icon{font-size:24px;display:block;margin-bottom:10px}
+.screenshot-note-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.screenshot-note-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.65}
+
+.summary-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn-ghost{padding:12px 26px;background:transparent;border:1px solid var(--line);border-radius:5px;color:var(--ink-soft);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s ease;cursor:pointer}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+
+#summaryCapture{background:var(--white);padding:2px}
+
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img src="images/main/main-logo.png" alt="So Chic Gifts" class="nav-logo-img">
+    <span class="nav-logo-text">So Chic Gifts</span>
+  </a>
+  <a href="menu.html" class="nav-back">&larr; Back to Menu</a>
+</nav>
+
+<div class="app">
+
+  <div class="tracker" id="tracker" style="display:none">
+    <span class="tracker-label" id="trackerLabel">Step 1</span>
+    <div class="tracker-bar"><div class="tracker-fill" id="trackerFill"></div></div>
+  </div>
+  <div class="box-strip" id="boxStrip"></div>
+
+  <!-- INTRO -->
+  <section class="screen active" id="screen-intro">
+    <div class="intro-mosaic">
+      <img class="m-big" src="images/menu/coffee-flowers/design-1.jpg" alt="Latte" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <img class="m-big" src="images/menu/coffee-flowers/design-2.jpg" alt="Pink flowers" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <img class="m-small" src="images/menu/coffee-flowers/design-3.jpg" alt="Mocha" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <img class="m-small" src="images/menu/coffee-flowers/design-4.jpg" alt="Yellow flowers" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <img class="m-small" src="images/menu/coffee-flowers/design-5.jpg" alt="Coffee and flowers, together" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+    </div>
+    <div class="intro-text">
+      <span class="intro-ribbon">☕</span>
+      <h1 class="intro-title">Build Your <span class="accent-word">Coffee & Flowers</span></h1>
+      <span class="intro-script">Answer two quick questions. We'll do the rest.</span>
+      <p class="intro-desc">Choose a coffee, then choose a flower color. At the end, you'll get a summary to send us and confirm your order.</p>
+      <button class="btn-start" id="btnStart">Let's Begin</button>
+    </div>
+  </section>
+
+  <!-- STEP: COFFEE -->
+  <section class="screen" id="screen-coffee">
+    <span class="step-eyebrow">Question 1</span>
+    <h2 class="step-title">Choose your <span class="accent-word">coffee</span></h2>
+    <p class="step-sub">Pick the one that fits the moment.</p>
+    <div class="item-grid" id="coffeeGrid"></div>
+    <div class="running-total" id="runningTotalWrap1">
+      <div class="rt-inner">
+        <span class="rt-label">Running Total</span>
+        <span class="rt-value" id="runningTotalVal1">0 ฿</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP: FLOWER -->
+  <section class="screen" id="screen-flower">
+    <span class="step-eyebrow">Question 2</span>
+    <h2 class="step-title">Choose your <span class="accent-word">flower color</span></h2>
+    <p class="step-sub">Pick the shade that fits the occasion.</p>
+    <div class="item-grid" id="flowerGrid"></div>
+    <div class="step-nav">
+      <button class="btn-back-step" id="btnFlowerBack">&larr; Back</button>
+      <span></span>
+    </div>
+    <div class="running-total" id="runningTotalWrap2">
+      <div class="rt-inner">
+        <span class="rt-label">Running Total</span>
+        <span class="rt-value" id="runningTotalVal2">0 ฿</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP: LOVE NOTE -->
+  <section class="screen" id="screen-lovenote">
+    <span class="step-eyebrow">Question 3</span>
+    <h2 class="step-title">Add a <span class="accent-word">love note</span></h2>
+    <p class="step-sub">This will be written on the gift tag. You can leave it blank.</p>
+    <div class="love-note-wrap">
+      <span class="love-note-label">Love Note (for the gift tag)</span>
+      <textarea class="love-note-textarea" id="loveNoteInput" placeholder="Write what you want on the tag..."></textarea>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back-step" id="btnLoveNoteBack">&larr; Back</button>
+      <button class="btn-start" id="btnLoveNoteNext">Next</button>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="screen" id="screen-summary">
+    <span class="step-eyebrow">Your Order</span>
+    <h2 class="step-title">Here's What You've <span class="accent-word">Chosen</span></h2>
+    <p class="step-sub">Screenshot this page of your selections and send it to us to confirm your order.</p>
+
+    <div id="summaryCapture">
+      <div class="summary-card">
+        <div id="summaryRows"></div>
+        <div class="summary-total">
+          <span class="summary-total-label">Total</span>
+          <span class="summary-total-val" id="summaryTotalVal">0 ฿</span>
+        </div>
+      </div>
+
+      <div class="combo-preview" id="comboPreview">
+        <span class="combo-preview-label">How It Will Look</span>
+        <div class="combo-preview-grid" id="comboPreviewGrid"></div>
+      </div>
+    </div>
+
+    <div class="screenshot-note">
+      <span class="screenshot-note-icon">📸</span>
+      <div class="screenshot-note-title">Almost there!</div>
+      <p class="screenshot-note-desc">Screenshot this page of your selections, then send it to us — we'll confirm your order and delivery details from there.</p>
+    </div>
+
+    <div class="summary-btns">
+      <button class="btn-ghost" id="btnStartOver">Start Over</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   DATA — edit this section to change coffee types, flower colors,
+   prices, and image paths. Every "img" path below is a placeholder;
+   replace with your real product photos.
+   ============================================================ */
+const COFFEES = [
+  { name:'Americano', price:120, img:'images/menu/coffee-flowers/coffee-americano.jpg' },
+  { name:'Latte', price:140, img:'images/menu/coffee-flowers/coffee-latte.jpg' },
+  { name:'Cappuccino', price:140, img:'images/menu/coffee-flowers/coffee-cappuccino.jpg' },
+  { name:'Mocha', price:160, img:'images/menu/coffee-flowers/coffee-mocha.jpg' },
+];
+
+const FLOWERS = [
+  { name:'Red', price:590, img:'images/menu/coffee-flowers/flower-red.jpg' },
+  { name:'Pink', price:590, img:'images/menu/coffee-flowers/flower-pink.jpg' },
+  { name:'White', price:550, img:'images/menu/coffee-flowers/flower-white.jpg' },
+  { name:'Yellow', price:550, img:'images/menu/coffee-flowers/flower-yellow.jpg' },
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let state = {
+  coffee: null,
+  flower: null,
+  loveNote: ''
+};
+
+const el = (id) => document.getElementById(id);
+const screens = document.querySelectorAll('.screen');
+function showScreen(id){
+  screens.forEach(s => s.classList.remove('active'));
+  el(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function fmt(n){ return n.toLocaleString('en-US') + ' ฿'; }
+
+/* slug used to build the combo preview image paths, e.g. "Latte" + "Yellow" -> "latte-yellow" */
+function slug(name){ return name.toLowerCase().replace(/\s+/g, '-'); }
+
+/* Combo preview: always shows the coffee photo + flower photo already chosen
+   (no extra work needed — these already exist from the picker steps).
+   Optionally, drop ONE dedicated "styled together" photo per combo into
+   images/menu/coffee-flowers/combos/ named exactly like this, e.g.
+   images/menu/coffee-flowers/combos/latte-yellow.jpg — if it exists, it
+   shows as a 3rd bonus photo; if not, that slot just stays hidden. */
+function comboImages(coffee, flower){
+  const key = `${slug(coffee.name)}-${slug(flower.name)}`;
+  return [
+    coffee.img,
+    flower.img,
+    `images/menu/coffee-flowers/combos/${key}.jpg`
+  ];
+}
+
+/* ---------- INTRO ---------- */
+el('btnStart').addEventListener('click', () => {
+  el('tracker').style.display = 'flex';
+  renderCoffeeStep();
+  showScreen('screen-coffee');
+  updateTracker(1, 4);
+});
+
+/* ---------- TRACKER + STRIP ---------- */
+function updateTracker(step, total){
+  el('trackerLabel').textContent = `Step ${step} of ${total}`;
+  el('trackerFill').style.width = `${(step/total)*100}%`;
+}
+function renderBoxStrip(){
+  const strip = el('boxStrip');
+  strip.innerHTML = '';
+  if (state.coffee) {
+    const chip = document.createElement('span');
+    chip.className = 'box-chip';
+    chip.innerHTML = `<span class="box-chip-emoji">☕</span> ${state.coffee.name}`;
+    strip.appendChild(chip);
+  }
+  if (state.flower) {
+    const chip = document.createElement('span');
+    chip.className = 'box-chip';
+    chip.innerHTML = `<span class="box-chip-emoji">💐</span> ${state.flower.name}`;
+    strip.appendChild(chip);
+  }
+}
+
+function updateRunningTotal(){
+  const total = (state.coffee?.price || 0) + (state.flower?.price || 0);
+  el('runningTotalVal1').textContent = fmt(total);
+  el('runningTotalVal2').textContent = fmt(total);
+}
+
+/* ---------- STEP: COFFEE ---------- */
+function renderCoffeeStep(){
+  el('coffeeGrid').innerHTML = COFFEES.map(opt => `
+    <div class="item-card item-check${state.coffee?.name === opt.name ? ' selected' : ''}" data-name="${opt.name}">
+      <img class="item-img" src="${opt.img}" alt="${opt.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <div class="item-body">
+        <span class="item-name">${opt.name}</span>
+        <span class="item-price">${fmt(opt.price)}</span>
+      </div>
+    </div>`).join('');
+  updateRunningTotal();
+}
+el('coffeeGrid').addEventListener('click', (e) => {
+  const card = e.target.closest('.item-card');
+  if (!card) return;
+  const opt = COFFEES.find(o => o.name === card.dataset.name);
+  if (!opt) return;
+
+  state.coffee = opt;
+  renderBoxStrip();
+  updateRunningTotal();
+  el('coffeeGrid').querySelectorAll('.item-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  setTimeout(() => {
+    renderFlowerStep();
+    showScreen('screen-flower');
+    updateTracker(2, 4);
+  }, 280);
+});
+
+/* ---------- STEP: FLOWER ---------- */
+function renderFlowerStep(){
+  el('flowerGrid').innerHTML = FLOWERS.map(opt => `
+    <div class="item-card item-check${state.flower?.name === opt.name ? ' selected' : ''}" data-name="${opt.name}">
+      <img class="item-img" src="${opt.img}" alt="${opt.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <div class="item-body">
+        <span class="item-name">${opt.name}</span>
+        <span class="item-price">${fmt(opt.price)}</span>
+      </div>
+    </div>`).join('');
+  updateRunningTotal();
+}
+el('flowerGrid').addEventListener('click', (e) => {
+  const card = e.target.closest('.item-card');
+  if (!card) return;
+  const opt = FLOWERS.find(o => o.name === card.dataset.name);
+  if (!opt) return;
+
+  state.flower = opt;
+  renderBoxStrip();
+  updateRunningTotal();
+  el('flowerGrid').querySelectorAll('.item-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  setTimeout(() => {
+    showScreen('screen-lovenote');
+    updateTracker(3, 4);
+  }, 280);
+});
+el('btnFlowerBack').addEventListener('click', () => {
+  renderCoffeeStep();
+  showScreen('screen-coffee');
+  updateTracker(1, 4);
+});
+
+/* ---------- STEP: LOVE NOTE ---------- */
+el('btnLoveNoteBack').addEventListener('click', () => {
+  renderFlowerStep();
+  showScreen('screen-flower');
+  updateTracker(2, 4);
+});
+el('btnLoveNoteNext').addEventListener('click', () => {
+  state.loveNote = el('loveNoteInput').value;
+  renderSummary();
+  showScreen('screen-summary');
+  updateTracker(4, 4);
+});
+
+/* ---------- SUMMARY ---------- */
+function renderSummary(){
+  const rows = el('summaryRows');
+
+  const coffeeRow = state.coffee ? `
+    <div class="summary-row">
+      <img class="summary-thumb" src="${state.coffee.img}" alt="${state.coffee.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <div class="summary-info">
+        <span class="summary-cat">Coffee</span>
+        <span class="summary-name">${state.coffee.name}</span>
+      </div>
+      <span class="summary-price">${fmt(state.coffee.price)}</span>
+    </div>` : '';
+
+  const flowerRow = state.flower ? `
+    <div class="summary-row">
+      <img class="summary-thumb" src="${state.flower.img}" alt="${state.flower.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <div class="summary-info">
+        <span class="summary-cat">Flower Color</span>
+        <span class="summary-name">${state.flower.name}</span>
+      </div>
+      <span class="summary-price">${fmt(state.flower.price)}</span>
+    </div>` : '';
+
+  const noteRow = state.loveNote && state.loveNote.trim() ? `
+    <div class="summary-row">
+      <img class="summary-thumb" src="images/menu/coffee-flowers/love-note-icon.png" alt="Love Note" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      <div class="summary-info">
+        <span class="summary-cat">Love Note</span>
+        <span class="summary-name">${state.loveNote.trim()}</span>
+      </div>
+    </div>` : '';
+
+  rows.innerHTML = coffeeRow + flowerRow + noteRow;
+
+  const total = (state.coffee?.price || 0) + (state.flower?.price || 0);
+  el('summaryTotalVal').textContent = fmt(total);
+
+  renderComboPreview();
+}
+
+function renderComboPreview(){
+  if (!state.coffee || !state.flower) return;
+  const images = comboImages(state.coffee, state.flower);
+  el('comboPreviewGrid').innerHTML = images.map(src => `
+    <img class="combo-preview-img" src="${src}" alt="${state.coffee.name} + ${state.flower.name}" loading="lazy" decoding="async" onerror="this.style.display='none';">
+  `).join('');
+}
+
+/* ---------- START OVER ---------- */
+el('btnStartOver').addEventListener('click', () => {
+  state = { coffee: null, flower: null, loveNote: '' };
+  el('boxStrip').innerHTML = '';
+  el('loveNoteInput').value = '';
+  el('tracker').style.display = 'none';
+  showScreen('screen-intro');
+});
+
+/* ---------- NAV SCROLL BEHAVIOR ---------- */
+const mainNav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  mainNav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+</script>
+</body>
+</html>
