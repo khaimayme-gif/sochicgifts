@@ -15,7 +15,7 @@
 .detail-head{display:flex;align-items:center;gap:20px;margin-bottom:40px}
 .detail-photo{
   flex-shrink:0;width:72px;height:72px;border-radius:50%;
-  background:var(--white);border:1px solid var(--rose-dark);box-shadow:var(--shadow-sm);
+  background:var(--paper);border:1px solid var(--line);
   display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;
 }
 .detail-photo img{width:100%;height:100%;object-fit:cover}
@@ -25,8 +25,8 @@
 /* ===== TABS ===== */
 .tab-row{max-width:1080px;margin:0 auto;display:flex;gap:10px;padding-bottom:28px}
 .tab{padding:10px 24px;background:var(--white);border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:500;color:var(--ink-soft);cursor:pointer;user-select:none;transition:all .25s ease}
-.tab:hover{border-color:var(--rose-dark);color:var(--ink)}
-.tab.active{background:var(--rose);border-color:var(--rose-dark);color:var(--ink)}
+.tab:hover{border-color:var(--line-strong);color:var(--ink)}
+.tab.active{background:var(--ink);border-color:var(--ink);color:var(--white)}
 
 /* ===== PRODUCT GRID ===== */
 .grid-section{padding:64px 52px 24px;background:var(--white)}
@@ -34,7 +34,7 @@
 
 .group-block{max-width:1080px;margin:0 auto 48px}
 .group-title{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:20px}
-.group-title::before{content:'';width:7px;height:7px;background:var(--accent);border-radius:50%;flex-shrink:0}
+.group-title::before{content:'';width:5px;height:5px;background:var(--ink);border-radius:50%;flex-shrink:0}
 
 .product-grid{max-width:1080px;margin:0 auto 48px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .group-block .product-grid{margin-bottom:0}
@@ -42,7 +42,7 @@
 @media(max-width:520px){.product-grid{grid-template-columns:1fr}}
 
 .product-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 24px;display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:transform .25s ease,box-shadow .25s ease}
-.product-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.product-card:hover{border-color:var(--line-strong)}
 .product-photo{
   width:100%;aspect-ratio:1/1;border-radius:var(--radius-sm);
   background:var(--paper);
@@ -52,7 +52,7 @@
 .product-photo img{width:100%;height:100%;object-fit:cover}
 .best-tag{
   position:absolute;top:12px;left:12px;
-  background:var(--accent);color:var(--white);
+  background:var(--ink);color:var(--white);
   font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;
   padding:4px 11px;border-radius:999px;letter-spacing:.04em;box-shadow:var(--shadow-sm);
 }
@@ -92,7 +92,7 @@
 </nav>
 
 <!-- HERO -->
-<section class="detail-hero polka-bg">
+<section class="detail-hero alt-bg">
   <div class="detail-hero-inner">
     <span class="route">
       <span class="dash"></span>
