@@ -150,7 +150,10 @@ section{padding:108px 40px}
 .markets-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 @media(max-width:600px){.markets-grid{grid-template-columns:1fr}}
 .market-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:36px 32px;display:flex;gap:20px;align-items:flex-start;box-shadow:var(--shadow-sm);transition:transform .25s ease}
-.market-card:hover{border-color:var(--line-strong)}
+.market-card:hover{border-color:var(--ink)}
+.market-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13.5px;font-weight:500;color:var(--ink)}
+.market-link span{transition:transform .25s ease}
+.market-card:hover .market-link span{transform:translateX(4px)}
 .market-flag{font-size:32px;flex-shrink:0;line-height:1}
 .market-name{font-size:18px;font-weight:600;color:var(--ink);margin-bottom:4px}
 .market-currency{font-size:12px;font-weight:600;color:var(--accent);margin-bottom:10px;display:block;letter-spacing:.02em}
@@ -459,22 +462,24 @@ section{padding:108px 40px}
       <p class="sec-sub">Nationwide in Thailand and Japan, with a dedicated admin in each country.</p>
     </div>
     <div class="markets-grid">
-      <div class="market-card">
+      <a class="market-card" href="menu.html?country=thailand">
         <span class="market-flag">🇹🇭</span>
         <div class="market-info">
           <div class="market-name">Thailand delivery</div>
           <span class="market-currency">Pay in THB or MMK</span>
           <p class="market-note">Nationwide delivery across Thailand, managed by our Thailand based team.</p>
+          <span class="market-link">View Thailand menu <span>&rarr;</span></span>
         </div>
-      </div>
-      <div class="market-card">
+      </a>
+      <a class="market-card" href="menu.html?country=japan">
         <span class="market-flag">🇯🇵</span>
         <div class="market-info">
           <div class="market-name">Japan delivery</div>
           <span class="market-currency">Pay in JPY or MMK</span>
           <p class="market-note">Delivery throughout Japan handled by our Japan based admin.</p>
+          <span class="market-link">View Japan menu <span>&rarr;</span></span>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
