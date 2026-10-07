@@ -182,7 +182,9 @@
 </footer>
 
 <script src="data.js"></script>
+<script src="menu-sync.js"></script>
 <script>
+menuReady.then(() => {
 const params = new URLSearchParams(window.location.search);
 const catId = params.get('cat');
 const cat = CATEGORIES.find(c => c.id === catId) || CATEGORIES[0];
@@ -218,7 +220,7 @@ function renderOptions(){
     const priceHTML = o.price===null
       ? `<span class="product-price placeholder">${symbol}—</span>`
       : `<span class="product-price">${symbol}${o.price.toLocaleString()}</span>`;
-    const code = `${cat.code}${String(i+1).padStart(2,'0')}`;
+    const code = o.code || `${cat.code}${String(i+1).padStart(2,'0')}`;
     return `
       <div class="product-card">
         <div class="product-photo">${bestHTML}${photoHTML}</div>
@@ -235,9 +237,10 @@ function renderOptions(){
     return;
   }
 
-  const groupNames = [...new Set(list.map(o => o.group))];
+  const groupOf = o => o.group || 'More designs';
+  const groupNames = [...new Set(list.map(groupOf))];
   optionsGrid.innerHTML = groupNames.map(groupName => {
-    const groupItems = list.filter(o => o.group === groupName);
+    const groupItems = list.filter(o => groupOf(o) === groupName);
     return `
       <div class="group-block">
         <div class="group-title">${groupName}</div>
@@ -260,6 +263,7 @@ const nav = document.getElementById('main-nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
+});
 </script>
 
 </body>

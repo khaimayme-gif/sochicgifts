@@ -182,7 +182,9 @@
 </footer>
 
 <script src="data.js"></script>
+<script src="menu-sync.js"></script>
 <script>
+menuReady.then(() => {
 const grid = document.getElementById('grid');
 const FEATURED_IDS = ['cake', 'bouquet', 'giftbox'];
 
@@ -212,6 +214,7 @@ const nav = document.getElementById('main-nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
+});
 </script>
 
 </body>
