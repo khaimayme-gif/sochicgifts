@@ -22,12 +22,6 @@
 .detail-title{font-size:clamp(28px,3.6vw,40px);font-weight:600;letter-spacing:-.02em;color:var(--ink);margin-bottom:6px}
 .detail-tagline{font-size:15px;color:var(--ink-soft);line-height:1.6}
 
-/* ===== TABS ===== */
-.tab-row{max-width:1080px;margin:0 auto;display:flex;gap:10px;padding-bottom:28px}
-.tab{padding:10px 24px;background:var(--white);border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:500;color:var(--ink-soft);cursor:pointer;user-select:none;transition:all .25s ease}
-.tab:hover{border-color:var(--line-strong);color:var(--ink)}
-.tab.active{background:var(--ink);border-color:var(--ink);color:var(--white)}
-
 /* ===== PRODUCT GRID ===== */
 .grid-section{padding:64px 52px 24px;background:var(--white)}
 @media(max-width:768px){.grid-section{padding:44px 24px 16px}}
@@ -69,6 +63,8 @@
 .custom-note{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px 32px;margin-bottom:24px}
 .custom-note-label{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px;display:block}
 .custom-note-text{font-size:14.5px;color:var(--ink-soft);line-height:1.75}
+.menu-message{max-width:560px;margin:0 auto;padding:24px 0 8px;text-align:center;font-size:14.5px;color:var(--ink-soft);line-height:1.75}
+.menu-message a{color:var(--ink);border-bottom:1px solid var(--line-strong)}
 .mmk-note{font-size:12.5px;color:var(--ink-faint);text-align:center}
 
 </style>
@@ -96,7 +92,7 @@
   <div class="detail-hero-inner">
     <span class="route">
       <span class="dash"></span>
-      <a href="index.html">Home</a> &nbsp;/&nbsp; <a href="menu.html">Menu</a> &nbsp;/&nbsp; <span class="current" id="crumbName"></span>
+      <a href="index.html">Home</a> &nbsp;/&nbsp; <a href="menu.html">Menu</a> &nbsp;/&nbsp; <a id="crumbCountry"></a> &nbsp;/&nbsp; <span class="current" id="crumbName"></span>
     </span>
     <div class="detail-head">
       <div class="detail-photo" id="avatarLg"></div>
@@ -105,10 +101,6 @@
         <p class="detail-tagline" id="catTagline"></p>
       </div>
     </div>
-  </div>
-  <div class="tab-row">
-    <div class="tab active" id="tabTH">Thailand</div>
-    <div class="tab" id="tabJP">Japan</div>
   </div>
 </section>
 
@@ -120,7 +112,7 @@
 <!-- NOTES -->
 <section class="notes-section">
   <div class="notes-inner">
-    <div class="custom-note">
+    <div class="custom-note" id="customNoteBox">
       <span class="custom-note-label">Custom orders</span>
       <p class="custom-note-text" id="customNote"></p>
     </div>
@@ -184,32 +176,50 @@
 <script src="data.js"></script>
 <script src="menu-sync.js"></script>
 <script>
-menuReady.then(() => {
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
 const params = new URLSearchParams(window.location.search);
+// Older links have no country: they were Thailand-first, so default to Thailand.
+const country = COUNTRIES[params.get('country')] || COUNTRIES.thailand;
 const catId = params.get('cat');
-const cat = CATEGORIES.find(c => c.id === catId) || CATEGORIES[0];
-
-const avatarLg = document.getElementById('avatarLg');
-if (cat.photo) {
-  avatarLg.innerHTML = `<img src="${cat.photo}" alt="${cat.name}">`;
-} else {
-  avatarLg.textContent = cat.icon;
-}
-
-document.getElementById('catName').textContent = cat.name;
-document.getElementById('catTagline').textContent = cat.tagline;
-document.getElementById('crumbName').textContent = cat.name;
-document.getElementById('customNote').textContent = cat.note;
-document.title = `So Chic Gifts — ${cat.name}`;
-
-let currentTab = 'th';
-const tabTH = document.getElementById('tabTH');
-const tabJP = document.getElementById('tabJP');
 const optionsGrid = document.getElementById('optionsGrid');
 
-function renderOptions(){
-  const symbol = currentTab==='th' ? '฿' : '¥';
-  const list = cat[currentTab];
+const crumbCountry = document.getElementById('crumbCountry');
+crumbCountry.href = `menu.html?country=${country.key}`;
+crumbCountry.textContent = `${country.flag} ${country.label}`;
+
+loadMenu(country.key).then(({ categories, failed }) => {
+  const cat = categories.find(c => c.id === catId);
+  const meta = cat || CATEGORIES.find(c => c.id === catId);
+  const menuLink = `<a href="menu.html?country=${country.key}">${country.label} menu</a>`;
+
+  if (meta) {
+    const avatarLg = document.getElementById('avatarLg');
+    if (meta.photo) avatarLg.innerHTML = `<img src="${meta.photo}" alt="${meta.name}">`;
+    else avatarLg.textContent = meta.icon;
+    document.getElementById('catName').textContent = meta.name;
+    document.getElementById('catTagline').textContent = meta.tagline;
+    document.getElementById('crumbName').textContent = meta.name;
+    document.title = `So Chic Gifts — ${meta.name} (${country.label})`;
+  }
+  if (meta && meta.note) document.getElementById('customNote').textContent = meta.note;
+  else document.getElementById('customNoteBox').hidden = true;
+
+  if (!cat || !cat.items.length) {
+    optionsGrid.innerHTML = failed
+      ? `<p class="menu-message">We couldn't load the menu just now. Please refresh in a moment, or go back to the ${menuLink}.</p>`
+      : `<p class="menu-message">This isn't on our ${country.label} menu right now. See everything we deliver in the ${menuLink}.</p>`;
+    return;
+  }
+  renderOptions(cat);
+});
+
+function renderOptions(cat){
+  const symbol = country.symbol;
+  const list = cat.items;
   const hasGroups = list.some(o => o.group);
 
   const cardHTML = (o, i) => {
@@ -217,7 +227,7 @@ function renderOptions(){
       ? `<img src="${o.photo}" alt="${o.name}">`
       : cat.icon;
     const bestHTML = o.best ? `<span class="best-tag">Best seller</span>` : '';
-    const priceHTML = o.price===null
+    const priceHTML = o.price===null || isNaN(o.price)
       ? `<span class="product-price placeholder">${symbol}—</span>`
       : `<span class="product-price">${symbol}${o.price.toLocaleString()}</span>`;
     const code = o.code || `${cat.code}${String(i+1).padStart(2,'0')}`;
@@ -249,21 +259,6 @@ function renderOptions(){
     `;
   }).join('');
 }
-
-tabTH.addEventListener('click', ()=>{
-  currentTab='th'; tabTH.classList.add('active'); tabJP.classList.remove('active'); renderOptions();
-});
-tabJP.addEventListener('click', ()=>{
-  currentTab='jp'; tabJP.classList.add('active'); tabTH.classList.remove('active'); renderOptions();
-});
-
-renderOptions();
-
-const nav = document.getElementById('main-nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
-});
 </script>
 
 </body>
