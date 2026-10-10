@@ -67,6 +67,18 @@ body{min-height:100vh}
 .opt-emoji{font-size:30px}
 .opt-name{font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600;color:var(--ink)}
 
+/* multi-select item picker (Make your own box) */
+.pick-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.pick-card{position:relative;padding:22px 14px 18px}
+.pick-card .opt-emoji{font-size:28px}
+.pick-card .opt-name{font-size:13.5px;line-height:1.3}
+.pick-from{font-size:11.5px;color:var(--ink-faint)}
+.pick-card::after{content:'';position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:var(--white);border:1.5px solid var(--line-strong)}
+.pick-card.selected::after{content:'✓';background:var(--ink);border-color:var(--ink);color:var(--white);font-size:11px;display:flex;align-items:center;justify-content:center}
+.pick-continue{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:28px}
+.pick-continue .btn-start:disabled{opacity:.35;cursor:not-allowed}
+.pick-note{font-size:12.5px;color:var(--ink-faint)}
+
 /* combo cards */
 .combo-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px 26px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px}
 .combo-badge{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);background:var(--surface);padding:4px 12px;border-radius:999px;border:1px solid var(--line-strong);width:fit-content}
@@ -79,6 +91,7 @@ body{min-height:100vh}
 .item-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
 .item-card.selected{border-color:var(--ink)}
 .item-img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--paper)}
+.item-img-empty{display:flex;align-items:center;justify-content:center;font-size:44px}
 .item-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
 .item-name{font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;color:var(--ink)}
 .item-price{font-size:12px;color:var(--ink);font-weight:500}
@@ -178,6 +191,22 @@ body{min-height:100vh}
     <div class="opt-grid combo-grid" id="comboGrid"></div>
     <div class="step-nav">
       <button class="btn-back-step" data-back="recipient">&larr; Back</button>
+      <span></span>
+    </div>
+  </section>
+
+  <!-- STEP: PICK ITEMS (Make your own box only) -->
+  <section class="screen" id="screen-pick">
+    <span class="step-eyebrow">Question 3</span>
+    <h2 class="step-title">What goes in the <span class="accent-word">box</span>?</h2>
+    <p class="step-sub">Pick at least 3 items. Next, you'll choose this or that for each one.</p>
+    <div class="opt-grid pick-grid" id="pickGrid"></div>
+    <div class="pick-continue">
+      <button class="btn-start" id="btnPickNext" disabled>Pick at least 3 items</button>
+      <span class="pick-note" id="pickNote"></span>
+    </div>
+    <div class="step-nav">
+      <button class="btn-back-step" id="btnPickBack">&larr; Back</button>
       <span></span>
     </div>
   </section>
@@ -372,12 +401,74 @@ const RECIPIENTS = {
 };
 
 /* ============================================================
+   MAKE YOUR OWN BOX — the items customers can pick (same for every
+   recipient). Each item has two options for the "this or that" step.
+   price: null shows "Price to confirm" and is left out of the total.
+   TODO: real names, photos and prices for the items marked PLACEHOLDER.
+   ============================================================ */
+const MIN_PICKS = 3;
+const GB = 'images/box-builder/girlfriend/';
+const BOX_ITEMS = [
+  { key:'candle', name:'Scented candle', emoji:'🕯️', title:'Choose a scented candle', sub:'To fill their space with warmth.',
+    options:[
+      { name:'Champagne Toast', price:590, img:GB+'scented-candle(1).png' },
+      { name:'Vanilla Bloom', price:590, img:GB+'scented-candle(2).jpeg' },
+    ]},
+  { key:'stanley', name:'Stanley mug', emoji:'🥤', title:'Choose a Stanley mug', sub:'An everyday companion.',
+    options:[
+      { name:'Blush Pink', price:1290, img:GB+'Stanley-Pink.jpeg' },
+      { name:'Cream', price:1290, img:GB+'Stanley-Cream.jpeg' },
+    ]},
+  { key:'frame', name:'Photo frame', emoji:'🖼️', title:'Choose a photo frame', sub:'For your favourite photo together.',
+    options:[ // PLACEHOLDER
+      { name:'Photo Frame — Style 1', price:null, img:'' },
+      { name:'Photo Frame — Style 2', price:null, img:'' },
+    ]},
+  { key:'polaroid', name:'Polaroid photos', emoji:'📸', title:'Choose your Polaroid photos', sub:'Your memories, printed and ready to keep.',
+    options:[ // PLACEHOLDER
+      { name:'Polaroid Photos — Style 1', price:null, img:'' },
+      { name:'Polaroid Photos — Style 2', price:null, img:'' },
+    ]},
+  { key:'mini-bouquet', name:'Mini bouquet', emoji:'💐', title:'Choose a mini bouquet', sub:'A little bloom tucked inside.',
+    options:[ // PLACEHOLDER
+      { name:'Mini Bouquet — Style 1', price:null, img:'' },
+      { name:'Mini Bouquet — Style 2', price:null, img:'' },
+    ]},
+  { key:'chocolate', name:'Chocolates', emoji:'🍫', title:'Choose the chocolates', sub:'A little sweetness to top it off.',
+    options:[
+      { name:'Chocolate Box — Classic', price:490, img:GB+'chocolate(1).jpeg' },
+      { name:'Chocolate Box — Deluxe', price:690, img:GB+'chocolate(2).jpeg' },
+    ]},
+  { key:'scrunchie', name:'Scrunchie', emoji:'🎀', title:'Choose a scrunchie', sub:'The small detail they\'ll notice last — and love most.',
+    options:[
+      { name:'Silk Scrunchie — Style 1', price:290, img:GB+'scrunchie(1).jpeg' },
+      { name:'Silk Scrunchie — Style 2', price:290, img:GB+'scrunchie(2).jpeg' },
+    ]},
+  { key:'perfume', name:'Perfume & mist', emoji:'🌸', title:'Choose a perfume or mist', sub:'A signature scent they\'ll reach for again and again.',
+    options:[
+      { name:'Chloé', price:1690, img:GB+'chloe-perfume.jpeg' },
+      { name:'Signature Perfume', price:1890, img:GB+'perfume(2).jpeg' },
+    ]},
+  { key:'love-note', name:'Love note', emoji:'💌', title:'Choose a love note', sub:'Your words, in their hands.',
+    options:[ // PLACEHOLDER
+      { name:'Love Note — Style 1', price:null, img:'' },
+      { name:'Love Note — Style 2', price:null, img:'' },
+    ]},
+  { key:'notebook', name:'Notebook', emoji:'📓', title:'Choose a notebook', sub:'For their thoughts, plans and doodles.',
+    options:[ // PLACEHOLDER
+      { name:'Notebook — Style 1', price:null, img:'' },
+      { name:'Notebook — Style 2', price:null, img:'' },
+    ]},
+];
+
+/* ============================================================
    STATE
    ============================================================ */
 let state = {
   recipient: null,
   mode: null,        // 'fixed' | 'custom'
   catIndex: 0,
+  picked: [],         // BOX_ITEMS keys chosen in "Make your own box"
   selections: {}      // key -> { name, price, img, catTitle }
 };
 
@@ -390,6 +481,8 @@ function showScreen(id){
 }
 
 function fmt(n){ return n.toLocaleString('en-US') + ' ฿'; }
+const hasPrice = (p) => typeof p === 'number';
+const priceText = (p) => hasPrice(p) ? fmt(p) : 'Price to confirm';
 
 /* ---------- INTRO ---------- */
 el('btnStart').addEventListener('click', () => {
@@ -428,6 +521,7 @@ el('recipientGrid').addEventListener('click', (e) => {
   state.recipient = card.dataset.key;
   state.mode = null;
   state.catIndex = 0;
+  state.picked = [];
   state.selections = {};
   renderBoxStrip();
   renderComboStep();
@@ -449,16 +543,76 @@ function renderComboStep(){
     <div class="combo-card" data-mode="custom">
       <span class="combo-badge">Build Your Own</span>
       <span class="combo-name">Make Your Own Box</span>
-      <span class="combo-price">From ${fmt(Math.round(r.fixedPrice*0.6))}</span>
-      <p class="combo-desc">Pick every item yourself — see the price of each piece as you go.</p>
+      <span class="combo-price">${customFromText()}</span>
+      <p class="combo-desc">Pick ${MIN_PICKS} or more items, then choose this or that for each — see the price as you go.</p>
     </div>`;
 }
+// "From" price for Make your own box: the cheapest option of the cheapest MIN_PICKS priced items.
+function customFromText(){
+  const cheapest = BOX_ITEMS.map(i => Math.min(...i.options.map(o => hasPrice(o.price) ? o.price : Infinity)))
+    .filter(Number.isFinite).sort((a, b) => a - b).slice(0, MIN_PICKS);
+  return cheapest.length === MIN_PICKS ? `From ${fmt(cheapest.reduce((a, b) => a + b, 0))}` : 'Pick your own items';
+}
+
 el('comboGrid').addEventListener('click', (e) => {
   const card = e.target.closest('.combo-card');
   if (!card) return;
+  if (state.mode !== card.dataset.mode) { state.selections = {}; renderBoxStrip(); }
   state.mode = card.dataset.mode;
   state.catIndex = 0;
+  if (state.mode === 'custom') {
+    renderPickStep();
+    showScreen('screen-pick');
+  } else {
+    startItemFlow();
+  }
+});
+
+/* ---------- STEP: PICK ITEMS (Make your own box) ---------- */
+function renderPickStep(){
+  el('pickGrid').innerHTML = BOX_ITEMS.map(item => {
+    const prices = item.options.map(o => o.price).filter(hasPrice);
+    const from = prices.length ? `From ${fmt(Math.min(...prices))}` : 'Price to confirm';
+    return `<div class="opt-card pick-card${state.picked.includes(item.key) ? ' selected' : ''}" data-key="${item.key}" role="button" aria-pressed="${state.picked.includes(item.key)}">
+      <span class="opt-emoji">${item.emoji}</span>
+      <span class="opt-name">${item.name}</span>
+      <span class="pick-from">${from}</span>
+    </div>`;
+  }).join('');
+  updatePickButton();
+}
+
+function updatePickButton(){
+  const n = state.picked.length;
+  const btn = el('btnPickNext');
+  btn.disabled = n < MIN_PICKS;
+  btn.textContent = n < MIN_PICKS ? `Pick at least ${MIN_PICKS} items` : `Continue with ${n} items`;
+  el('pickNote').textContent = n && n < MIN_PICKS ? `${n} picked — ${MIN_PICKS - n} more to go` : '';
+  updateTracker(3, 3 + Math.max(n, MIN_PICKS)); // one question per picked item follows
+}
+
+el('pickGrid').addEventListener('click', (e) => {
+  const card = e.target.closest('.pick-card');
+  if (!card) return;
+  const key = card.dataset.key;
+  state.picked = state.picked.includes(key) ? state.picked.filter(k => k !== key) : [...state.picked, key];
+  card.classList.toggle('selected', state.picked.includes(key));
+  card.setAttribute('aria-pressed', state.picked.includes(key));
+  updatePickButton();
+});
+
+el('btnPickNext').addEventListener('click', () => {
+  if (state.picked.length < MIN_PICKS) return;
+  // Drop choices for items that were un-picked.
+  Object.keys(state.selections).forEach(k => { if (!state.picked.includes(k)) delete state.selections[k]; });
+  renderBoxStrip();
+  state.catIndex = 0;
   startItemFlow();
+});
+
+el('btnPickBack').addEventListener('click', () => {
+  showScreen('screen-combo');
+  updateTracker(2, 7);
 });
 document.querySelector('[data-back="recipient"]').addEventListener('click', () => {
   showScreen('screen-recipient');
@@ -468,6 +622,16 @@ document.querySelector('[data-back="recipient"]').addEventListener('click', () =
 /* ---------- STEP: ITEM QUESTIONS (looped) ---------- */
 function currentRecipient(){ return RECIPIENTS[state.recipient]; }
 
+// The "this or that" questions: the picked items (in list order) when building your own box,
+// otherwise the recipient's ready-made set.
+function stepCategories(){
+  return state.mode === 'custom'
+    ? BOX_ITEMS.filter(i => state.picked.includes(i.key))
+    : currentRecipient().categories;
+}
+// Question numbers: recipient (1), build choice (2), then the picker (3) for a custom box.
+const firstItemStep = () => (state.mode === 'custom' ? 4 : 3);
+
 function startItemFlow(){
   el('runningTotalWrap').style.display = state.mode === 'custom' ? 'block' : 'none';
   renderItemStep();
@@ -475,22 +639,24 @@ function startItemFlow(){
 }
 
 function renderItemStep(){
-  const r = currentRecipient();
-  const cat = r.categories[state.catIndex];
-  const totalSteps = r.categories.length + 2;
-  updateTracker(state.catIndex + 3, totalSteps);
+  const cats = stepCategories();
+  const cat = cats[state.catIndex];
+  const totalSteps = cats.length + firstItemStep() - 1;
+  updateTracker(state.catIndex + firstItemStep(), totalSteps);
 
-  el('itemEyebrow').textContent = `Question ${state.catIndex + 3}`;
+  el('itemEyebrow').textContent = `Question ${state.catIndex + firstItemStep()}`;
   el('itemTitle').textContent = cat.title;
   el('itemSub').textContent = cat.sub || '';
 
   const selectedName = state.selections[cat.key]?.name;
   el('itemGrid').innerHTML = cat.options.map(opt => `
     <div class="item-card item-check${selectedName === opt.name ? ' selected' : ''}" data-name="${opt.name}">
-      <img class="item-img" src="${opt.img}" alt="${opt.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      ${opt.img
+        ? `<img class="item-img" src="${opt.img}" alt="${opt.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">`
+        : `<div class="item-img item-img-empty">${cat.emoji || '🎁'}</div>`}
       <div class="item-body">
         <span class="item-name">${opt.name}</span>
-        ${state.mode === 'custom' ? `<span class="item-price">${fmt(opt.price)}</span>` : ''}
+        ${state.mode === 'custom' ? `<span class="item-price">${priceText(opt.price)}</span>` : ''}
       </div>
     </div>`).join('');
 
@@ -500,8 +666,7 @@ function renderItemStep(){
 el('itemGrid').addEventListener('click', (e) => {
   const card = e.target.closest('.item-card');
   if (!card) return;
-  const r = currentRecipient();
-  const cat = r.categories[state.catIndex];
+  const cat = stepCategories()[state.catIndex];
   const opt = cat.options.find(o => o.name === card.dataset.name);
   if (!opt) return;
 
@@ -515,13 +680,13 @@ el('itemGrid').addEventListener('click', (e) => {
 
 function updateRunningTotal(){
   if (state.mode !== 'custom') return;
-  const total = Object.values(state.selections).reduce((sum, s) => sum + (s.price || 0), 0);
-  el('runningTotalVal').textContent = fmt(total);
+  const total = Object.values(state.selections).reduce((sum, s) => sum + (hasPrice(s.price) ? s.price : 0), 0);
+  const toConfirm = Object.values(state.selections).some(s => !hasPrice(s.price));
+  el('runningTotalVal').textContent = fmt(total) + (toConfirm ? ' +' : '');
 }
 
 function nextItemStep(){
-  const r = currentRecipient();
-  if (state.catIndex < r.categories.length - 1) {
+  if (state.catIndex < stepCategories().length - 1) {
     state.catIndex++;
     renderItemStep();
   } else {
@@ -534,6 +699,9 @@ el('btnItemBack').addEventListener('click', () => {
   if (state.catIndex > 0) {
     state.catIndex--;
     renderItemStep();
+  } else if (state.mode === 'custom') {
+    renderPickStep();
+    showScreen('screen-pick');
   } else {
     showScreen('screen-combo');
     updateTracker(2, currentRecipient().categories.length + 2);
@@ -552,7 +720,7 @@ function renderSummary(){
         <span class="summary-cat">${sel.catTitle.replace(/^Choose (her |his |their |a |)?/i,'')}</span>
         <span class="summary-name">${sel.name}</span>
       </div>
-      ${state.mode === 'custom' ? `<span class="summary-price">${fmt(sel.price)}</span>` : ''}
+      ${state.mode === 'custom' ? `<span class="summary-price">${priceText(sel.price)}</span>` : ''}
     </div>`).join('');
 
   const recipientRowHtml = `
@@ -568,14 +736,15 @@ function renderSummary(){
 
   const total = state.mode === 'fixed'
     ? r.fixedPrice
-    : Object.values(state.selections).reduce((sum, s) => sum + (s.price || 0), 0);
+    : Object.values(state.selections).reduce((sum, s) => sum + (hasPrice(s.price) ? s.price : 0), 0);
 
-  el('summaryTotalVal').textContent = fmt(total);
+  const toConfirm = state.mode === 'custom' && Object.values(state.selections).some(s => !hasPrice(s.price));
+  el('summaryTotalVal').textContent = fmt(total) + (toConfirm ? ' + items to confirm' : '');
 }
 
 /* ---------- START OVER ---------- */
 el('btnStartOver').addEventListener('click', () => {
-  state = { recipient: null, mode: null, catIndex: 0, selections: {} };
+  state = { recipient: null, mode: null, catIndex: 0, picked: [], selections: {} };
   el('boxStrip').innerHTML = '';
   el('tracker').style.display = 'none';
   showScreen('screen-intro');
