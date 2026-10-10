@@ -115,6 +115,22 @@ body{min-height:100vh}
 .summary-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px 32px;border-color:var(--line-strong)}
 .summary-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
 .summary-row:last-child{border-bottom:none}
+.summary-thumb-empty{display:flex;align-items:center;justify-content:center;font-size:24px}
+.summary-edit{display:block;background:none;border:none;padding:0;margin-top:4px;font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-soft);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.summary-edit:hover{color:var(--ink)}
+.summary-controls{display:flex;align-items:center;gap:14px;margin-left:auto}
+.qty{display:flex;align-items:center;border:1px solid var(--line-strong);border-radius:999px;flex-shrink:0}
+.qty button{width:30px;height:30px;border:none;background:none;font-size:15px;line-height:1;cursor:pointer;color:var(--ink)}
+.qty button:disabled{opacity:.3;cursor:not-allowed}
+.qty span{min-width:18px;text-align:center;font-size:13.5px;font-weight:600}
+.summary-price-wrap{display:flex;flex-direction:column;align-items:flex-end;width:112px;text-align:right}
+.summary-each{font-size:11px;color:var(--ink-faint);font-weight:500}
+.summary-min-note{font-size:12px;color:var(--ink-faint);padding-top:10px}
+@media(max-width:520px){
+  .summary-card{padding:22px 18px}
+  .summary-row{flex-wrap:wrap}
+  .summary-controls{width:100%;justify-content:flex-end}
+}
 .summary-thumb{width:48px;height:48px;border-radius:12px;object-fit:cover;background:var(--paper);flex-shrink:0}
 .summary-info{flex:1}
 .summary-cat{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:3px}
@@ -252,6 +268,7 @@ body{min-height:100vh}
     </div>
 
     <div class="summary-btns">
+      <button class="btn-ghost" id="btnAddItems" hidden>+ Add more items</button>
       <button class="btn-ghost" id="btnStartOver">Start Over</button>
     </div>
   </section>
@@ -469,7 +486,9 @@ let state = {
   mode: null,        // 'fixed' | 'custom'
   catIndex: 0,
   picked: [],         // BOX_ITEMS keys chosen in "Make your own box"
-  selections: {}      // key -> { name, price, img, catTitle }
+  selections: {},     // key -> { name, price, img, catTitle, emoji, qty }
+  editKey: null,      // editing one item from the summary: back to the summary after its question
+  adding: null        // "Add more items" from the summary: the picks before, to restore on Back
 };
 
 const el = (id) => document.getElementById(id);
@@ -482,6 +501,9 @@ function showScreen(id){
 
 function fmt(n){ return n.toLocaleString('en-US') + ' ฿'; }
 const hasPrice = (p) => typeof p === 'number';
+const qtyOf = (sel) => sel.qty || 1;
+const boxTotal = () => Object.values(state.selections).reduce((sum, s) => sum + (hasPrice(s.price) ? s.price * qtyOf(s) : 0), 0);
+const anyToConfirm = () => Object.values(state.selections).some(s => !hasPrice(s.price));
 const priceText = (p) => hasPrice(p) ? fmt(p) : 'Price to confirm';
 
 /* ---------- INTRO ---------- */
@@ -503,7 +525,7 @@ function renderBoxStrip(){
   Object.values(state.selections).forEach(sel => {
     const chip = document.createElement('span');
     chip.className = 'box-chip';
-    chip.innerHTML = `<span class="box-chip-emoji">🎁</span> ${sel.name}`;
+    chip.innerHTML = `<span class="box-chip-emoji">🎁</span> ${sel.name}${qtyOf(sel) > 1 ? ` ×${qtyOf(sel)}` : ''}`;
     strip.appendChild(chip);
   });
 }
@@ -606,11 +628,20 @@ el('btnPickNext').addEventListener('click', () => {
   // Drop choices for items that were un-picked.
   Object.keys(state.selections).forEach(k => { if (!state.picked.includes(k)) delete state.selections[k]; });
   renderBoxStrip();
-  state.catIndex = 0;
+  // Adding from the summary: only ask about the new items.
+  const first = state.adding ? stepCategories().findIndex(c => !state.selections[c.key]) : 0;
+  if (first === -1) return showSummary();
+  state.catIndex = first;
   startItemFlow();
 });
 
 el('btnPickBack').addEventListener('click', () => {
+  if (state.adding) { // leave "Add more items" with the box as it was
+    state.picked = state.adding;
+    Object.keys(state.selections).forEach(k => { if (!state.picked.includes(k)) delete state.selections[k]; });
+    renderBoxStrip();
+    return showSummary();
+  }
   showScreen('screen-combo');
   updateTracker(2, 7);
 });
@@ -670,7 +701,10 @@ el('itemGrid').addEventListener('click', (e) => {
   const opt = cat.options.find(o => o.name === card.dataset.name);
   if (!opt) return;
 
-  state.selections[cat.key] = { name: opt.name, price: opt.price, img: opt.img, catTitle: cat.title };
+  state.selections[cat.key] = {
+    name: opt.name, price: opt.price, img: opt.img, catTitle: cat.title, emoji: cat.emoji || '',
+    qty: state.selections[cat.key] ? qtyOf(state.selections[cat.key]) : 1,
+  };
   renderBoxStrip();
   updateRunningTotal();
   el('itemGrid').querySelectorAll('.item-card').forEach(c => c.classList.remove('selected'));
@@ -680,22 +714,25 @@ el('itemGrid').addEventListener('click', (e) => {
 
 function updateRunningTotal(){
   if (state.mode !== 'custom') return;
-  const total = Object.values(state.selections).reduce((sum, s) => sum + (hasPrice(s.price) ? s.price : 0), 0);
-  const toConfirm = Object.values(state.selections).some(s => !hasPrice(s.price));
-  el('runningTotalVal').textContent = fmt(total) + (toConfirm ? ' +' : '');
+  el('runningTotalVal').textContent = fmt(boxTotal()) + (anyToConfirm() ? ' +' : '');
 }
 
 function nextItemStep(){
-  if (state.catIndex < stepCategories().length - 1) {
-    state.catIndex++;
+  if (state.editKey) return showSummary();
+  const cats = stepCategories();
+  let i = state.catIndex + 1;
+  if (state.adding) while (i < cats.length && state.selections[cats[i].key]) i++; // skip answered ones
+  if (i < cats.length) {
+    state.catIndex = i;
     renderItemStep();
   } else {
-    renderSummary();
-    showScreen('screen-summary');
+    showSummary();
   }
 }
 
 el('btnItemBack').addEventListener('click', () => {
+  if (state.editKey) return showSummary();
+  if (state.adding) { renderPickStep(); showScreen('screen-pick'); return; }
   if (state.catIndex > 0) {
     state.catIndex--;
     renderItemStep();
@@ -709,19 +746,49 @@ el('btnItemBack').addEventListener('click', () => {
 });
 
 /* ---------- SUMMARY ---------- */
+function showSummary(){
+  state.editKey = null;
+  state.adding = null;
+  renderSummary();
+  showScreen('screen-summary');
+}
+
+// Like a food-delivery cart: every item can be edited; in Make your own box it also has
+// − / + quantity, and − at 1 removes it (never below MIN_PICKS items).
 function renderSummary(){
   const r = currentRecipient();
-  const rows = el('summaryRows');
+  const custom = state.mode === 'custom';
+  const atMin = custom && Object.keys(state.selections).length <= MIN_PICKS;
 
-  const itemRowsHtml = Object.values(state.selections).map(sel => `
+  const itemRowsHtml = stepCategories().filter(c => state.selections[c.key]).map(c => {
+    const sel = state.selections[c.key];
+    const q = qtyOf(sel);
+    const thumb = sel.img
+      ? `<img class="summary-thumb" src="${sel.img}" alt="${sel.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">`
+      : `<span class="summary-thumb summary-thumb-empty">${sel.emoji || '🎁'}</span>`;
+    const controls = custom ? `
+      <div class="summary-controls">
+        <div class="qty">
+          <button type="button" data-dec="${c.key}" ${atMin && q === 1 ? 'disabled' : ''} aria-label="${q === 1 ? 'Remove' : 'One less'} ${sel.name}">${q === 1 ? '🗑' : '−'}</button>
+          <span>${q}</span>
+          <button type="button" data-inc="${c.key}" aria-label="One more ${sel.name}">+</button>
+        </div>
+        <div class="summary-price-wrap">
+          ${q > 1 && hasPrice(sel.price) ? `<span class="summary-each">${q} × ${fmt(sel.price)}</span>` : ''}
+          <span class="summary-price">${hasPrice(sel.price) ? fmt(sel.price * q) : 'Price to confirm'}</span>
+        </div>
+      </div>` : '';
+    return `
     <div class="summary-row">
-      <img class="summary-thumb" src="${sel.img}" alt="${sel.name}" loading="lazy" decoding="async" onerror="this.style.background='var(--paper)'; this.src='';">
+      ${thumb}
       <div class="summary-info">
-        <span class="summary-cat">${sel.catTitle.replace(/^Choose (her |his |their |a |)?/i,'')}</span>
+        <span class="summary-cat">${c.name || sel.catTitle.replace(/^Choose (her |his |their |a |)?/i, '')}</span>
         <span class="summary-name">${sel.name}</span>
+        <button type="button" class="summary-edit" data-edit="${c.key}">Edit</button>
       </div>
-      ${state.mode === 'custom' ? `<span class="summary-price">${priceText(sel.price)}</span>` : ''}
-    </div>`).join('');
+      ${controls}
+    </div>`;
+  }).join('');
 
   const recipientRowHtml = `
     <div class="summary-row">
@@ -732,19 +799,46 @@ function renderSummary(){
       </div>
     </div>`;
 
-  rows.innerHTML = recipientRowHtml + itemRowsHtml;
+  const minNote = atMin ? `<p class="summary-min-note">A box needs at least ${MIN_PICKS} items — add another before removing one.</p>` : '';
+  el('summaryRows').innerHTML = recipientRowHtml + itemRowsHtml + minNote;
 
-  const total = state.mode === 'fixed'
-    ? r.fixedPrice
-    : Object.values(state.selections).reduce((sum, s) => sum + (hasPrice(s.price) ? s.price : 0), 0);
-
-  const toConfirm = state.mode === 'custom' && Object.values(state.selections).some(s => !hasPrice(s.price));
-  el('summaryTotalVal').textContent = fmt(total) + (toConfirm ? ' + items to confirm' : '');
+  const total = custom ? boxTotal() : r.fixedPrice;
+  el('summaryTotalVal').textContent = fmt(total) + (custom && anyToConfirm() ? ' + items to confirm' : '');
+  el('btnAddItems').hidden = !custom || state.picked.length === BOX_ITEMS.length;
 }
+
+el('summaryRows').addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (!btn || btn.disabled) return;
+  const { edit, inc, dec } = btn.dataset;
+  if (edit) {
+    state.editKey = edit;
+    state.catIndex = stepCategories().findIndex(c => c.key === edit);
+    startItemFlow();
+    return;
+  }
+  const key = inc || dec;
+  const sel = key && state.selections[key];
+  if (!sel) return;
+  if (inc) sel.qty = qtyOf(sel) + 1;
+  else if (qtyOf(sel) > 1) sel.qty = qtyOf(sel) - 1;
+  else if (Object.keys(state.selections).length > MIN_PICKS) {
+    delete state.selections[key];
+    state.picked = state.picked.filter(k => k !== key);
+  }
+  renderBoxStrip();
+  renderSummary();
+});
+
+el('btnAddItems').addEventListener('click', () => {
+  state.adding = [...state.picked];
+  renderPickStep();
+  showScreen('screen-pick');
+});
 
 /* ---------- START OVER ---------- */
 el('btnStartOver').addEventListener('click', () => {
-  state = { recipient: null, mode: null, catIndex: 0, picked: [], selections: {} };
+  state = { recipient: null, mode: null, catIndex: 0, picked: [], selections: {}, editKey: null, adding: null };
   el('boxStrip').innerHTML = '';
   el('tracker').style.display = 'none';
   showScreen('screen-intro');
