@@ -7,6 +7,7 @@
 //   to its data.js entry by name or code: "Cake", "Cake Collection", "cake" or "CK" all map to
 //   the Cake Collection. An admin category with no data.js entry still shows, by its own name.
 // - Builders (data.js entries with a `link`) aren't admin items and show in every country.
+// - `menu` is the admin's feed itself, in the admin's order (the Thailand page uses it as is).
 // - If the admin can't be reached, the last menu this browser loaded is used. If there is
 //   none, `failed` is true and only the builders are returned.
 (function () {
@@ -62,10 +63,10 @@
       // Only trust an answer that says which country it is for.
       if (menu.country !== country) throw new Error('wrong country');
       try { localStorage.setItem(CACHE_KEY, JSON.stringify({ ...cache, [country]: menu })); } catch { /* private mode */ }
-      return { categories: toCategories(menu), failed: false };
+      return { categories: toCategories(menu), failed: false, menu };
     } catch {
       const cached = cache[country];
-      return { categories: toCategories(cached), failed: !cached };
+      return { categories: toCategories(cached), failed: !cached, menu: cached || null };
     } finally {
       clearTimeout(timer);
     }
