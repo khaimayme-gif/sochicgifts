@@ -79,6 +79,38 @@
 .menu-message a{color:var(--ink);border-bottom:1px solid var(--line-strong)}
 .menu-message a:hover{border-color:var(--ink)}
 
+/* ===== MENU BOOK (Thailand) ===== */
+.book-section{padding:56px 24px 96px}
+@media(max-width:768px){.book-section{padding:28px 12px 72px}}
+.book{position:relative;display:flex;align-items:center;justify-content:center;gap:18px;max-width:1080px;margin:0 auto}
+.book-stage{flex:0 1 auto;width:min(100%, calc((100svh - 230px) * 1190 / 1684), 640px);touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.book-page{position:relative;width:100%;aspect-ratio:1190 / 1684;border-radius:6px;overflow:hidden;background:var(--paper);border:1px solid var(--line);cursor:zoom-in}
+.book-page img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s ease}
+.book-page img.is-loading{opacity:.35}
+.book-hotspot{position:absolute;display:block;border-radius:10px;transition:background .2s ease,box-shadow .2s ease}
+.book-hotspot:hover,.book-hotspot:focus-visible{background:rgba(22,22,22,.05);box-shadow:0 0 0 2px var(--ink)}
+.book-nav{flex-shrink:0;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:var(--white);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;transition:border-color .2s ease,opacity .2s ease}
+.book-nav:hover{border-color:var(--ink)}
+.book-nav:disabled{opacity:.25;cursor:default}
+@media(max-width:768px){
+  .book{gap:0}
+  .book-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;font-size:19px;background:rgba(255,255,255,.9)}
+  .book-prev{left:4px}.book-next{right:4px}
+  .book-stage{width:100%}
+}
+.book-bar{display:flex;justify-content:center;align-items:baseline;gap:14px;margin:18px auto 14px;font-size:13px;color:var(--ink-soft)}
+.book-count{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--ink)}
+.book-thumbs{display:flex;gap:10px;overflow-x:auto;max-width:1080px;margin:0 auto;padding:4px 4px 10px;scrollbar-width:thin}
+.book-thumb{flex:0 0 auto;width:64px;padding:0;border:2px solid transparent;border-radius:6px;background:none;cursor:pointer;opacity:.6;transition:opacity .2s ease,border-color .2s ease}
+.book-thumb img{display:block;width:100%;aspect-ratio:1190 / 1684;object-fit:cover;border-radius:4px;background:var(--paper)}
+.book-thumb:hover{opacity:1}
+.book-thumb.is-active{opacity:1;border-color:var(--ink)}
+.book-zoom{position:fixed;inset:0;z-index:2000;background:rgba(22,22,22,.92)}
+.book-zoom-scroll{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch}
+.book-zoom-scroll img{display:block;width:min(1600px, 230vw);max-width:none;margin:0 auto;cursor:zoom-out}
+.book-zoom-close{position:fixed;top:calc(14px + env(safe-area-inset-top, 0px));right:14px;z-index:1;width:42px;height:42px;border-radius:50%;border:none;background:var(--white);color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
+body.zoom-open{overflow:hidden}
+
 </style>
 <link rel="icon" type="image/png" href="images/main/favicon.png">
 <link rel="apple-touch-icon" href="images/main/favicon.png">
@@ -114,6 +146,31 @@
 <section class="country-section" id="chooser" hidden>
   <div class="country-grid" id="countryGrid"></div>
 </section>
+
+<!-- MENU BOOK (countries with a menu book, e.g. Thailand) -->
+<section class="book-section" id="bookSection" hidden>
+  <p class="menu-message" id="bookMessage" hidden></p>
+  <div class="book">
+    <button class="book-nav book-prev" id="bookPrev" aria-label="Previous page">&lsaquo;</button>
+    <div class="book-stage" id="bookStage">
+      <div class="book-page" id="bookPage">
+        <img id="bookImg" alt="">
+        <div id="bookHotspots"></div>
+      </div>
+    </div>
+    <button class="book-nav book-next" id="bookNext" aria-label="Next page">&rsaquo;</button>
+  </div>
+  <div class="book-bar">
+    <span class="book-count" id="bookCount"></span>
+    <span>Swipe or use the arrows · tap a page to zoom</span>
+  </div>
+  <div class="book-thumbs" id="bookThumbs" aria-label="Pages"></div>
+</section>
+
+<div class="book-zoom" id="bookZoom" hidden>
+  <button class="book-zoom-close" id="bookZoomClose" aria-label="Close">&times;</button>
+  <div class="book-zoom-scroll" id="bookZoomScroll"><img id="bookZoomImg" alt=""></div>
+</div>
 
 <!-- FEATURED -->
 <section class="featured-section" id="featuredSection" hidden>
@@ -199,6 +256,107 @@ const el = (id) => document.getElementById(id);
 const country = COUNTRIES[new URLSearchParams(location.search).get('country')];
 const chip = (text) => `<span class="currency-chip">${text}</span>`;
 
+// Countries whose menu is a designed menu book (pages made from the Canva PDF by
+// tools/build-menu-book.py) instead of item cards from the admin.
+// Hotspots make a QR code area tappable, in % of the page; check them after a new export.
+const MENU_BOOKS = {
+  thailand: {
+    dir: 'images/menu-book/thailand',
+    hotspots: {
+      2:  [{ left: 11, top: 69, width: 79, height: 9.5, href: 'templates.html', label: 'Browse our digital gift templates' }],
+      20: [{ left: 10, top: 60, width: 80, height: 14, href: 'surprise-box.html', label: 'Build your own gift box' }],
+    },
+  },
+};
+
+async function renderMenuBook(book, c){
+  el('bookSection').hidden = false;
+  let pages = 0;
+  try {
+    const res = await fetch(`${book.dir}/pages.json`);
+    if (!res.ok) throw new Error(res.status);
+    pages = (await res.json()).pages;
+  } catch {
+    el('bookMessage').innerHTML = `We couldn't load the menu just now. Please refresh, or <a href="https://www.instagram.com/sochicgifts/" target="_blank" rel="noopener">DM us on Instagram</a> and we'll send it to you.`;
+    el('bookMessage').hidden = false;
+    document.querySelector('.book').hidden = true;
+    return;
+  }
+  const src = (n, kind = 'page') => `${book.dir}/${kind}-${String(n).padStart(2, '0')}.webp`;
+  const img = el('bookImg');
+  let current = 0;
+
+  el('bookThumbs').innerHTML = Array.from({ length: pages }, (_, i) =>
+    `<button class="book-thumb" data-page="${i + 1}" aria-label="Page ${i + 1}"><img src="${src(i + 1, 'thumb')}" alt="" loading="lazy"></button>`).join('');
+
+  function show(n){
+    n = Math.min(Math.max(1, n), pages);
+    if (n === current) return;
+    const first = current === 0;
+    current = n;
+    img.classList.add('is-loading');
+    img.onload = () => img.classList.remove('is-loading');
+    img.src = src(n);
+    img.alt = `So Chic Gifts ${c.label} menu, page ${n} of ${pages}`;
+    el('bookHotspots').innerHTML = (book.hotspots[n] || []).map(h =>
+      `<a class="book-hotspot" href="${h.href}" aria-label="${h.label}" title="${h.label}" style="left:${h.left}%;top:${h.top}%;width:${h.width}%;height:${h.height}%"></a>`).join('');
+    el('bookCount').textContent = `${n} / ${pages}`;
+    el('bookPrev').disabled = n === 1;
+    el('bookNext').disabled = n === pages;
+    el('bookThumbs').querySelectorAll('.book-thumb').forEach(t => t.classList.toggle('is-active', +t.dataset.page === n));
+    // Centre the active thumbnail by scrolling only the strip (scrollIntoView would move the page too).
+    const strip = el('bookThumbs'), active = strip.querySelector('.is-active');
+    if (active) strip.scrollTo({ left: active.offsetLeft - strip.offsetLeft - (strip.clientWidth - active.offsetWidth) / 2, behavior: first ? 'auto' : 'smooth' });
+    history.replaceState(null, '', `#page-${n}`); // a link to this exact page
+    [n - 1, n + 1].filter(p => p >= 1 && p <= pages).forEach(p => { new Image().src = src(p); });
+  }
+
+  el('bookPrev').addEventListener('click', () => show(current - 1));
+  el('bookNext').addEventListener('click', () => show(current + 1));
+  el('bookThumbs').addEventListener('click', (e) => {
+    const t = e.target.closest('.book-thumb');
+    if (t) show(+t.dataset.page);
+  });
+
+  // Swipe left/right on the page (a swipe isn't also a tap-to-zoom).
+  let touch = null, swiped = false;
+  el('bookStage').addEventListener('touchstart', (e) => { touch = e.touches[0]; swiped = false; }, { passive: true });
+  el('bookStage').addEventListener('touchend', (e) => {
+    if (!touch) return;
+    const dx = e.changedTouches[0].clientX - touch.clientX;
+    const dy = e.changedTouches[0].clientY - touch.clientY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { swiped = true; show(current + (dx < 0 ? 1 : -1)); }
+    touch = null;
+  });
+
+  // Tap to zoom: full-size page, scrolled to where you tapped.
+  const zoom = el('bookZoom'), zoomImg = el('bookZoomImg'), zoomScroll = el('bookZoomScroll');
+  el('bookPage').addEventListener('click', (e) => {
+    if (swiped || e.target.closest('.book-hotspot')) return;
+    const r = el('bookPage').getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    zoomImg.src = src(current);
+    zoomImg.alt = img.alt;
+    zoom.hidden = false;
+    document.body.classList.add('zoom-open');
+    const center = () => {
+      zoomScroll.scrollLeft = fx * zoomImg.offsetWidth - zoomScroll.clientWidth / 2;
+      zoomScroll.scrollTop = fy * zoomImg.offsetHeight - zoomScroll.clientHeight / 2;
+    };
+    if (zoomImg.complete) center(); else zoomImg.onload = center;
+  });
+  const closeZoom = () => { zoom.hidden = true; document.body.classList.remove('zoom-open'); };
+  el('bookZoomClose').addEventListener('click', closeZoom);
+  zoomImg.addEventListener('click', closeZoom);
+  document.addEventListener('keydown', (e) => {
+    if (!zoom.hidden) { if (e.key === 'Escape') closeZoom(); return; }
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  show(parseInt((location.hash.match(/^#page-(\d+)$/) || [])[1], 10) || 1);
+}
+
 if (!country) {
   // No country picked yet: show the two menus to choose from.
   el('currencyRow').innerHTML = [chip('฿ THB'), chip('¥ JPY'), chip('K MMK')].join('');
@@ -224,6 +382,10 @@ async function renderCountryMenu(c){
   el('menuSwitch').href = `menu.html?country=${other.key}`;
   el('menuSwitch').textContent = `Sending to ${other.label} instead? ${other.flag} View the ${other.label} menu`;
   el('menuSwitch').hidden = false;
+  if (MENU_BOOKS[c.key]) {
+    el('heroSub').textContent = `Our full ${c.label} gift menu. Flip through the pages, or tap a page to zoom in.`;
+    return renderMenuBook(MENU_BOOKS[c.key], c);
+  }
   el('featuredSub').textContent = `Our most requested gifts, chosen by people sending love across ${c.label}.`;
   el('catalogSection').hidden = false;
 
