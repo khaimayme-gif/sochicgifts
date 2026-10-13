@@ -1,0 +1,124 @@
+{
+  "templates": [
+    {
+      "file": "Special-One",
+      "name": "My Special One",
+      "occasion": "Anniversary"
+    },
+    {
+      "file": "across-the-miles",
+      "name": "Across The Miles",
+      "occasion": "Across The Miles"
+    },
+    {
+      "file": "all-my-love",
+      "name": "All My Love",
+      "occasion": "Anniversary"
+    },
+    {
+      "file": "better-together",
+      "name": "Better Together",
+      "occasion": ""
+    },
+    {
+      "file": "beyond-bff",
+      "name": "Beyond BFF",
+      "occasion": "Gift for BFF"
+    },
+    {
+      "file": "congrats-bff",
+      "name": "Congrats BFF",
+      "occasion": "Graduation"
+    },
+    {
+      "file": "especially-for-her",
+      "name": "Especially For Her",
+      "occasion": "Anniversary"
+    },
+    {
+      "file": "forever-my-mom",
+      "name": "Forever My Mom",
+      "occasion": "Mother's Day"
+    },
+    {
+      "file": "garden-of-gratitude",
+      "name": "Garden Of Gratitude",
+      "occasion": ""
+    },
+    {
+      "file": "gift-for-u",
+      "name": "Gift For U",
+      "occasion": ""
+    },
+    {
+      "file": "hold-my-heart",
+      "name": "Hold My Heart",
+      "occasion": "Anniversary"
+    },
+    {
+      "file": "i-am-sorry",
+      "name": "I Am Sorry",
+      "occasion": ""
+    },
+    {
+      "file": "love-song",
+      "name": "Love Song",
+      "occasion": ""
+    },
+    {
+      "file": "made-her-smile",
+      "name": "Made Her Smile",
+      "occasion": "Anniversary"
+    },
+    {
+      "file": "miss-you-card",
+      "name": "Miss You Card",
+      "occasion": "Miss You Card"
+    },
+    {
+      "file": "my-apology",
+      "name": "My Apology",
+      "occasion": ""
+    },
+    {
+      "file": "my-dad-my-hero",
+      "name": "My Dad, My Hero",
+      "occasion": "Father's Day"
+    },
+    {
+      "file": "my-graduation-gift",
+      "name": "My Graduation Gift",
+      "occasion": "Graduation"
+    },
+    {
+      "file": "ohmylove",
+      "name": "Oh My Love",
+      "occasion": "Anniversary"
+    },
+    {
+      "file": "our-little-secret",
+      "name": "Our Little Secret",
+      "occasion": "Our Little Secret"
+    },
+    {
+      "file": "partners-in-crime",
+      "name": "Partners In Crime",
+      "occasion": ""
+    },
+    {
+      "file": "sochicgifts_birthday",
+      "name": "Sochicgifts Birthday",
+      "occasion": ""
+    },
+    {
+      "file": "thank-you-card",
+      "name": "Thank You Card",
+      "occasion": "Thank You Card"
+    },
+    {
+      "file": "to-my-favorite-graduate",
+      "name": "To My Favorite Graduate",
+      "occasion": "Graduation"
+    }
+  ]
+}
