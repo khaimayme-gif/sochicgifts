@@ -79,37 +79,49 @@
 .menu-message a{color:var(--ink);border-bottom:1px solid var(--line-strong)}
 .menu-message a:hover{border-color:var(--ink)}
 
-/* ===== MENU BOOK (Thailand) ===== */
-.book-section{padding:56px 24px 96px}
-@media(max-width:768px){.book-section{padding:28px 12px 72px}}
-.book{position:relative;display:flex;align-items:center;justify-content:center;gap:18px;max-width:1080px;margin:0 auto}
-.book-stage{flex:0 1 auto;width:min(100%, calc((100svh - 230px) * 1190 / 1684), 640px);touch-action:pan-y;user-select:none;-webkit-user-select:none}
-.book-page{position:relative;width:100%;aspect-ratio:1190 / 1684;border-radius:6px;overflow:hidden;background:var(--paper);border:1px solid var(--line);cursor:zoom-in}
-.book-page img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s ease}
-.book-page img.is-loading{opacity:.35}
-.book-hotspot{position:absolute;display:block;border-radius:10px;transition:background .2s ease,box-shadow .2s ease}
-.book-hotspot:hover,.book-hotspot:focus-visible{background:rgba(22,22,22,.05);box-shadow:0 0 0 2px var(--ink)}
-.book-nav{flex-shrink:0;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:var(--white);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;transition:border-color .2s ease,opacity .2s ease}
-.book-nav:hover{border-color:var(--ink)}
-.book-nav:disabled{opacity:.25;cursor:default}
-@media(max-width:768px){
-  .book{gap:0}
-  .book-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:38px;height:38px;font-size:19px;background:rgba(255,255,255,.9)}
-  .book-prev{left:4px}.book-next{right:4px}
-  .book-stage{width:100%}
-}
-.book-bar{display:flex;justify-content:center;align-items:baseline;gap:14px;margin:18px auto 14px;font-size:13px;color:var(--ink-soft)}
-.book-count{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--ink)}
-.book-thumbs{display:flex;gap:10px;overflow-x:auto;max-width:1080px;margin:0 auto;padding:4px 4px 10px;scrollbar-width:thin}
-.book-thumb{flex:0 0 auto;width:64px;padding:0;border:2px solid transparent;border-radius:6px;background:none;cursor:pointer;opacity:.6;transition:opacity .2s ease,border-color .2s ease}
-.book-thumb img{display:block;width:100%;aspect-ratio:1190 / 1684;object-fit:cover;border-radius:4px;background:var(--paper)}
-.book-thumb:hover{opacity:1}
-.book-thumb.is-active{opacity:1;border-color:var(--ink)}
-.book-zoom{position:fixed;inset:0;z-index:2000;background:rgba(22,22,22,.92)}
-.book-zoom-scroll{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch}
-.book-zoom-scroll img{display:block;width:min(1600px, 230vw);max-width:none;margin:0 auto;cursor:zoom-out}
-.book-zoom-close{position:fixed;top:calc(14px + env(safe-area-inset-top, 0px));right:14px;z-index:1;width:42px;height:42px;border-radius:50%;border:none;background:var(--white);color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
-body.zoom-open{overflow:hidden}
+/* ===== FULL MENU PAGE (Thailand): one scrolling page by category ===== */
+.menu-nav{position:sticky;top:65px;z-index:900;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+@media(max-width:768px){.menu-nav{top:61px}}
+.menu-nav-inner{display:flex;gap:8px;overflow-x:auto;max-width:1180px;margin:0 auto;padding:12px 52px;scrollbar-width:none}
+.menu-nav-inner::-webkit-scrollbar{display:none}
+@media(max-width:768px){.menu-nav-inner{padding:10px 16px}}
+.menu-nav a{flex:0 0 auto;padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:13px;font-weight:500;color:var(--ink-soft);white-space:nowrap;transition:all .2s ease}
+.menu-nav a:hover{border-color:var(--line-strong);color:var(--ink)}
+.menu-nav a.is-active{background:var(--ink);border-color:var(--ink);color:var(--white)}
+
+.mp-section{padding:72px 52px;scroll-margin-top:120px}
+.mp-section:nth-child(even){background:var(--paper)}
+@media(max-width:768px){.mp-section{padding:52px 16px;scroll-margin-top:110px}}
+.mp-inner{max-width:1080px;margin:0 auto}
+.mp-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:8px}
+.mp-title{font-size:clamp(28px,4vw,42px);font-weight:600;letter-spacing:-.02em;color:var(--ink);line-height:1.1}
+.mp-tagline{font-size:15px;color:var(--ink-soft);line-height:1.7;margin-top:8px;max-width:560px}
+.mp-notes{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.mp-notes li{font-size:12.5px;color:var(--ink-soft);background:var(--white);border:1px solid var(--line);border-radius:999px;padding:6px 14px;line-height:1.4}
+.mp-group{margin-top:44px}
+.mp-group:first-of-type{margin-top:32px}
+.mp-group-title{font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+.mp-group-note{font-size:14px;color:var(--ink-soft);line-height:1.7;margin-top:6px;max-width:640px}
+.mp-pricecard{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:center;max-width:720px;margin-top:18px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.mp-pricecard.no-photo{grid-template-columns:1fr;max-width:560px}
+.mp-pricecard img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:var(--radius-sm);background:var(--paper)}
+@media(max-width:600px){.mp-pricecard{grid-template-columns:1fr;gap:16px}.mp-pricecard img{aspect-ratio:4/3}}
+.mp-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 0;border-bottom:1px dashed var(--line-strong)}
+.mp-row:last-child{border-bottom:none}
+.mp-row-name{font-size:14.5px;font-weight:500;color:var(--ink)}
+.mp-row-desc{display:block;font-size:12.5px;color:var(--ink-soft);line-height:1.55;margin-top:3px;font-weight:400}
+.mp-price{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--ink);white-space:nowrap}
+.mp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:18px;margin-top:20px}
+@media(max-width:600px){.mp-grid{grid-template-columns:repeat(2,1fr);gap:12px}}
+.mp-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.mp-card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:var(--paper)}
+.mp-card-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
+.mp-card-name{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
+.mp-card-desc{font-size:12.5px;color:var(--ink-soft);line-height:1.55;flex:1}
+.mp-card .mp-price{font-size:15px;margin-top:4px}
+.mp-order{text-align:center;padding:80px 24px 96px;border-top:1px solid var(--line)}
+.mp-order h2{font-size:clamp(26px,3.6vw,36px);font-weight:600;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px}
+.mp-order p{font-size:15px;color:var(--ink-soft);max-width:480px;margin:0 auto 26px;line-height:1.7}
 
 </style>
 <link rel="icon" type="image/png" href="images/main/favicon.png">
@@ -147,30 +159,9 @@ body.zoom-open{overflow:hidden}
   <div class="country-grid" id="countryGrid"></div>
 </section>
 
-<!-- MENU BOOK (countries with a menu book, e.g. Thailand) -->
-<section class="book-section" id="bookSection" hidden>
-  <p class="menu-message" id="bookMessage" hidden></p>
-  <div class="book">
-    <button class="book-nav book-prev" id="bookPrev" aria-label="Previous page">&lsaquo;</button>
-    <div class="book-stage" id="bookStage">
-      <div class="book-page" id="bookPage">
-        <img id="bookImg" alt="">
-        <div id="bookHotspots"></div>
-      </div>
-    </div>
-    <button class="book-nav book-next" id="bookNext" aria-label="Next page">&rsaquo;</button>
-  </div>
-  <div class="book-bar">
-    <span class="book-count" id="bookCount"></span>
-    <span>Swipe or use the arrows · tap a page to zoom</span>
-  </div>
-  <div class="book-thumbs" id="bookThumbs" aria-label="Pages"></div>
-</section>
-
-<div class="book-zoom" id="bookZoom" hidden>
-  <button class="book-zoom-close" id="bookZoomClose" aria-label="Close">&times;</button>
-  <div class="book-zoom-scroll" id="bookZoomScroll"><img id="bookZoomImg" alt=""></div>
-</div>
+<!-- FULL MENU (Thailand): one scrolling page, by category, from the admin's catalog -->
+<nav class="menu-nav" id="menuNav" hidden aria-label="Menu categories"><div class="menu-nav-inner" id="menuNavInner"></div></nav>
+<div id="menuPage" hidden></div>
 
 <!-- FEATURED -->
 <section class="featured-section" id="featuredSection" hidden>
@@ -256,105 +247,113 @@ const el = (id) => document.getElementById(id);
 const country = COUNTRIES[new URLSearchParams(location.search).get('country')];
 const chip = (text) => `<span class="currency-chip">${text}</span>`;
 
-// Countries whose menu is a designed menu book (pages made from the Canva PDF by
-// tools/build-menu-book.py) instead of item cards from the admin.
-// Hotspots make a QR code area tappable, in % of the page; check them after a new export.
-const MENU_BOOKS = {
-  thailand: {
-    dir: 'images/menu-book/thailand',
-    hotspots: {
-      2:  [{ left: 11, top: 69, width: 79, height: 9.5, href: 'templates.html', label: 'Browse our digital gift templates' }],
-      20: [{ left: 10, top: 60, width: 80, height: 14, href: 'surprise-box.html', label: 'Build your own gift box' }],
-    },
-  },
-};
+// Countries shown as one long menu page (the menu book as a web page) instead of category cards.
+const FULL_MENU_COUNTRIES = ['thailand'];
 
-async function renderMenuBook(book, c){
-  el('bookSection').hidden = false;
-  let pages = 0;
-  try {
-    const res = await fetch(`${book.dir}/pages.json`);
-    if (!res.ok) throw new Error(res.status);
-    pages = (await res.json()).pages;
-  } catch {
-    el('bookMessage').innerHTML = `We couldn't load the menu just now. Please refresh, or <a href="https://www.instagram.com/sochicgifts/" target="_blank" rel="noopener">DM us on Instagram</a> and we'll send it to you.`;
-    el('bookMessage').hidden = false;
-    document.querySelector('.book').hidden = true;
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+const slugOf = (v) => String(v).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const sameName = (a, b) => slugOf(a) === slugOf(b || '');
+
+async function renderFullMenu(c){
+  el('heroSub').textContent = `Everything we make and deliver in ${c.label}, by category. Tap a category to jump straight to it.`;
+  const page = el('menuPage');
+  page.hidden = false;
+  page.innerHTML = '<p class="menu-message" style="padding:64px 24px">Loading the menu…</p>';
+
+  const { menu, failed } = await loadMenu(c.key);
+  const cats = ((menu && menu.categories) || []).filter(cat => cat.items && cat.items.length);
+  if (!cats.length) {
+    const dm = '<a href="https://www.instagram.com/sochicgifts/" target="_blank" rel="noopener">DM us on Instagram</a>';
+    page.innerHTML = `<p class="menu-message" style="padding:64px 24px">${failed
+      ? `We couldn't load the menu just now. Please refresh in a moment, or ${dm} and we'll send it to you.`
+      : `Our ${c.label} menu is being updated. ${dm} for what's available.`}</p>`;
     return;
   }
-  const src = (n, kind = 'page') => `${book.dir}/${kind}-${String(n).padStart(2, '0')}.webp`;
-  const img = el('bookImg');
-  let current = 0;
 
-  el('bookThumbs').innerHTML = Array.from({ length: pages }, (_, i) =>
-    `<button class="book-thumb" data-page="${i + 1}" aria-label="Page ${i + 1}"><img src="${src(i + 1, 'thumb')}" alt="" loading="lazy"></button>`).join('');
+  const price = (p) => (p === null || p === undefined || isNaN(p)) ? '' : `<span class="mp-price">${Number(p).toLocaleString()} ${c.symbol}</span>`;
 
-  function show(n){
-    n = Math.min(Math.max(1, n), pages);
-    if (n === current) return;
-    const first = current === 0;
-    current = n;
-    img.classList.add('is-loading');
-    img.onload = () => img.classList.remove('is-loading');
-    img.src = src(n);
-    img.alt = `So Chic Gifts ${c.label} menu, page ${n} of ${pages}`;
-    el('bookHotspots').innerHTML = (book.hotspots[n] || []).map(h =>
-      `<a class="book-hotspot" href="${h.href}" aria-label="${h.label}" title="${h.label}" style="left:${h.left}%;top:${h.top}%;width:${h.width}%;height:${h.height}%"></a>`).join('');
-    el('bookCount').textContent = `${n} / ${pages}`;
-    el('bookPrev').disabled = n === 1;
-    el('bookNext').disabled = n === pages;
-    el('bookThumbs').querySelectorAll('.book-thumb').forEach(t => t.classList.toggle('is-active', +t.dataset.page === n));
-    // Centre the active thumbnail by scrolling only the strip (scrollIntoView would move the page too).
-    const strip = el('bookThumbs'), active = strip.querySelector('.is-active');
-    if (active) strip.scrollTo({ left: active.offsetLeft - strip.offsetLeft - (strip.clientWidth - active.offsetWidth) / 2, behavior: first ? 'auto' : 'smooth' });
-    history.replaceState(null, '', `#page-${n}`); // a link to this exact page
-    [n - 1, n + 1].filter(p => p >= 1 && p <= pages).forEach(p => { new Image().src = src(p); });
-  }
-
-  el('bookPrev').addEventListener('click', () => show(current - 1));
-  el('bookNext').addEventListener('click', () => show(current + 1));
-  el('bookThumbs').addEventListener('click', (e) => {
-    const t = e.target.closest('.book-thumb');
-    if (t) show(+t.dataset.page);
-  });
-
-  // Swipe left/right on the page (a swipe isn't also a tap-to-zoom).
-  let touch = null, swiped = false;
-  el('bookStage').addEventListener('touchstart', (e) => { touch = e.touches[0]; swiped = false; }, { passive: true });
-  el('bookStage').addEventListener('touchend', (e) => {
-    if (!touch) return;
-    const dx = e.changedTouches[0].clientX - touch.clientX;
-    const dy = e.changedTouches[0].clientY - touch.clientY;
-    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { swiped = true; show(current + (dx < 0 ? 1 : -1)); }
-    touch = null;
-  });
-
-  // Tap to zoom: full-size page, scrolled to where you tapped.
-  const zoom = el('bookZoom'), zoomImg = el('bookZoomImg'), zoomScroll = el('bookZoomScroll');
-  el('bookPage').addEventListener('click', (e) => {
-    if (swiped || e.target.closest('.book-hotspot')) return;
-    const r = el('bookPage').getBoundingClientRect();
-    const fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
-    zoomImg.src = src(current);
-    zoomImg.alt = img.alt;
-    zoom.hidden = false;
-    document.body.classList.add('zoom-open');
-    const center = () => {
-      zoomScroll.scrollLeft = fx * zoomImg.offsetWidth - zoomScroll.clientWidth / 2;
-      zoomScroll.scrollTop = fy * zoomImg.offsetHeight - zoomScroll.clientHeight / 2;
+  const sections = cats.map(cat => {
+    const meta = MENU_SECTIONS[cat.category] || {};
+    const id = `menu-${slugOf(cat.category)}`;
+    // Groups in the order their first item appears (the admin's order).
+    const groups = [];
+    cat.items.forEach(it => {
+      const name = it.group || '';
+      let g = groups.find(x => x.name === name);
+      if (!g) groups.push(g = { name, items: [] });
+      g.items.push(it);
+    });
+    const groupsHtml = groups.map(g => {
+      const gm = MENU_GROUPS[`${cat.category}/${g.name}`] || {};
+      const listed = g.items.filter(it => !it.photo_url);   // sizes, quantities: a price list
+      const pictured = g.items.filter(it => it.photo_url);  // designs: photo cards
+      const showTitle = g.name && !sameName(g.name, cat.category) && !sameName(g.name, meta.title);
+      const priceCard = (listed.length || gm.photo) ? `
+        <div class="mp-pricecard${gm.photo ? '' : ' no-photo'}">
+          ${gm.photo ? `<img src="${esc(gm.photo)}" alt="${esc(g.name || cat.category)}" loading="lazy">` : ''}
+          <div>${listed.map(it => `
+            <div class="mp-row">
+              <span class="mp-row-name">${esc(it.name)}${it.description ? `<span class="mp-row-desc">${esc(it.description)}</span>` : ''}</span>
+              ${price(it.price)}
+            </div>`).join('')}</div>
+        </div>` : '';
+      const grid = pictured.length ? `<div class="mp-grid">${pictured.map(it => `
+          <div class="mp-card">
+            <img src="${esc(it.photo_url)}" alt="${esc(`${g.name || cat.category} — ${it.name}`)}" loading="lazy">
+            <div class="mp-card-body">
+              <span class="mp-card-name">${esc(it.name)}</span>
+              ${it.description ? `<span class="mp-card-desc">${esc(it.description)}</span>` : ''}
+              ${price(it.price)}
+            </div>
+          </div>`).join('')}</div>` : '';
+      return `<div class="mp-group">
+          ${showTitle ? `<h3 class="mp-group-title">${esc(g.name)}</h3>` : ''}
+          ${gm.note ? `<p class="mp-group-note">${esc(gm.note)}</p>` : ''}
+          ${priceCard}${grid}
+        </div>`;
+    }).join('');
+    return {
+      id, nav: meta.nav || cat.category,
+      html: `<section class="mp-section" id="${id}">
+        <div class="mp-inner">
+          <div class="mp-head">
+            <div>
+              <h2 class="mp-title">${esc(meta.title || cat.category)}</h2>
+              ${meta.tagline ? `<p class="mp-tagline">${esc(meta.tagline)}</p>` : ''}
+            </div>
+            ${meta.link ? `<a class="btn-light" href="${esc(meta.link.href)}">${esc(meta.link.label)} &rarr;</a>` : ''}
+          </div>
+          ${meta.notes && meta.notes.length ? `<ul class="mp-notes">${meta.notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
+          ${groupsHtml}
+        </div>
+      </section>`,
     };
-    if (zoomImg.complete) center(); else zoomImg.onload = center;
-  });
-  const closeZoom = () => { zoom.hidden = true; document.body.classList.remove('zoom-open'); };
-  el('bookZoomClose').addEventListener('click', closeZoom);
-  zoomImg.addEventListener('click', closeZoom);
-  document.addEventListener('keydown', (e) => {
-    if (!zoom.hidden) { if (e.key === 'Escape') closeZoom(); return; }
-    if (e.key === 'ArrowLeft') show(current - 1);
-    if (e.key === 'ArrowRight') show(current + 1);
   });
 
-  show(parseInt((location.hash.match(/^#page-(\d+)$/) || [])[1], 10) || 1);
+  page.innerHTML = sections.map(s => s.html).join('') + `
+    <section class="mp-order">
+      <h2>Ready to send some love?</h2>
+      <p>Message us the items you'd like, with the delivery date and address in ${esc(c.label)}. We'll confirm the total and take care of the rest.</p>
+      <a class="btn-light" href="https://www.instagram.com/sochicgifts/" target="_blank" rel="noopener">DM us on Instagram</a>
+    </section>`;
+
+  // Category bar: jump links, and the one you're reading is highlighted.
+  const navInner = el('menuNavInner');
+  navInner.innerHTML = sections.map(s => `<a href="#${s.id}" data-id="${s.id}">${esc(s.nav)}</a>`).join('');
+  el('menuNav').hidden = false;
+  const setActive = (id) => {
+    navInner.querySelectorAll('a').forEach(a => a.classList.toggle('is-active', a.dataset.id === id));
+    const a = navInner.querySelector('.is-active');
+    if (a) navInner.scrollTo({ left: a.offsetLeft - navInner.offsetLeft - (navInner.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
+  };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  page.querySelectorAll('.mp-section').forEach(sec => observer.observe(sec));
+
+  // Opened with a #menu-... link: jump there now that the sections exist.
+  const target = location.hash.startsWith('#menu-') && document.getElementById(location.hash.slice(1));
+  if (target) window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY - (window.innerWidth <= 768 ? 110 : 120));
 }
 
 if (!country) {
@@ -382,10 +381,7 @@ async function renderCountryMenu(c){
   el('menuSwitch').href = `menu.html?country=${other.key}`;
   el('menuSwitch').textContent = `Sending to ${other.label} instead? ${other.flag} View the ${other.label} menu`;
   el('menuSwitch').hidden = false;
-  if (MENU_BOOKS[c.key]) {
-    el('heroSub').textContent = `Our full ${c.label} gift menu. Flip through the pages, or tap a page to zoom in.`;
-    return renderMenuBook(MENU_BOOKS[c.key], c);
-  }
+  if (FULL_MENU_COUNTRIES.includes(c.key)) return renderFullMenu(c);
   el('featuredSub').textContent = `Our most requested gifts, chosen by people sending love across ${c.label}.`;
   el('catalogSection').hidden = false;
 
