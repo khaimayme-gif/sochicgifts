@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/g/:slug",
+      "destination": "https://scg-admin-dashboard.vercel.app/api/public/site/:slug"
+    },
+    {
       "source": "/open",
       "destination": "/open.html"
     },
