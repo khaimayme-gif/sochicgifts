@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>So Chic Gifts</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=Noto+Sans+Myanmar:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="images/main/favicon.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;background:radial-gradient(700px 420px at 50% 0%,#FFEEF3,#fff 70%);font-family:'Noto Sans Myanmar','Inter',sans-serif;color:#161616}
+.card{width:100%;max-width:400px;background:#fff;border:1px solid #F0E6E9;border-radius:22px;padding:34px 26px 28px;text-align:center}
+.logo{width:84px;height:84px;border-radius:50%;margin-bottom:14px}
+h1{font-family:'Noto Sans Myanmar','Space Grotesk',sans-serif;font-size:21px;font-weight:600;line-height:1.6;margin-bottom:4px}
+.sub{font-family:'Inter',sans-serif;font-size:14px;color:#8F7880;margin-bottom:22px}
+.lead{font-size:14px;line-height:1.9;color:#5E5E5A;margin-bottom:18px}
+input{width:100%;padding:15px 14px;border:1px solid #F0E6E9;border-radius:12px;font-family:'Inter',sans-serif;font-size:18px;text-align:center;letter-spacing:.06em;color:#161616;background:#fff}
+input:focus{outline:none;border-color:#DA7282;box-shadow:0 0 0 3px rgba(218,114,130,.18)}
+button{width:100%;margin-top:14px;padding:15px;border:none;border-radius:12px;background:#DA7282;color:#fff;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer}
+button:disabled{opacity:.7;cursor:default}
+.msg{margin-top:16px;font-size:14px;line-height:1.8;color:#C23B4E;min-height:1px}
+.msg small{display:block;font-family:'Inter',sans-serif;color:#8F7880;margin-top:2px}
+.msg.info{color:#82601A}
+.foot{margin-top:22px;font-family:'Inter',sans-serif;font-size:12px;color:#9A9A95}
+</style>
+</head>
+<body>
+<main class="card">
+  <img class="logo" src="images/main/main-logo.png" alt="So Chic Gifts">
+  <h1>သင့်အတွက် လျှို့ဝှက်ချက်တစ်ခု ♡</h1>
+  <p class="sub">A little secret for you</p>
+  <p class="lead">ကတ်ပေါ်တွင် ရေးထားသော စကားဝှက်ကို ထည့်ပါ။<br><span style="font-family:'Inter',sans-serif">Enter the password written on your card.</span></p>
+
+  <form id="form" novalidate>
+    <input id="pw" type="text" inputmode="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="စကားဝှက် · Password" aria-label="Password">
+    <button id="go" type="submit">ဖွင့်မည် · Open</button>
+  </form>
+  <p class="msg" id="msg" role="alert"></p>
+  <p class="foot">made with love by sochicgifts</p>
+</main>
+
+<script>
+// The password page behind the QR on the printed cards. The password is looked up by the admin
+// (POST /api/public/open); if it is right and the page is available, we go straight to it.
+const API = 'https://scg-admin-dashboard.vercel.app/api/public/open';
+const form = document.getElementById('form');
+const pw = document.getElementById('pw');
+const go = document.getElementById('go');
+const msg = document.getElementById('msg');
+
+const when = (iso) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+const say = (my, en, info) => {
+  msg.className = 'msg' + (info ? ' info' : '');
+  msg.innerHTML = `${my}<small>${en}</small>`;
+};
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const value = pw.value.trim();
+  if (!value) return say('စကားဝှက် ထည့်ပါ။', 'Please enter the password.');
+  go.disabled = true;
+  msg.textContent = '';
+  try {
+    const res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: value }) });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.url) {
+      say('ဖွင့်နေပါသည်…', 'Opening…', true);
+      window.location.href = data.url;
+      return;
+    }
+    if (data.error === 'not_yet') say(`ဤစာမျက်နှာကို ${when(data.from)} မှ စ၍ ဖွင့်နိုင်ပါမည်။`, `This opens on ${when(data.from)}.`, true);
+    else if (data.error === 'ended') say('ဤစာမျက်နှာ၏ သက်တမ်း ကုန်ဆုံးသွားပါပြီ။', 'This page is no longer available.');
+    else if (data.error === 'locked' || res.status === 429) say('မှားယွင်းမှု များနေပါသည်။ ခဏစောင့်ပြီး ပြန်ကြိုးစားပါ။', 'Too many tries. Please wait a little and try again.');
+    else say('စကားဝှက် မမှန်ပါ။ ကတ်ပေါ်ရှိ စကားဝှက်ကို ပြန်စစ်ပါ။', 'That password is not right. Please check your card.');
+  } catch {
+    say('ချိတ်ဆက်၍ မရပါ။ နောက်မှ ထပ်ကြိုးစားပါ။', 'Could not connect. Please try again.');
+  } finally {
+    go.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
