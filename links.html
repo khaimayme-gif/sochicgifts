@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>So Chic Gifts — Links</title>
+<meta name="description" content="Gifts delivered in Thailand and Japan. Menu, Instagram, Facebook, TikTok and phone, all in one place.">
+<!-- Link preview when this page is shared (bios, chats) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sochicgifts.vercel.app/links">
+<meta property="og:title" content="So Chic Gifts">
+<meta property="og:description" content="Gifts delivered in Thailand and Japan. Menu, Instagram, Facebook, TikTok and phone, all in one place.">
+<meta property="og:image" content="https://sochicgifts.vercel.app/images/main/main-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<style>
+body{background:var(--paper);min-height:100vh}
+.links{max-width:480px;margin:0 auto;padding:calc(48px + env(safe-area-inset-top, 0px)) 20px calc(40px + env(safe-area-inset-bottom, 0px));display:flex;flex-direction:column;align-items:center;text-align:center}
+
+/* profile */
+.links-logo{width:96px;height:96px;border-radius:50%;object-fit:cover;border:1px solid var(--line);background:var(--white)}
+.links-name{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin-top:16px}
+.links-handle{font-size:14px;color:var(--ink-soft);margin-top:2px}
+.links-tagline{font-size:14.5px;color:var(--ink-soft);line-height:1.65;margin-top:12px;max-width:340px}
+.links-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
+.links-chip{padding:6px 14px;background:var(--white);border:1px solid var(--line);border-radius:999px;font-size:12.5px;font-weight:500;color:var(--ink)}
+
+/* social icon row */
+.links-social{display:flex;gap:12px;margin-top:22px}
+.links-social a{width:44px;height:44px;border-radius:50%;background:var(--white);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:border-color .2s ease}
+.links-social a:hover{border-color:var(--ink)}
+.links-social svg{width:19px;height:19px}
+
+/* buttons */
+.links-list{width:100%;display:flex;flex-direction:column;gap:12px;margin-top:28px}
+.link-btn{display:flex;align-items:center;gap:14px;width:100%;padding:14px 18px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);color:var(--ink);text-align:left;transition:border-color .2s ease,transform .15s ease}
+.link-btn:hover{border-color:var(--ink)}
+.link-btn:active{transform:scale(.99)}
+.link-btn.is-primary{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.link-btn.is-primary .link-sub{color:rgba(255,255,255,.7)}
+.link-icon{width:36px;height:36px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
+.link-btn.is-primary .link-icon{background:rgba(255,255,255,.14)}
+.link-icon svg{width:18px;height:18px}
+.link-text{flex:1;min-width:0}
+.link-title{display:block;font-family:'Space Grotesk',sans-serif;font-size:15.5px;font-weight:600}
+.link-sub{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:1px;overflow-wrap:anywhere}
+.link-arrow{font-size:16px;opacity:.5}
+
+/* info cards */
+.links-info{width:100%;margin-top:28px;display:flex;flex-direction:column;gap:12px}
+.info-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;text-align:left}
+.info-label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px}
+.info-row{display:flex;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line-strong)}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row:first-of-type{padding-top:0}
+.info-flag{font-size:18px;line-height:1}
+.info-main{font-size:14.5px;font-weight:500;color:var(--ink)}
+.info-note{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+.pay-row{display:flex;gap:8px;flex-wrap:wrap}
+.pay{flex:1;min-width:90px;padding:12px 10px;border:1px solid var(--line);border-radius:var(--radius-sm);text-align:center}
+.pay-sign{display:block;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;color:var(--ink)}
+.pay-code{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
+.online-note{font-size:13px;color:var(--ink-soft);line-height:1.6;margin-top:14px}
+
+.links-foot{margin-top:32px;font-size:12px;color:var(--ink-faint)}
+.links-foot a{color:var(--ink-soft);border-bottom:1px solid var(--line-strong)}
+</style>
+<link rel="icon" type="image/png" href="images/main/favicon.png">
+<link rel="apple-touch-icon" href="images/main/favicon.png">
+</head>
+<body>
+<main class="links">
+
+  <img class="links-logo" src="images/main/main-logo.png" alt="So Chic Gifts logo">
+  <h1 class="links-name">So Chic Gifts</h1>
+  <p class="links-handle">@sochicgifts</p>
+  <p class="links-tagline">Gifts and digital love notes for the people you love, delivered in Thailand and Japan.</p>
+  <div class="links-chips">
+    <span class="links-chip">🇹🇭 Thailand</span>
+    <span class="links-chip">🇯🇵 Japan</span>
+    <span class="links-chip">Online shop</span>
+  </div>
+
+  <div class="links-social" role="navigation" aria-label="Social media">
+    <a href="https://www.instagram.com/sochicgifts/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+    </a>
+    <a href="https://www.facebook.com/sochicgifts/" target="_blank" rel="noopener" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h-2a5 5 0 0 0-5 5v2H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3Z"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@sochicgifts" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4v10.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 4c0 2.5 1.8 4.5 4 4.8"/></svg>
+    </a>
+  </div>
+
+  <div class="links-list">
+    <a class="link-btn is-primary" href="menu.html">
+      <span class="link-icon">🎁</span>
+      <span class="link-text"><span class="link-title">View our menu</span><span class="link-sub">Cakes, bouquets, gift boxes and more, with prices</span></span>
+      <span class="link-arrow">&rarr;</span>
+    </a>
+    <a class="link-btn" href="https://www.instagram.com/sochicgifts/" target="_blank" rel="noopener">
+      <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></span>
+      <span class="link-text"><span class="link-title">Instagram</span><span class="link-sub">@sochicgifts · DM us to order</span></span>
+      <span class="link-arrow">&rarr;</span>
+    </a>
+    <a class="link-btn" href="https://www.facebook.com/sochicgifts/" target="_blank" rel="noopener">
+      <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h-2a5 5 0 0 0-5 5v2H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3Z"/></svg></span>
+      <span class="link-text"><span class="link-title">Facebook</span><span class="link-sub">facebook.com/sochicgifts</span></span>
+      <span class="link-arrow">&rarr;</span>
+    </a>
+    <a class="link-btn" href="https://www.tiktok.com/@sochicgifts" target="_blank" rel="noopener">
+      <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 4v10.5a3.5 3.5 0 1 1-3-3.46"/><path d="M14 4c0 2.5 1.8 4.5 4 4.8"/></svg></span>
+      <span class="link-text"><span class="link-title">TikTok</span><span class="link-sub">@sochicgifts</span></span>
+      <span class="link-arrow">&rarr;</span>
+    </a>
+    <a class="link-btn" href="tel:+66834412608">
+      <span class="link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg></span>
+      <span class="link-text"><span class="link-title">Call us</span><span class="link-sub">+66 83 441 2608</span></span>
+      <span class="link-arrow">&rarr;</span>
+    </a>
+  </div>
+
+  <section class="links-info">
+    <div class="info-card">
+      <span class="info-label">Where we deliver</span>
+      <div class="info-row">
+        <span class="info-flag">🇹🇭</span>
+        <span><span class="info-main">Thailand</span><span class="info-note">Based in Bangkok, near BTS Bearing</span></span>
+      </div>
+      <div class="info-row">
+        <span class="info-flag">🇯🇵</span>
+        <span><span class="info-main">Japan</span><span class="info-note">Based in Tokyo, Shinjuku</span></span>
+      </div>
+      <p class="online-note">We're an online shop with no physical store. Order online and we deliver to your loved one's door.</p>
+    </div>
+
+    <div class="info-card">
+      <span class="info-label">We accept</span>
+      <div class="pay-row">
+        <div class="pay"><span class="pay-sign">฿</span><span class="pay-code">THB</span></div>
+        <div class="pay"><span class="pay-sign">¥</span><span class="pay-code">JPY</span></div>
+        <div class="pay"><span class="pay-sign">K</span><span class="pay-code">MMK</span></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="links-foot"><a href="index.html">sochicgifts.vercel.app</a></p>
+</main>
+</body>
+</html>
