@@ -9,6 +9,10 @@
       "destination": "/open.html"
     },
     {
+      "source": "/links",
+      "destination": "/links.html"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
     }
