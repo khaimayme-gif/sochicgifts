@@ -13,6 +13,10 @@
       "destination": "/links.html"
     },
     {
+      "source": "/delivery-fee",
+      "destination": "/delivery-fee.html"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
     }

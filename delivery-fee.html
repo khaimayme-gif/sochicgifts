@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Delivery Fee — So Chic Gifts</title>
+<!-- A page we share with customers directly: keep it out of search engines. -->
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<style>
+body{background:var(--paper);min-height:100vh}
+.df{max-width:520px;margin:0 auto;padding:calc(40px + env(safe-area-inset-top, 0px)) 20px calc(48px + env(safe-area-inset-bottom, 0px))}
+.df-brand{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.df-brand img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid var(--line);background:var(--white)}
+.df-brand span{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:var(--ink)}
+.df-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:600;letter-spacing:-.02em;color:var(--ink);line-height:1.15}
+.df-sub{font-size:14.5px;color:var(--ink-soft);line-height:1.65;margin-top:8px}
+
+.df-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-top:22px}
+.df-label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
+.df-field + .df-field{margin-top:18px}
+.df-route{position:relative;padding-left:26px}
+.df-route .df-field{position:relative}
+.df-route::before{content:'';position:absolute;left:8px;top:42px;bottom:30px;border-left:2px dotted var(--line-strong)}
+.df-dot{position:absolute;left:-24px;top:42px;width:14px;height:14px;border-radius:50%;border:3px solid var(--ink);background:var(--white)}
+.df-dot.is-to{background:var(--ink)}
+.df-fixed{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);font-size:14.5px;color:var(--ink)}
+.df-fixed small{display:block;font-size:12px;color:var(--ink-soft);margin-top:2px}
+.df-lock{font-size:12px;color:var(--ink-faint);white-space:nowrap}
+gmp-place-autocomplete{width:100%;color-scheme:light}
+.df-search-off{padding:13px 14px;border:1px dashed var(--line-strong);border-radius:var(--radius-sm);font-size:13px;color:var(--ink-soft);line-height:1.6}
+
+.df-slots{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.df-slot{position:relative}
+.df-slot input{position:absolute;opacity:0;pointer-events:none}
+.df-slot label{display:flex;flex-direction:column;gap:2px;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);cursor:pointer;font-size:14px;font-weight:500;color:var(--ink);transition:border-color .2s ease}
+.df-slot label small{font-size:11.5px;font-weight:500;color:var(--accent)}
+.df-slot label:hover{border-color:var(--line-strong)}
+.df-slot input:checked + label{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.df-slot input:checked + label small{color:rgba(255,255,255,.75)}
+.df-slot input:focus-visible + label{outline:2px solid var(--ink);outline-offset:2px}
+
+.df-result{text-align:center}
+.df-fee{font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:600;letter-spacing:-.02em;color:var(--ink);line-height:1.1}
+.df-trip{font-size:13.5px;color:var(--ink-soft);margin-top:6px}
+.df-breakdown{list-style:none;text-align:left;margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.df-breakdown li{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;color:var(--ink-soft);padding:5px 0}
+.df-breakdown li span:last-child{color:var(--ink);font-weight:500;white-space:nowrap}
+.df-note{font-size:12.5px;color:var(--ink-faint);line-height:1.6;margin-top:14px}
+.df-msg{font-size:14px;color:var(--ink-soft);line-height:1.65}
+.df-msg strong{color:var(--ink)}
+.df-cta{display:flex;justify-content:center;margin-top:16px}
+.df-foot{text-align:center;font-size:12px;color:var(--ink-faint);margin-top:26px}
+.df-foot a{color:var(--ink-soft);border-bottom:1px solid var(--line-strong)}
+</style>
+<link rel="icon" type="image/png" href="images/main/favicon.png">
+<link rel="apple-touch-icon" href="images/main/favicon.png">
+</head>
+<body>
+<main class="df">
+  <a class="df-brand" href="links.html"><img src="images/main/main-logo.png" alt=""><span>So Chic Gifts</span></a>
+  <h1 class="df-title">Delivery fee</h1>
+  <p class="df-sub">Check the delivery fee from our shop to your address. We deliver in Bangkok, Samut Prakan, Nonthaburi and Pathum Thani.</p>
+
+  <section class="df-card">
+    <div class="df-route">
+      <div class="df-field">
+        <span class="df-dot"></span>
+        <span class="df-label">From</span>
+        <div class="df-fixed">
+          <span>BTS Bearing<small>So Chic Gifts, Bang Na</small></span>
+          <span class="df-lock">🔒 Our shop</span>
+        </div>
+      </div>
+      <div class="df-field">
+        <span class="df-dot is-to"></span>
+        <span class="df-label" id="toLabel">To</span>
+        <div id="toBox"><div class="df-search-off" id="searchOff">Loading address search…</div></div>
+      </div>
+    </div>
+
+    <div class="df-field" style="margin-top:22px">
+      <span class="df-label">Delivery time</span>
+      <div class="df-slots" id="slots" role="radiogroup" aria-label="Delivery time"></div>
+    </div>
+  </section>
+
+  <section class="df-card df-result" id="result" aria-live="polite">
+    <p class="df-msg">Search your address and pick a delivery time to see the fee.</p>
+  </section>
+
+  <p class="df-foot"><a href="links.html">All our links</a> · <a href="menu.html">Menu</a></p>
+</main>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   SETTINGS — change prices, time slots and area here.
+   Fee = base fare + price per km × driving km (at least the minimum fee),
+         + the traffic surcharge on rush-hour slots, rounded up.
+   Estimated from public Bolt Bangkok figures (about ฿120–150 for 10 km);
+   adjust once you have real quotes.
+   ════════════════════════════════════════════════════════════════ */
+const PRICING = {
+  baseFare: 40,          // ฿, every delivery
+  perKm: 9,              // ฿ per km of driving distance
+  minimumFee: 60,        // ฿, the lowest fee shown
+  trafficSurcharge: 40,  // ฿ extra on rush-hour slots
+  roundUpTo: 10,         // round the fee up to the next 10 ฿ (1 = no rounding)
+};
+
+const SLOTS = [
+  { id: '08-10', label: '8 AM – 10 AM', rush: true },
+  { id: '10-12', label: '10 AM – 12 PM' },
+  { id: '12-16', label: '12 PM – 4 PM' },
+  { id: '16-20', label: '4 PM – 8 PM', rush: true },
+  { id: '20-22', label: '8 PM – 10 PM' },
+];
+
+// The shop: BTS Bearing, Sukhumvit Road at Soi Bearing, Bang Na.
+const SHOP = { lat: 13.6593361, lng: 100.60105 };
+
+// Provinces we deliver to, matched against the address Google returns (English or Thai).
+const DELIVERY_AREA = [
+  ['Bangkok', ['bangkok', 'krung thep', 'กรุงเทพ']],
+  ['Samut Prakan', ['samut prakan', 'สมุทรปราการ']],
+  ['Nonthaburi', ['nonthaburi', 'นนทบุรี']],
+  ['Pathum Thani', ['pathum thani', 'ปทุมธานี']],
+];
+
+// Google Maps API key (browser key, restricted to this website). Needs Maps JavaScript API,
+// Places API (New) and Routes API enabled. Without it the address search can't load.
+const GOOGLE_MAPS_KEY = '';
+
+const IG = 'https://www.instagram.com/sochicgifts/';
+/* ════════════════════════════════════════════════════════════════ */
+
+const el = (id) => document.getElementById(id);
+const baht = (n) => `${Math.round(n).toLocaleString()} ฿`;
+let chosen = null;   // { label, lat, lng, province }
+let slot = null;
+let routeCache = new Map();
+
+// ---- time slots ----
+el('slots').innerHTML = SLOTS.map(s => `
+  <div class="df-slot">
+    <input type="radio" name="slot" id="slot-${s.id}" value="${s.id}">
+    <label for="slot-${s.id}">${s.label}${s.rush ? `<small>Rush hour +${PRICING.trafficSurcharge} ฿</small>` : ''}</label>
+  </div>`).join('');
+el('slots').addEventListener('change', (e) => { slot = SLOTS.find(s => s.id === e.target.value); update(); });
+
+// ---- the fee ----
+function feeFor(km, rush) {
+  const distanceFee = PRICING.baseFare + PRICING.perKm * km;
+  const beforeRounding = Math.max(PRICING.minimumFee, distanceFee) + (rush ? PRICING.trafficSurcharge : 0);
+  const step = Math.max(1, PRICING.roundUpTo);
+  return { distanceFee, total: Math.ceil(beforeRounding / step) * step, usedMinimum: distanceFee < PRICING.minimumFee };
+}
+
+function provinceOf(addressComponents) {
+  const admin = (addressComponents || []).filter(c => (c.types || []).includes('administrative_area_level_1'));
+  const names = admin.flatMap(c => [c.longText, c.shortText]).filter(Boolean).map(s => s.toLowerCase());
+  const hit = DELIVERY_AREA.find(([, keys]) => names.some(n => keys.some(k => n.includes(k))));
+  return hit ? hit[0] : null;
+}
+
+const result = el('result');
+const show = (html) => { result.innerHTML = html; };
+const dmButton = (text) => `<div class="df-cta"><a class="btn-light" href="${IG}" target="_blank" rel="noopener">${text}</a></div>`;
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+
+async function update() {
+  if (!chosen) return show('<p class="df-msg">Search your address and pick a delivery time to see the fee.</p>');
+  if (!chosen.province) {
+    return show(`<p class="df-msg"><strong>${esc(chosen.label)}</strong> is outside our delivery area (Bangkok, Samut Prakan, Nonthaburi and Pathum Thani). DM us and we'll see what we can do.</p>${dmButton('DM us on Instagram')}`);
+  }
+  if (!slot) return show('<p class="df-msg">Now pick a delivery time.</p>');
+
+  show('<p class="df-msg">Calculating…</p>');
+  let route;
+  try {
+    route = await drivingRoute(chosen);
+  } catch (err) {
+    console.error(err);
+    return show(`<p class="df-msg">We couldn't work out the route just now. Please try again, or DM us your address for the fee.</p>${dmButton('DM us on Instagram')}`);
+  }
+  const km = route.meters / 1000;
+  const fee = feeFor(km, slot.rush);
+  const mins = Math.max(1, Math.round(route.seconds / 60));
+  show(`
+    <span class="df-label">Delivery fee</span>
+    <div class="df-fee">${baht(fee.total)}</div>
+    <p class="df-trip">${km.toFixed(1)} km · about ${mins} min drive · ${esc(slot.label)}</p>
+    <ul class="df-breakdown">
+      <li><span>To</span><span>${esc(chosen.label)}</span></li>
+      <li><span>Base fare + ${km.toFixed(1)} km × ${PRICING.perKm} ฿</span><span>${baht(fee.distanceFee)}</span></li>
+      ${fee.usedMinimum ? `<li><span>Minimum fee</span><span>${baht(PRICING.minimumFee)}</span></li>` : ''}
+      ${slot.rush ? `<li><span>Rush hour</span><span>+ ${baht(PRICING.trafficSurcharge)}</span></li>` : ''}
+    </ul>
+    <p class="df-note">An estimate by driving distance${PRICING.roundUpTo > 1 ? `, rounded up to the next ${PRICING.roundUpTo} ฿` : ''}. We confirm the final fee with your order.</p>
+    ${dmButton('Order on Instagram')}`);
+}
+
+// ---- Google: address search + driving distance ----
+async function drivingRoute(place) {
+  const key = `${place.lat},${place.lng}`;
+  if (routeCache.has(key)) return routeCache.get(key);
+  const { Route } = await google.maps.importLibrary('routes');
+  const { routes } = await Route.computeRoutes({
+    origin: SHOP,
+    destination: { lat: place.lat, lng: place.lng },
+    travelMode: 'DRIVING',
+    routingPreference: 'TRAFFIC_UNAWARE', // distance-based fee: no live traffic needed
+    region: 'th',
+    fields: ['distanceMeters', 'durationMillis'],
+  });
+  if (!routes || !routes.length) throw new Error('No route found');
+  const out = { meters: routes[0].distanceMeters, seconds: routes[0].durationMillis / 1000 };
+  routeCache.set(key, out);
+  return out;
+}
+
+async function startSearch() {
+  const { PlaceAutocompleteElement } = await google.maps.importLibrary('places');
+  const input = new PlaceAutocompleteElement({
+    includedRegionCodes: ['th'],
+    locationBias: { center: SHOP, radius: 50000 },
+  });
+  input.setAttribute('aria-labelledby', 'toLabel');
+  input.setAttribute('placeholder', 'Search your address, condo or place');
+  el('toBox').replaceChildren(input);
+  input.addEventListener('gmp-select', async ({ placePrediction }) => {
+    const place = placePrediction.toPlace();
+    await place.fetchFields({ fields: ['displayName', 'formattedAddress', 'location', 'addressComponents'] });
+    chosen = {
+      label: place.displayName || place.formattedAddress,
+      lat: place.location.lat(), lng: place.location.lng(),
+      province: provinceOf(place.addressComponents),
+    };
+    update();
+  });
+}
+
+if (!GOOGLE_MAPS_KEY) {
+  el('searchOff').textContent = 'Address search is being set up. In the meantime, DM us your address and we will tell you the fee.';
+} else {
+  // Google's bootstrap loader (loads the Maps JavaScript API on first importLibrary call).
+  (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+    key: GOOGLE_MAPS_KEY, v: 'weekly', language: 'en', region: 'TH',
+  });
+  startSearch().catch((err) => {
+    console.error(err);
+    el('searchOff').textContent = "Address search couldn't load. Please DM us your address and we'll tell you the fee.";
+  });
+}
+</script>
+</body>
+</html>
