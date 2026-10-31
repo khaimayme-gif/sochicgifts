@@ -1134,11 +1134,7 @@ document.getElementById('ll-body-text').innerHTML = C.loveMessage.split(/\n\s*\n
 document.getElementById('ll-sig-name').textContent = `${C.senderName} ♥`;
 document.getElementById('ll-photo-name-0').textContent = C.senderName;
 document.getElementById('ll-photo-name-1').textContent = C.receiverName;
-(function(){
-  const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const now=new Date();
-  document.getElementById('ll-date').textContent = `${MO[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-})();
+document.getElementById('ll-date').textContent = '10.11.2026';
 
 /* ---- stars ---- */
 (function(){
