@@ -6,7 +6,7 @@
   <title>Happy Birthday ကလေးငယ်လေး 🎂</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+Myanmar:wght@400;500;600&family=Noto+Serif+Myanmar:wght@400;500&display=swap" rel="stylesheet"/>
 
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -21,12 +21,12 @@
       --cream:     #FFF8FB;
       --text:      #3D1A28;
       --muted:     #AA7788;
-      --script:    'Dancing Script', cursive;
-      --round:     'Nunito', system-ui, sans-serif;
+      --script:    'Dancing Script', 'Noto Sans Myanmar', cursive;
+      --round:     'Nunito', 'Noto Sans Myanmar', system-ui, sans-serif;
       --eb:        cubic-bezier(0.34,1.56,0.64,1);
       --es:        cubic-bezier(0.22,1,0.36,1);
       --gold-lt:   #F4D58D;
-      --serif:     'Cormorant Garamond', serif;
+      --serif:     'Cormorant Garamond', 'Noto Serif Myanmar', serif;
     }
     html,body{height:100%;font-family:var(--round);background:var(--pink-pale);color:var(--text);-webkit-font-smoothing:antialiased;overflow:hidden}
 
@@ -95,7 +95,7 @@
     @keyframes heartOrbit{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
 
     .splash-title{font-family:var(--script);font-size:clamp(2.4rem,7vw,3.2rem);color:var(--pink-deep);line-height:1.15;margin-bottom:.5rem}
-    .splash-name{font-family:var(--script);font-size:clamp(2.8rem,8vw,3.8rem);color:var(--rose-lt);line-height:1}
+    .splash-name{font-family:var(--script);white-space:nowrap;font-size:clamp(2.2rem,7.5vw,3.6rem);color:var(--rose-lt);line-height:1}
     .splash-sub{font-size:.9rem;font-weight:400;color:var(--muted);font-style:italic;margin:1rem 0 2rem}
 
     .start-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 44px;background:linear-gradient(135deg,var(--pink),var(--pink-deep));color:white;font-family:var(--round);font-size:15px;font-weight:700;border:none;border-radius:50px;cursor:pointer;box-shadow:0 8px 28px rgba(233,30,140,.35);transition:transform .2s var(--eb),box-shadow .3s;animation:pulseBtnGlow 2.5s ease-in-out infinite}
@@ -326,7 +326,7 @@
     .ll-s2.ll-show .ll-lh{opacity:1;transform:none}
     .ll-lh-date{font-size:.66rem;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:rgba(125,62,45,.48);margin-bottom:14px}
     .ll-lh-orn{font-size:.9rem;letter-spacing:.5em;color:rgba(178,38,48,.28);margin-bottom:11px}
-    .ll-lh-title{font-family:var(--script);font-size:clamp(1.9rem,7vw,2.8rem);color:var(--dcr,#8B0000);font-weight:700;line-height:1;text-shadow:0 2px 18px rgba(145,25,25,.16)}
+    .ll-lh-title{font-family:var(--script);font-size:clamp(1.7rem,6.2vw,2.5rem);color:var(--dcr,#8B0000);font-weight:700;line-height:1.4;text-shadow:0 2px 18px rgba(145,25,25,.16)}
     .ll-lh-sub{font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(125,62,45,.42);margin-top:7px}
 
     .ll-photos{display:flex;align-items:center;justify-content:center;gap:18px;margin:22px 0;opacity:0;transform:translateY(16px);transition:all .9s ease .55s}
@@ -345,7 +345,7 @@
     .ll-note{opacity:0;transform:translateY(16px);transition:all .9s ease .8s}
     .ll-s2.ll-show .ll-note{opacity:1;transform:none}
     .ll-salute{font-family:var(--script);font-size:clamp(1.1rem,3.6vw,1.5rem);color:#8B1A1A;font-weight:600;margin-bottom:16px}
-    .ll-body-text{font-family:'EB Garamond',serif;font-size:clamp(.9rem,2.5vw,1.02rem);line-height:1.9;color:#3C1E1E;font-style:italic}
+    .ll-body-text{font-family:'EB Garamond','Noto Serif Myanmar',serif;font-synthesis:none;font-size:clamp(.9rem,2.5vw,1.02rem);line-height:1.9;color:#3C1E1E;font-style:italic}
     .ll-body-text p{margin-bottom:14px}
     .ll-body-text p:last-child{margin-bottom:0}
     .ll-sig{margin-top:24px;text-align:right}
@@ -369,6 +369,9 @@
     .app-footer{position:fixed;bottom:6px;left:0;right:0;text-align:center;font-family:var(--round);font-size:.62rem;color:var(--muted);opacity:.7;z-index:50;pointer-events:none;letter-spacing:.02em}
     .app-footer a{color:var(--pink-deep);font-weight:700;text-decoration:none;pointer-events:auto}
     .app-footer a:hover{text-decoration:underline}
+      /* Burmese text has no italic or bold of its own, so never fake them */
+    body{font-synthesis:none}
+    .wish-pill,.ll-body-text{font-synthesis:none}
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <link rel="icon" type="image/png" href="../images/main/favicon.png">
@@ -441,7 +444,7 @@ const C = {
   lockPhotos:   [],
   couplePhoto:  '',   /* circular photo on counter page */
 };
-/* gift: edited values */ Object.assign(C, {"receiverName": "ကလေးငယ်လေး", "senderName": "မောင်", "pin": "1632", "pinHint": "Our special day (DDMM) 💕", "relationStart": new Date("2022-03-16T00:00:00"), "memCards": [{"photo": "", "date": "", "caption": "More memories coming soon 💕"}, {"photo": "", "date": "", "caption": "More memories coming soon 💕"}, {"photo": "../../gifts/kalay/web/1.jpg", "date": "", "caption": "ပထမဆုံးရွှေတိဂုံဘုရားသွားတဲ့နေ့လေး"}]});
+/* gift: edited values */ Object.assign(C, {"receiverName": "ကလေးငယ်လေး", "senderName": "မောင်", "pin": "1632", "pinHint": "Our special day (DDMM) 💕", "cakeWishes": ["ကိုယ့်အိပ်မက်တွေ အားလုံး ပြည့်ပါစေ ✨", "ကျန်းမာပျော်ရွှင်ပါစေ 💖", "ကလေးငယ်လေးကို အမြဲချစ်နေမှာပါ 🌸", "အကောင်းဆုံးအရာတွေက နောက်မှာ လာဦးမှာပါ 🎂", "ပျော်ရွှင်မှုအားလုံးနဲ့ ထိုက်တန်ပါတယ် ❤️"], "loveMessage": "Happy birthday ပါကလေးငယ်လေးရေ\nဒီနေ့ကစပီး‌န့ရက်တိုင်းမှာပျော်ရွှင်မှုတွေနဲ့ပဲဖြတ်သန်းနိုင်ပါစေ\nကိုယ်လိုချင်တဲ့အိပ်မက်တွေတစ်ခုချင်းစီအကောင်ထည်ဖော်နိုင်ပြီးစိတ်ညစ်စရာတွေဝမ်းနည်းစရာတွေထက်ပျော်ရွင်စရာအချိန်တွေများပါစေဗျာ့\nဘယ်အချိန်ပဲဖစ်ဖစ်ကိုယ့်ကိုယ်ကိုယုံကြည်ပီးရှေ့ဆက်နိုင်ပါစေ\nကိုယ်ချစ်ရတဲ့သူတွေနဲ့အမြဲတမ်းနွေးနွေးထွေးထွေးရှိနေနိုင်ပါစေ\nဒီမွေးနေ့ကစပီးကောင်းတဲ့အရာတွေချည်းပဲ မောင်ချစ်ရတဲ့မောင့်အမျိုးသမီးလေးအပေါ်ပဲကျရောက်လာပါစေလို့ မောင်ဆုတောင်းပေးလိုက်ပါတယ်နော်\nကလေးငယ်လေးအပြုံးကိုယ်အမြဲတမ်းမြင်နေချင်သူမို့ ကလေးငယ်လေးဘဝမှာပျော်ရွင်စရာနေ့ရက်တွေပဲဖစ်ပါစေ\nမွေးနေ့မှစပီး ကံကောင်းခြင်း ပျော်ရွှင်ခြင်းတွေနဲ့ပြည့်စုံတဲ့နှစ်လေးဖစ်ပါစေဗျာ့", "relationStart": new Date("2022-03-16T00:00:00"), "memCards": [{"photo": "", "date": "", "caption": "More memories coming soon 💕"}, {"photo": "../../gifts/kalay/web/2.jpg", "date": "", "caption": "ကျိုက်ထီးရိုးဘရားတူတူသွားတဲ့နေ့လေး"}, {"photo": "../../gifts/kalay/web/1.jpg", "date": "", "caption": "ပထမဆုံးရွှေတိဂုံဘုရားသွားတဲ့နေ့လေး"}]});
 </script>
 <!-- ═══════════════════════════════════════ -->
 
@@ -867,14 +870,14 @@ const C = {
       <div class="ll-photos">
         <div class="ll-photo-wrap">
           <div class="ll-photo-ring">
-            <img src="images/templates/especially-for-her/memory1.jpg" alt="Sender">
+            <img src="images/gifts/kalay/web/l1.jpg" alt="Sender">
           </div>
           <div class="ll-photo-name" id="ll-photo-name-0">Sender</div>
         </div>
         <div class="ll-conn">♥</div>
         <div class="ll-photo-wrap">
           <div class="ll-photo-ring">
-            <img src="images/templates/especially-for-her/memory2.jpg" alt="Receiver">
+            <img src="images/gifts/kalay/web/l2.jpg" alt="Receiver">
           </div>
           <div class="ll-photo-name" id="ll-photo-name-1">Receiver</div>
         </div>
@@ -1088,9 +1091,10 @@ function closePopup() {
 
 /* ---- content setup, driven by C ---- */
 document.getElementById('ll-env-title').textContent = C.receiverName;
-document.getElementById('ll-lh-title').textContent = `My Dearest ${C.receiverName}`;
+document.getElementById('ll-lh-title').innerHTML = `My Dearest <span style="white-space:nowrap"></span>`;
+document.querySelector('#ll-lh-title span').textContent = C.receiverName;
 document.getElementById('ll-salute').textContent = `Dear ${C.receiverName},`;
-document.getElementById('ll-body-text').innerHTML = `<p>${C.loveMessage}</p>`;
+document.getElementById('ll-body-text').innerHTML = C.loveMessage.split(/\n+/).map(t => `<p>${t}</p>`).join('');
 document.getElementById('ll-sig-name').textContent = `${C.senderName} ♥`;
 document.getElementById('ll-photo-name-0').textContent = C.senderName;
 document.getElementById('ll-photo-name-1').textContent = C.receiverName;
