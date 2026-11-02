@@ -441,7 +441,7 @@ const C = {
   lockPhotos:   [],
   couplePhoto:  '',   /* circular photo on counter page */
 };
-/* gift: edited values */ Object.assign(C, {"receiverName": "ကလေးငယ်လေး", "senderName": "မောင်", "pin": "1632", "pinHint": "Our special day (DDMM) 💕", "relationStart": new Date("2022-03-16T00:00:00"), "memCards": [{"photo": "", "date": "", "caption": "More memories coming soon 💕"}, {"photo": "../../gifts/kalay/web/2.jpg", "date": "", "caption": "ကျိုက်ထီးရိုးဘရားတူတူသွားတဲ့နေ့လေး"}, {"photo": "../../gifts/kalay/web/1.jpg", "date": "", "caption": "ပထမဆုံးရွှေတိဂုံဘုရားသွားတဲ့နေ့လေး"}]});
+/* gift: edited values */ Object.assign(C, {"receiverName": "ကလေးငယ်လေး", "senderName": "မောင်", "pin": "1632", "pinHint": "Our special day (DDMM) 💕", "loveMessage": "Happy birthday ပါကလေးငယ်လေးရေ\nဒီနေ့ကစပီး‌န့ရက်တိုင်းမှာပျော်ရွှင်မှုတွေနဲ့ပဲဖြတ်သန်းနိုင်ပါစေ\nကိုယ်လိုချင်တဲ့အိပ်မက်တွေတစ်ခုချင်းစီအကောင်ထည်ဖော်နိုင်ပြီးစိတ်ညစ်စရာတွေဝမ်းနည်းစရာတွေထက်ပျော်ရွင်စရာအချိန်တွေများပါစေဗျာ့\nဘယ်အချိန်ပဲဖစ်ဖစ်ကိုယ့်ကိုယ်ကိုယုံကြည်ပီးရှေ့ဆက်နိုင်ပါစေ\nကိုယ်ချစ်ရတဲ့သူတွေနဲ့အမြဲတမ်းနွေးနွေးထွေးထွေးရှိနေနိုင်ပါစေ\nဒီမွေးနေ့ကစပီးကောင်းတဲ့အရာတွေချည်းပဲ မောင်ချစ်ရတဲ့မောင့်အမျိုးသမီးလေးအပေါ်ပဲကျရောက်လာပါစေလို့ မောင်ဆုတောင်းပေးလိုက်ပါတယ်နော်\nကလေးငယ်လေးအပြုံးကိုယ်အမြဲတမ်းမြင်နေချင်သူမို့ ကလေးငယ်လေးဘဝမှာပျော်ရွင်စရာနေ့ရက်တွေပဲဖစ်ပါစေ\nမွေးနေ့မှစပီး ကံကောင်းခြင်း ပျော်ရွှင်ခြင်းတွေနဲ့ပြည့်စုံတဲ့နှစ်လေးဖစ်ပါစေဗျာ့", "relationStart": new Date("2022-03-16T00:00:00"), "memCards": [{"photo": "", "date": "", "caption": "More memories coming soon 💕"}, {"photo": "../../gifts/kalay/web/2.jpg", "date": "", "caption": "ကျိုက်ထီးရိုးဘရားတူတူသွားတဲ့နေ့လေး"}, {"photo": "../../gifts/kalay/web/1.jpg", "date": "", "caption": "ပထမဆုံးရွှေတိဂုံဘုရားသွားတဲ့နေ့လေး"}]});
 </script>
 <!-- ═══════════════════════════════════════ -->
 
@@ -1090,7 +1090,7 @@ function closePopup() {
 document.getElementById('ll-env-title').textContent = C.receiverName;
 document.getElementById('ll-lh-title').textContent = `My Dearest ${C.receiverName}`;
 document.getElementById('ll-salute').textContent = `Dear ${C.receiverName},`;
-document.getElementById('ll-body-text').innerHTML = `<p>${C.loveMessage}</p>`;
+document.getElementById('ll-body-text').innerHTML = C.loveMessage.split(/\n+/).map(t => `<p>${t}</p>`).join('');
 document.getElementById('ll-sig-name').textContent = `${C.senderName} ♥`;
 document.getElementById('ll-photo-name-0').textContent = C.senderName;
 document.getElementById('ll-photo-name-1').textContent = C.receiverName;
