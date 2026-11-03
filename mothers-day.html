@@ -40,6 +40,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--body);color:var(--text);
 
 /* ══════════ PAGE 1: SPLASH ══════════ */
 #pg-splash{justify-content:flex-start;align-items:center;background:linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 55%,var(--bg-3) 100%);padding-top:5vh}
+.sochic-logo{width:60px;height:60px;border-radius:50%;object-fit:cover;filter:drop-shadow(0 4px 12px rgba(158,42,56,.18))}
+.brand-tag{font-family:var(--body);font-size:10px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--maroon);opacity:.7;margin:.55rem 0 1rem;text-align:center}
 .hero-frame{width:min(74vw,300px)}
 .hero-frame img{width:100%;display:block}
 .splash-title{font-family:var(--marker);font-size:clamp(1.7rem,7vw,2.3rem);color:var(--maroon);text-align:center;margin-top:1.3rem;text-shadow:1px 1px 0 rgba(255,255,255,.4)}
@@ -197,6 +199,8 @@ const C = {
 
 <!-- ═══════════ PAGE 1: SPLASH ═══════════ -->
 <div class="page active" id="pg-splash">
+  <img src="images/main/sochic-logo.png" alt="So Chic Gifts" class="sochic-logo"/>
+  <p class="brand-tag">So Chic Gifts · Special Edition</p>
   <div class="hero-frame"><img src="images/templates/forever-my-mom/hero.png" alt="Happy Mother's Day"/></div>
   <p class="splash-title" id="heroTitleEl"></p>
   <p class="splash-sub" id="heroSubEl"></p>
